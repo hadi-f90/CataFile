@@ -130,6 +130,7 @@ class my_file():
             self.mime = 'etc'
         print(self.mime)
         self.path = os.path.abspath(file_object)
+        self.name_revert()
 
     def file_date_time(self):
         # To-do: returns file data and time
