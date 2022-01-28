@@ -1,10 +1,13 @@
+import numbers
 import os
+from re import IGNORECASE
 import shutil
-from sys import argv
+from sys import argv, flags
 import magic
 import patoolib
 from jalali.Jalalian import jdate
 import regex
+import font_rename
 
 
 # =============directory definitions=================
@@ -163,6 +166,22 @@ class my_file():
 
     def __str__(self) -> str:
         return self.name
+
+    def name_revert(self):  # not testes Yet!
+        if regex.search(r'[tow]*tf2?',
+                        self.extension, flags=regex.IGNORECASE) is not None:
+            number = 0
+            while os.path.exists(self.name+str(number)+self.extension):
+                number += 1
+            try:
+                font_rename.rename_font(self.path)
+
+            except FileExistsError:
+                logger(msg=f'An Error occured processing file {self.path}')
+
+            finally:
+                logger(msg=f'Font name reverted to it original name:\
+                       {self.name}')
 
 
 # =============== loggging mechanism ======================
