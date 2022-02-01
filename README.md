@@ -42,4 +42,3 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
   - Audio / video check
   - Verifying Image and fixes byte errors using
 - Adding GUI.
-- 
