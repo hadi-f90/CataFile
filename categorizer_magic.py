@@ -1,9 +1,13 @@
+import numbers
 import os
+from re import IGNORECASE
 import shutil
-from sys import argv
+from sys import argv, flags
 import magic
-# import patoolib
+import patoolib
 from jalali.Jalalian import jdate
+import regex
+import font_rename
 
 
 # =============directory definitions=================
@@ -22,7 +26,7 @@ class folder:
             logger(msg=f'{self.current_dir} is not a directory. Check it!')
 
     # Appending path to file/folder name function
-    def walker(self, n=False):
+    def walker(self, n=False,):
         """Walks through directory to return
         append the full adrress to each file
 
@@ -34,12 +38,25 @@ class folder:
                 for _ in files:
                     self.selected_file_name = _
                     yield os.path.join(root, _)
+
         if n is True:
             self.walker()
 
-    def mkdir(self, sub_dir):
-        """Creates a series of directorys from a given list/tuple/set
+    def dir_walker(self, n=False):
+        """Walks through directory to return
+        append the full adrress to each file
+
+        Yields:
+            [str]: [full path of file]
         """
+        for root, dirs, files in os.walk(self.current_dir, topdown=False):
+            if len(files) != 0:
+                for _ in dirs:
+                    self.selected_dir_name = _
+                    yield os.path.join(root, _)
+
+    def mkdir(self, sub_dir):
+        """Creates a series of directorys from a given list/tuple/set"""
         try:
             logger(sub_dir,
                    func=os.makedirs,
@@ -109,24 +126,63 @@ class my_file():
         self.file_object = open(file_object, 'rb')
         self.mime = magic.from_buffer(self.file_object.read(2048), mime=True)
         self.name, self.extension = os.path.splitext(file_object)
-        if self.mime is '':
+        if self.mime == '':
             self.mime = 'etc'
         print(self.mime)
         self.path = os.path.abspath(file_object)
+        self.name_revert()
 
     def file_date_time(self):
         # To-do: returns file data and time
         return (os.path.getatime(), os.path.getctime(), os.path.getmtime())
 
+    def __test_archive(self, file=None):
+        if file is None:
+            file = self.path
+        try:
+            patoolib.test_archive(file)
+            return True
+        except patoolib.PatoolError:
+            logger(msg='fError. {file} test Failed.')
+            return False
+
     def check_integerity(self):
-        logger(msg='Not implemented integerity check!')
+        # To do: use patoolib to check it
+        if self.extension in patoolib.ArchiveFormats:
+            self.__test_archive()
+        # not tested for documents
+        elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+',
+                          self.extension, flags=regex.IGNORECASE) is not None:
+            test_case = shutil.copyfile(self.path, self.name+'.zip')
+            result = self.__test_archive(file=test_case)
+            os.remove(test_case)
+            return result
+        else:
+            logger(msg='Not implemented integerity check!')
+            return True
 
     def move(self, destination):
         shutil.move(self.path, destination)
-        logger(msg=f'{self.path} moved to {destination}.')
+        logger(msg=f'{self.path} moved to {self.mime}.')
 
     def __str__(self) -> str:
         return self.name
+
+    def name_revert(self):  # not testes Yet!
+        if regex.search(r'[tow]*tf2?',
+                        self.extension, flags=regex.IGNORECASE) is not None:
+            number = 0
+            while os.path.exists(self.name+str(number)+self.extension):
+                number += 1
+            try:
+                font_rename.rename_font(self.path)
+
+            except FileExistsError:
+                logger(msg=f'An Error occured processing file {self.path}')
+
+            finally:
+                logger(msg=f'Font name reverted to it original name:\
+                       {self.name}')
 
 
 # =============== loggging mechanism ======================
@@ -155,24 +211,40 @@ def main():
     target = destination_folder()
     for _ in source_dir.walker():
         print(source_dir.selected_file_name, _, log_file.name, argv[0])
-        if _ in [log_file.name, _ == argv[0]]:
-            print(_)
+        if _ in {log_file.name, _ == argv[0]}:
+            # print(_)
             continue
-        print(_)
+        # print(_)
         f = my_file(_)
         if os.path.isfile(f.path):
-            try:
-                print(f.mime, '\n', f.path)
-                if f.mime not in target.category_dirs.keys():
-                    target.add_category(f.mime)
+            if f.check_integerity():
+                try:
+                    print(f.mime, '\n', f.path)
+                    if f.mime not in target.category_dirs.keys():
+                        target.add_category(f.mime)
 
-                f.move(target.category_dirs[f.mime])
-            except TypeError and shutil.Error:
-                logger(msg=f'An Error occured during processing file {_}.\n \
-                    A file with the same name may prevent moving')
-            except AttributeError:
-                logger(msg=f'An Error occured during processing file {_}.\n \
-                    Unknown File')
+                    f.move(target.category_dirs[f.mime])
+                except TypeError and shutil.Error:
+                    logger(msg=f'An Error occured during processing {_}.\n \
+                        A file with the same name may prevent moving')
+                except AttributeError:
+                    logger(msg=f'An Error occured during processing {_}.\n \
+                        Unknown File')
+            else:
+                target.add_category('/Corrupted')
+                f.move(target.category_dirs['/Corrupted'])
+                logger(msg=f'Check {f.name} later to see what was wrong.')
+    # ===== To do: Delete empty folders after moving files to categories
+    # for _ in os.walk(source_dir.current_dir):
+    #     if os.path. len(os.listdir(_)) < 1:
+    #         try:
+    #             logger(msg=f'Removing {_}')
+    #             os.rmdir(_)
+
+    #         except OSError:
+    #             logger(msg=f'Error removing empty dir {_}')
+
+    # ========= To do: Checking file integerity
 
 
 if __name__ == '__main__':
