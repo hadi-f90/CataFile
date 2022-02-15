@@ -142,7 +142,7 @@ class my_file():
         try:
             patoolib.test_archive(file)
             return True
-        except patoolib.PatoolError:
+        except:
             logger(msg='fError. {file} test Failed.')
             return False
 
@@ -232,8 +232,14 @@ def main():
                         Unknown File')
             else:
                 target.add_category('/Corrupted')
-                f.move(target.category_dirs['/Corrupted'])
-                logger(msg=f'Check {f.name} later to see what was wrong.')
+                try:
+                    f.move(target.category_dirs['/Corrupted'])
+
+                except shutil.Error:
+                    logger(msg=f'There was an error copying {f.name}. \
+                        This can be the result of a file with the same name.')
+                finally:
+                    logger(msg=f'Check {f.name} later to see what was wrong.')
     # ===== To do: Delete empty folders after moving files to categories
     # for _ in os.walk(source_dir.current_dir):
     #     if os.path. len(os.listdir(_)) < 1:
