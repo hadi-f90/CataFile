@@ -239,7 +239,8 @@ def main():
                     logger(msg=f'There was an error copying {f.name}. \
                         This can be the result of a file with the same name.')
                 finally:
-                    logger(msg=f'Check {f.name} later to see what was wrong.')
+                    logger(msg=f'The  file has integeritiy errors.\
+                        Check {f.name} later to see what was wrong.')
     # ===== To do: Delete empty folders after moving files to categories
     # for _ in os.walk(source_dir.current_dir):
     #     if os.path. len(os.listdir(_)) < 1:
@@ -249,8 +250,6 @@ def main():
 
     #         except OSError:
     #             logger(msg=f'Error removing empty dir {_}')
-
-    # ========= To do: Checking file integerity
 
 
 if __name__ == '__main__':
