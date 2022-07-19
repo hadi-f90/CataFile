@@ -34,7 +34,8 @@ def main():
                     f.move(target.category_dirs[f.mime])
                 except (TypeError, shutil.Error):
                     logger(msg=f'An Error occured during processing {_}.\n \
-                        A file with the same name may prevent moving')
+                        A file with the same name may have prevented it from \
+                            being moved')
 
                 except AttributeError:
                     logger(msg=f'An Error occured during processing {_}.\n \
@@ -46,7 +47,8 @@ def main():
 
                 except shutil.Error:
                     logger(msg=f'There was an error copying {f.name}. \
-                        This can be the result of a file with the same name.')
+                        This can be the result of an exising file with the \
+                            same name.')
                 finally:
                     logger(msg=f'The  file has integeritiy errors.\
                         Check {f.name} later to see what was wrong.')
