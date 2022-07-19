@@ -41,7 +41,7 @@ class my_file():
         # not tested for documents
         elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+',
                           self.extension, flags=regex.IGNORECASE) is not None:
-            test_case = shutil.copyfile(self.path, self.name+'.zip')
+            test_case = shutil.copyfile(self.path, f'{self.name}.zip')
             result = self.__test_archive(file=test_case)
             os.remove(test_case)
             return result

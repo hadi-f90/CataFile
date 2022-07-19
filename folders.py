@@ -41,7 +41,7 @@ class folder:
         Yields:
             [str]: [full path of file]
         """
-        for root, dirs, files in os.walk(self.current_dir, topdown=False):
+        for root, dirs, files in os.walk(self.current_dir, topdown=n):
             if len(files) != 0:
                 for _ in dirs:
                     self.selected_dir_name = _
@@ -54,7 +54,7 @@ class folder:
                    func=os.makedirs,
                    msg=f'Creating {self.current_dir} if does not exist...')
 
-        except FileExistsError or OSError():
+        except (FileExistsError, OSError):
             logger(msg=f'Using it the existing {sub_dir} directory...')
 
     def delete(self, sub_dir):
@@ -78,7 +78,7 @@ class destination_folder(folder):
         global logger
         # preparing destination path
         # self.mkdir(os.getcwd()+'/Categories/')
-        self.current_dir = os.getcwd() + '/Categories/' \
+        self.current_dir = f'{os.getcwd()} /Categories/' \
             if input_dir in ('', None) else input_dir
         # print(self.current_dir)
         if os.path.exists(self.current_dir):
