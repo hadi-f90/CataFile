@@ -3,7 +3,6 @@ import shutil
 from sys import argv
 
 import fleep
-# import patoolib
 from jalali.Jalalian import jdate
 
 
@@ -46,7 +45,7 @@ class folder:
                    func=os.makedirs,
                    msg=f'Creating {self.current_dir} if does not exist...')
 
-        except FileExistsError or OSError():
+        except (FileExistsError, OSError):
             logger(msg=f'Using it the existing {sub_dir} directory...')
 
     def delete(self, sub_dir):
@@ -69,8 +68,7 @@ class destination_folder(folder):
         super().__init__()
         global logger
         # preparing destination path
-        # self.mkdir(os.getcwd()+'/Categories/')
-        self.current_dir = os.getcwd() + '/Categories/' \
+        self.current_dir = f'{os.getcwd()} /Categories/' \
             if input_dir in ('', None) else input_dir
         # print(self.current_dir)
         if os.path.exists(self.current_dir):
@@ -87,12 +85,10 @@ class destination_folder(folder):
         self.category_dirs = {}
         for _ in fleep.supported_mimes():
             self.add_category(_.split('/')[0])
-            # print(self.category_dirs)
 
     def add_category(self, category_name):
         self.category_dirs[category_name] = \
             self.current_dir + category_name
-        # print(self.category_dirs)
         if os.path.exists(self.category_dirs[category_name]):
             logger(
                 msg=f'Using the existing {self.category_dirs[category_name]}'
@@ -108,24 +104,19 @@ class destination_folder(folder):
 # ============================== file object class ============================
 class my_file():
     def __init__(self, file_object=None):
-        # file type info
         self.file_object = open(file_object, 'rb')
         self.file_info = fleep.get(self.file_object.read(2048))
         self.name, self.extension = os.path.splitext(file_object)
-        # print(self.file_info.mime, type(self.file_info.mime))
-        # print(self.file_info.mime)
         if len(self.file_info.mime) < 1:
             self.mime = 'etc'
         elif self.extension in ('.txt', '.py'):
             self.mime = 'text/plain'
         else:
             self.file_info.mime[0]
-        # print(self.mime)
-        # print(self.mime, self.file_info.mime)
         self.path = os.path.abspath(file_object)
 
     def file_date_time(self):
-        # To-do: returns file data and time
+        '''returns file data and time'''
         return (os.path.getatime(), os.path.getctime(), os.path.getmtime())
 
     def check_integerity(self):
@@ -166,18 +157,15 @@ def main():
     for _ in source_dir.walker():
         print(source_dir.selected_file_name, _, log_file.name, argv[0])
         if _ in [log_file.name, _ == argv[0]]:
-            # print(_)
             continue
-        # print(_)
         f = my_file(_)
         if os.path.isfile(f.path):
             try:
-                # print(f.type, '\n', f.path)
                 if f.mime not in destination.category_dirs.keys():
                     destination.add_category(f.mime)
 
                 f.move(destination.category_dirs[f.mime])
-            except TypeError and shutil.Error:
+            except (TypeError,  shutil.Error):
                 logger(msg=f'An Error occured during processing file {_}.\n \
                     A file with the same name may prevent moving')
             except AttributeError:

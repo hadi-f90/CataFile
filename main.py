@@ -20,7 +20,7 @@ def main():
 
     for _ in source_dir.walker():
         print(source_dir.selected_file_name, _, log_file.name, argv[0])
-        # if the sellected file is the current app , then forget about it & continue the rest
+        # if the sellected file is the current app , then forget about it
         # To d: now that I have multiple app files, I need change it
         if _ in {log_file.name, _ == argv[0]}:
             # print(_)
@@ -59,7 +59,8 @@ def main():
 
 
 def empty_folder_delete():
-    pass  # ===== To do: Delete empty folders after moving files to categories
+    # ===== To do: Delete empty folders after moving files to categories
+    pass
     # for _ in os.walk(source_dir.current_dir):
     #     if os.path. len(os.listdir(_)) < 1:
     #         try:

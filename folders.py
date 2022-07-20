@@ -54,7 +54,7 @@ class folder:
                    func=os.makedirs,
                    msg=f'Creating {self.current_dir} if does not exist...')
 
-        except (FileExistsError, OSError):
+        except OSError:
             logger(msg=f'Using it the existing {sub_dir} directory...')
 
     def delete(self, sub_dir):
