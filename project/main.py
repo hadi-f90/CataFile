@@ -83,9 +83,7 @@ if __name__ == '__main__':
                             os.getcwd(),
                             'log' + jdate('Y-m-d-H-i-s') + '.txt'),
               'a') as log_file:
-
-        log_file.writelines(
-            ['\tDate\ttime\tmessage' + '\t'*3 + 'function output\n',
-                '=' * 55, '\n'])
+        log_file.writelines('\tDate\ttime\tmessage' + '\t'*3 +
+                            'function output\n', '=' * 55, '\n')
 
         main()
