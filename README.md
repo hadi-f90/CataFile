@@ -38,7 +38,7 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 - :heavy_check_mark: Renaming font files into their internal file name
 - :white_check_mark: Removing empty folders
 - Creating user customization in CLI
-  - :white_check_mark: Creating simple prompt for currently automated procedure to give the user some options --> Being developed
+  - :white_check_mark: Creating simple prompt for currently automated procedure to give the user some options
   - [ ] Directory input.
   - [ ] Calendar choice.
   - [ ] Logging procedure whether to print/save the log or not
