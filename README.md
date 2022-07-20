@@ -45,13 +45,13 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
   - [ ] Using mime type or extension or both.
   - [ ] Cleaning messy folders.
   - [ ] Creating subfolders for each category
-  - [ ] selecting a different file type detector other than lib-magic e.g filetype or fleep
+  - [ ] Selecting a different file type detector other than lib-magic e.g filetype or fleep
 - [ ] Using multi-processing to speed the script up.
 - Verifying file integerity and extension along with mime type matching procedure
   - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted
-  - :white_check_mark: reverting font names to their orginal names
-  - [ ] trying to fix corrupted archives using patoolib
-  - [ ] font inegerity check
+  - :white_check_mark: Reverting font names to their orginal names
+  - [ ] Trying to fix corrupted archives using patoolib
+  - [ ] Font inegerity check
   - [ ] Audio / video check
   - [ ] Verifying Image and fixes byte errors using
 - Adding GUI.
