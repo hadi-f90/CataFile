@@ -89,7 +89,7 @@ class destination_folder(folder):
             logger(msg=f'Creating {self.current_dir}')
 
         os.chdir(self.current_dir)
-        logger(msg=f'Target set to dir: {self.current_dir}')
+        logger(msg=f'destination set to dir: {self.current_dir}')
         # print(self.current_dir)
 
         self.category_dirs = {}

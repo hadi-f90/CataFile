@@ -81,7 +81,7 @@ class destination_folder(folder):
             logger(msg=f'Creating {self.current_dir}')
 
         os.chdir(self.current_dir)
-        logger(msg=f'Target set to dir: {self.current_dir}')
+        logger(msg=f'destination set to dir: {self.current_dir}')
         # print(self.current_dir)
 
         self.category_dirs = {}
@@ -162,7 +162,7 @@ def logger(*args, func=None, msg):
 def main():
     print(argv[0], log_file.name)
     source_dir = folder()
-    target = destination_folder()
+    destination = destination_folder()
     for _ in source_dir.walker():
         print(source_dir.selected_file_name, _, log_file.name, argv[0])
         if _ in [log_file.name, _ == argv[0]]:
@@ -173,10 +173,10 @@ def main():
         if os.path.isfile(f.path):
             try:
                 # print(f.type, '\n', f.path)
-                if f.mime not in target.category_dirs.keys():
-                    target.add_category(f.mime)
+                if f.mime not in destination.category_dirs.keys():
+                    destination.add_category(f.mime)
 
-                f.move(target.category_dirs[f.mime])
+                f.move(destination.category_dirs[f.mime])
             except TypeError and shutil.Error:
                 logger(msg=f'An Error occured during processing file {_}.\n \
                     A file with the same name may prevent moving')
