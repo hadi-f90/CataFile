@@ -31,7 +31,7 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 
 ## Roadmap
 
-- Creating first working build for categorizing --> Done
+- []Creating first working build for categorizing --> Done
 - Renaming font files into their internal file name --> Done
 - Removing empty folders --> Not implemented Yet
 - Creating user customization in CLI --> Being Developed
