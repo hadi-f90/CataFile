@@ -1,5 +1,3 @@
-import os
-from logger import logger
 
 
 # =============directory definitions=================

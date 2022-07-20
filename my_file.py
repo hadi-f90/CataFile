@@ -1,10 +1,7 @@
 import font_rename
-import os
 import magic
 import patoolib
 import regex
-import shutil
-from logger import logger
 
 
 # ============================== file object class ============================
@@ -30,7 +27,7 @@ class my_file():
         try:
             patoolib.test_archive(file)
             return True
-        except:
+        except patoolib.PatoolError:
             logger(msg='fError. {file} test Failed.')
             return False
 
