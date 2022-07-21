@@ -1,11 +1,10 @@
+import os
+import logger
 
 
 # =============directory definitions=================
 class folder:
-    def __init__(self,
-                 current_directory=os.path.dirname(os.path.abspath(__file__))):
-        # Get the directory name where the current running Python file resides
-        # src: https://www.devdungeon.com/
+    def __init__(self, current_directory=os.getcwd()[:]):
         # Setting and checking the directory
         self.current_dir = current_directory
         logger(msg=f'Current dir is set to: {self.current_dir}')
@@ -34,7 +33,7 @@ class folder:
 
     def dir_walker(self, n=False):
         """Walks through directory to return
-        append the full adrress to each file
+        append the full adrress to each folder
 
         Yields:
             [str]: [full path of file]
@@ -69,9 +68,7 @@ class folder:
 
 class destination_folder(folder):
     def __init__(self,
-                 input_dir=input(
-                     f'Enter the destination folder for the categories.\n \
-                     deffault:{os.getcwd()}:')):
+                 input_dir=os.getcwd()):
         super().__init__()
         global logger
         # preparing destination path
