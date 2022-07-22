@@ -1,3 +1,4 @@
+from argparse import FileType
 import unittest
 import os
 import unittest
@@ -8,6 +9,7 @@ from project.folders import folder
 import project.logger as logger
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/test'
+new_dir = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/test2'
 
 
 class TestFolders(unittest.TestCase):
@@ -24,11 +26,10 @@ class TestFolders(unittest.TestCase):
         self.countTestCases()
 
     # Check the srting representation of Assign_folder
-    def test_representation(self):
+    """def test_representation(self):
         self.assertEqual(TEST_ADDRESS, self.folder)
         del self.folder
-        self.countTestCases()
-
+        self.countTestCases() """
     # Assign non-existent folder
     def test_assiging_none_existing_folder(self):
         pass
@@ -36,41 +37,49 @@ class TestFolders(unittest.TestCase):
     # Assign file
     # Check the srting representation of Assign_folder
 
-    def test_walk(self):
-        pass
-    # Walker topdown
+    def test_walk_top_down(self):
+        # Walker topdown
+        self.f = folder('test/test_files')
+        self.assertTrue(os.path.isfile(next(self.f.walker())))
+
     # Walker bottom up
+        self.assertTrue(os.path.isfile(next(self.f.walker(n=True))))
 
-    def dir_walker(self):
-        pass
+    def test_dir_walker(self):
+        self.f = folder('test/test_files')
+        self.assertTrue(os.path.isdir(next(self.f.dir_walker())))
+        self.assertTrue(os.path.isdir(next(self.f.dir_walker(n=True))))
 
-    def mkdir(self):
-        pass
-    # trying to mkdir a directory
-    # trying to make an existing directory
+    def test_mkdir(self):
+        self.n = folder(new_dir)
+        # trying to mkdir a directory
+        self.n.mkdir(new_dir)
+        self.assertTrue(os.path.exists(new_dir))
 
-    def delete(self):
-        pass
-    # delete file
+    def test_delete(self):
+        self.d = folder(new_dir)
+        self.d.delete(new_dir)
+        print(new_dir)
+        self.assertTrue(os.path.exists(new_dir))
     # delete directory
     # delete non-existent directory
 
 
-""" class TestDestination(unittest.TestCase):
-    def setFolder(self):
+class TestDestination(unittest.TestCase):
+    def Test_setFolder(self):
         pass
     # Checking Creating Destination path
     # Checking creating existing destination
     # Checking Setting destination path
 
-    def add_category(self):
+    def Test_add_category(self):
         # Checking creating Categories dictionary
         pass
 
-    def folder_categories(self):
+    def Test_folder_categories(self):
         # checking creating folder categories
         pass
- """
+
 
 if __name__ == '__main__':
     unittest.main()

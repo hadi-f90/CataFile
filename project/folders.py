@@ -58,7 +58,7 @@ class folder:
     def delete(self, sub_dir):
         try:
             logger.log.info(f'Checking if {sub_dir} exists...')
-            assert os.path.isdir(sub_dir)
+            assert os.path.exists(sub_dir)
             logger.log.warning(f'Removing {sub_dir}...')
             os.remove(sub_dir)
             logger.log.info(f'{sub_dir} Removed successfully!')
