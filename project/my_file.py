@@ -1,3 +1,4 @@
+import os
 import font_rename
 import magic
 import patoolib

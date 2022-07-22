@@ -1,19 +1,19 @@
 import os
 import shutil
 from sys import argv
+import logging
 
-from jalali.Jalalian import jdate
 
 from folders import destination_folder, folder
-from logger import logger
 from my_file import my_file
 
 from . import ui
 
-
 # ==========main course====================
 SOURCE = folder()
 DESTINATION = destination_folder()
+
+
 
 
 def main():
