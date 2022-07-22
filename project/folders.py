@@ -60,7 +60,7 @@ class folder:
             logger.log.info(f'Checking if {sub_dir} exists...')
             assert os.path.exists(sub_dir)
             logger.log.warning(f'Removing {sub_dir}...')
-            os.remove(sub_dir)
+            os.rmdir(sub_dir)
             logger.log.info(f'{sub_dir} Removed successfully!')
 
         except AssertionError:
