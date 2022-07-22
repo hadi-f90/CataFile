@@ -1,9 +1,10 @@
 import os
 import shutil
 from sys import argv
-import logging
 
+from jalali.Jalalian import jdate
 
+import logger
 from folders import destination_folder, folder
 from my_file import my_file
 
@@ -12,8 +13,6 @@ from . import ui
 # ==========main course====================
 SOURCE = folder()
 DESTINATION = destination_folder()
-
-
 
 
 def main():
@@ -43,12 +42,12 @@ def process_file(_):
             f.move(DESTINATION.category_dirs[f.mime])
 
         except (TypeError, shutil.Error):
-            logger(msg=f'An Error occured during processing {_}.\n \
+            logger.log.critical(f'An Error occured during processing {_}.\n \
                     A file with the same name may have prevented it from \
                         being moved')
 
         except AttributeError:
-            logger(msg=f'An Error occured during processing {_}.\n \
+            logger.log.critical(f'An Error occured during processing {_}.\n \
                     Unknown File')
 
         DESTINATION.add_category('/Corrupted')
@@ -56,11 +55,11 @@ def process_file(_):
             f.move(DESTINATION.category_dirs['/Corrupted'])
 
         except shutil.Error:
-            logger(msg=f'There was an error copying {f.name}. \
+            logger.log.critical(f'There was an error copying {f.name}. \
                     This can be the result of an exising file with the \
                         same name.')
         finally:
-            logger(msg=f'The  file has integeritiy errors.\
+            logger.log.critical(f'The  file has integeritiy errors.\
                     Check {f.name} later to see what was wrong.')
 
 
@@ -69,11 +68,11 @@ def empty_folder_delete():
     for _ in os.walk(SOURCE.current_dir):
         if os.path. len(os.listdir(_)) < 1:
             try:
-                logger(msg=f'Removing {_}')
+                logger.log.warning(f'Removing {_}')
                 os.rmdir(_)
 
             except OSError:
-                logger(msg=f'Error removing empty dir {_}')
+                logger.log.critical(f'Error removing empty dir {_}')
 
 
 if __name__ == '__main__':

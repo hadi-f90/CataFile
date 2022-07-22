@@ -1,6 +1,7 @@
 import logging
 import os
 import sys
+
 from jalali.Jalalian import jdate
 
 LOG_FILE = os.path.join(os.getcwd(), 'log' + jdate('Y-m-d-H-i-s') + '.log')

@@ -1,8 +1,12 @@
 import os
+import shutil
+
 import font_rename
 import magic
 import patoolib
 import regex
+
+import logger
 
 
 # ============================== file object class ============================
@@ -29,7 +33,7 @@ class my_file():
             patoolib.test_archive(file)
             return True
         except patoolib.PatoolError:
-            logger(msg='fError. {file} test Failed.')
+            logger.log.info(f'Error. {file} test Failed.')
             return False
 
     def check_integerity(self):
@@ -44,12 +48,12 @@ class my_file():
             os.remove(test_case)
             return result
         else:
-            logger(msg='Not implemented integerity check!')
+            logger.log.info('Not implemented integerity check!')
             return True
 
     def move(self, destination):
         shutil.move(self.path, destination)
-        logger(msg=f'{self.path} moved to {self.mime}.')
+        logger.log.info(f'{self.path} moved to {self.mime}.')
 
     def __str__(self) -> str:
         return self.name
@@ -64,8 +68,9 @@ class my_file():
                 font_rename.rename_font(self.path)
 
             except FileExistsError:
-                logger(msg=f'An Error occured processing file {self.path}')
+                logger.log.critical(f'An Error occured processing \
+                    file {self.path}')
 
             finally:
-                logger(msg=f'Font name reverted to it original name:\
+                logger.log.info(f'Font name reverted to it original name:\
                        {self.name}')
