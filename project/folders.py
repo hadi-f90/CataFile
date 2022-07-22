@@ -1,6 +1,6 @@
 import os
 
-import logger
+from . import logger
 
 
 # =============directory definitions=================
@@ -8,13 +8,13 @@ class folder:
     def __init__(self, current_directory=os.getcwd()[:]):
         # Setting and checking the directory
         self.current_dir = current_directory
-        logger.log.info(f'Current dir is set to: {self.current_dir}')
+        logger.log.info(f'Trying to set address to: {self.current_dir}')
 
         try:
             assert os.path.isdir(self.current_dir)
         except AssertionError:
-            logger.log.critical(f'{self.current_dir} \
-                is not a directory. Check it!')
+            logger.log.critical(
+                f'{self.current_dir} either is not a directory or doesn\'t exist. Check it!')
 
     # Appending path to file/folder name function
     def walker(self, n=False,):

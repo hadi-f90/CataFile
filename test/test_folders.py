@@ -1,26 +1,42 @@
 import unittest
 import os
-
+import unittest
+import sys
+sys.path.append('.')
 
 from project.folders import folder
+import project.logger as logger
+
+TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/test'
 
 
 class TestFolders(unittest.TestCase):
     def test_initial_folder_set(self):
         self.folder = folder(os.getcwd()[:])
-        print(os.getcwd(), self.folder)
         self.assertEqual(os.getcwd(), self.folder.current_dir)
+        self.countTestCases()
         del self.folder
-    # Assign_folder
 
-    def Assign_folder(self):
-        self.folder('/home/hadi/Documents/GitHub/file_categorizer/test_cases')
+    # Assign_folder
+    def test_Assign_folder(self):
+        self.folder = folder(TEST_ADDRESS)
+        self.assertEqual(TEST_ADDRESS, self.folder.current_dir)
+        self.countTestCases()
+
+    # Check the srting representation of Assign_folder
+    def test_representation(self):
+        self.assertEqual(TEST_ADDRESS, self.folder)
+        del self.folder
+        self.countTestCases()
+
     # Assign non-existent folder
+    def test_assiging_none_existing_folder(self):
+        pass
+
     # Assign file
-    # Check the return value of Assign_folder
     # Check the srting representation of Assign_folder
 
-    def walk(self):
+    def test_walk(self):
         pass
     # Walker topdown
     # Walker bottom up
