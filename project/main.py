@@ -66,7 +66,7 @@ def process_file(_):
 def empty_folder_delete():
     # ===== To do: Delete empty folders after moving files to categories
     for _ in os.walk(SOURCE.current_dir):
-        if os.path. len(os.listdir(_)) < 1:
+        if len(os.listdir(_)) < 1:
             try:
                 logger.log.warning(f'Removing {_}')
                 os.rmdir(_)
@@ -77,12 +77,4 @@ def empty_folder_delete():
 
 if __name__ == '__main__':
 
-    global log_file
-    with open(os.path.join(
-                            os.getcwd(),
-                            'log' + jdate('Y-m-d-H-i-s') + '.txt'),
-              'a') as log_file:
-        log_file.writelines('\tDate\ttime\tmessage' + '\t'*3 +
-                            'function output\n', '=' * 55, '\n')
-
-        main()
+    main()

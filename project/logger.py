@@ -16,3 +16,6 @@ formatter = logging.Formatter(f"{jdate('Y-m-d-H-i-s')} - %(name)s - %(levelname)
 file_handler.setFormatter(formatter)
 log.addHandler(file_handler)
 log.addHandler(stream_handler)
+#log header
+with open(LOG_FILE, 'a') as LOG_FILE:
+    LOG_FILE.writelines('\tDate\ttime' + '\t'*3 + 'message\n', '=' * 55, '\n')
