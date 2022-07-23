@@ -1,3 +1,4 @@
+from distutils import extension
 import os
 import shutil
 
@@ -7,10 +8,11 @@ import patoolib
 import regex
 
 import logger
+import fleep
 
 
 # ============================== file object class ============================
-class my_file():
+class MyFile():
     def __init__(self, file_object=None):
         # file type info
         self.file_object = open(file_object, 'rb')
@@ -18,7 +20,7 @@ class my_file():
         self.name, self.extension = os.path.splitext(file_object)
         if self.mime == '':
             self.mime = 'etc'
-        print(self.mime)
+        # print(self.mime)
         self.path = os.path.abspath(file_object)
         self.name_revert()
 
@@ -56,21 +58,47 @@ class my_file():
         logger.log.info(f'{self.path} moved to {self.mime}.')
 
     def __str__(self) -> str:
+        self.full_name = self.path + self.name + self.extension
         return self.name
 
     def name_revert(self):  # not testes Yet!
-        if regex.search(r'[tow]*tf2?',
-                        self.extension, flags=regex.IGNORECASE) is not None:
+        # if the file type is not known thentry fo file its type
+        if self.extension is None:
+            self.fleep_info = fleep.get(self.file_object.read(2048))
+            new_extension = self.fleep_info.mime.split('/')[-1]
+            if new_extension is not None:
+                os.rename(self.full_name,
+                          self.path + self.name + new_extension)
+        # if it is a font file
+        elif regex.search(r'[tow]*tf2?',
+                          self.extension,
+                          flags=regex.IGNORECASE) is not None:
             number = 0
             while os.path.exists(self.name+str(number)+self.extension):
                 number += 1
-            try:
-                font_rename.rename_font(self.path)
+                try:
+                    font_rename.rename_font(self.path)
 
-            except FileExistsError:
-                logger.log.critical(f'An Error occured processing \
-                    file {self.path}')
+                except FileExistsError:
+                    logger.log.critical(f'An Error occured processing \
+                        file {self.path}')
 
-            finally:
-                logger.log.info(f'Font name reverted to it original name:\
-                       {self.name}')
+                finally:
+                    logger.log.info(f'Font name reverted to it original name:\
+                        {self.name}')
+
+
+class FontFile(MyFile):
+    pass
+
+
+class ArchiveFile(MyFile):
+    pass
+
+
+class DocumentFile(MyFile):
+    pass
+
+
+class MediaFile(MyFile):
+    pass

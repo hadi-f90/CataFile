@@ -6,7 +6,7 @@ from jalali.Jalalian import jdate
 
 import logger
 from folders import destination_folder, folder
-from my_file import my_file
+from my_file import MyFile
 
 from . import ui
 
@@ -32,7 +32,7 @@ def main():
 
 
 def process_file(_):
-    f = my_file(_)
+    f = MyFile(_)
 
     if os.path.isfile(f.path) and f.check_integerity():
         try:
