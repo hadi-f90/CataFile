@@ -1,6 +1,7 @@
 import os
 
 from . import logger
+import config
 
 
 # =============directory definitions=================

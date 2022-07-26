@@ -8,7 +8,7 @@ import logger
 from folders import destination_folder, folder
 from my_file import MyFile
 
-from . import ui
+from . import tui
 
 # ==========main course====================
 SOURCE = folder()
@@ -16,12 +16,12 @@ DESTINATION = destination_folder()
 
 
 def main():
-    print(argv[0], log_file.name)
+    print(argv[0], logger.LOG_FILE.name)
     for _ in SOURCE.walker():
-        print(SOURCE.selected_file_name, _, log_file.name, argv[0])
+        print(SOURCE.selected_file_name, _, logger.LOG_FILE.name, argv[0])
         # if the sellected file is the current app , then forget about it
         # To d: now that I have multiple app files, I need change itP
-        if _ in {log_file.name, _ == argv[0]}:
+        if _ in {logger.LOG_FILE.name, _ == argv[0]}:
             # print(_)
             continue
         # print(_)

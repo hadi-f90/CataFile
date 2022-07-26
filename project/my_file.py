@@ -1,4 +1,3 @@
-from distutils import extension
 import os
 import shutil
 
@@ -35,7 +34,7 @@ class MyFile():
             patoolib.test_archive(file)
             return True
         except patoolib.PatoolError:
-            logger.log.info(f'Error. {file} test Failed.')
+            logger.log.error(f'Error. {file} test Failed.')
             return False
 
     def check_integerity(self):
@@ -50,7 +49,7 @@ class MyFile():
             os.remove(test_case)
             return result
         else:
-            logger.log.info('Not implemented integerity check!')
+            logger.log.warning('Not implemented integerity check!')
             return True
 
     def move(self, destination):
@@ -80,8 +79,8 @@ class MyFile():
                     font_rename.rename_font(self.path)
 
                 except FileExistsError:
-                    logger.log.critical(f'An Error occured processing \
-                        file {self.path}')
+                    logger.log.error(f'An Error occured renaming \
+                        {self.path}')
 
                 finally:
                     logger.log.info(f'Font name reverted to it original name:\

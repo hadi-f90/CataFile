@@ -11,11 +11,12 @@ log.setLevel(logging.INFO)
 
 file_handler = logging.FileHandler(LOG_FILE)
 stream_handler = logging.StreamHandler(stream=sys.stdout)
-formatter = logging.Formatter(f"{jdate('Y-m-d-H-i-s')} - %(name)s - %(levelname)s - %(message)s")
+formatter = logging.Formatter(
+    f"{jdate('Y-m-d-H-i-s')} - %(name)s - %(levelname)s - %(message)s")
 
 file_handler.setFormatter(formatter)
 log.addHandler(file_handler)
 log.addHandler(stream_handler)
-#log header
+# log header
 with open(LOG_FILE, 'a') as LOG_FILE:
     LOG_FILE.writelines('\tDate\ttime' + '\t'*3 + 'message\n', '=' * 55, '\n')

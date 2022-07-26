@@ -1,6 +1,7 @@
 import logging.config
 
-config = {
+
+logging_config = {
     'disable_existing_loggers': False,
     'version': 1,
     'formatters': {
@@ -28,4 +29,10 @@ config = {
     },
 }
 
-logging.config.dictConfig(config)
+logging.config.dictConfig(logging_config)
+
+
+log_file_address = ''
+source_dir = ''
+destination_dir = ''
+calendar = ''

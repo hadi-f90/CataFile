@@ -27,7 +27,7 @@ class Testlogger(unittest.TestCase):
 
         with open(logger.LOG_FILE, 'r') as f:
             saved_msgs = f.readlines()
-
+            global msgs
             for _ in msgs:
                 for m in saved_msgs:
                     self.assertIn(_, m)

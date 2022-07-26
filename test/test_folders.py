@@ -1,4 +1,3 @@
-from argparse import FileType
 import unittest
 import os
 import unittest
