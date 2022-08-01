@@ -8,7 +8,6 @@ import logger
 from folders import destination_folder, folder
 from my_file import MyFile
 
-from . import tui
 
 # ==========main course====================
 SOURCE = folder()
@@ -73,8 +72,3 @@ def empty_folder_delete():
 
             except OSError:
                 logger.log.critical(f'Error removing empty dir {_}')
-
-
-if __name__ == '__main__':
-
-    main()

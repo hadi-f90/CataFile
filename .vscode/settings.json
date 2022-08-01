@@ -10,5 +10,9 @@
         "test_*.py"
     ],
     "python.testing.pytestEnabled": false,
-    "python.testing.unittestEnabled": true
+    "python.testing.unittestEnabled": true,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "aiXcoder.showTrayIcon": true,
+    "editor.tabCompletion": "on",
+    "diffEditor.codeLens": true
 }

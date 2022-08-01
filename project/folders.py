@@ -1,6 +1,6 @@
 import os
 
-from . import logger
+import logger
 import config
 
 
