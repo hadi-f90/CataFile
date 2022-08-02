@@ -38,8 +38,7 @@ class folder:
             self.walker()
 
     def mkdir(self, sub_dir):
-        """Creates a series of directorys from a given list/tuple/set
-        """
+        """Creates a series of directorys from a given list/tuple/set"""
         try:
             logger(sub_dir,
                    func=os.makedirs,
