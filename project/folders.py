@@ -15,7 +15,8 @@ class folder:
             assert os.path.isdir(self.current_dir)
         except AssertionError:
             logger.log.critical(
-                f'{self.current_dir} either is not a directory or doesn\'t exist. Check it!')
+                f'{self.current_dir} either is not a directory or doesn\'t \
+                    exist. Check it!')
 
     # Appending path to file/folder name function
     def walker(self, n=False,):

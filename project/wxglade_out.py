@@ -5,6 +5,7 @@
 #
 
 import wx
+from config import *
 
 # begin wxGlade: dependencies
 # end wxGlade
@@ -16,7 +17,9 @@ import wx
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
         # begin wxGlade: MyFrame.__init__
-        kwds["style"] = kwds.get("style", 0) | wx.CAPTION | wx.CLIP_CHILDREN | wx.CLOSE_BOX | wx.ICONIZE | wx.MINIMIZE_BOX | wx.RESIZE_BORDER | wx.SYSTEM_MENU
+        kwds["style"] = kwds.get("style", 0) | wx.CAPTION | wx.CLIP_CHILDREN \
+            | wx.CLOSE_BOX | wx.ICONIZE | wx.MINIMIZE_BOX | wx.RESIZE_BORDER \
+            | wx.SYSTEM_MENU
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((596, 449))
         self.SetTitle("File Categorizer")
@@ -26,7 +29,9 @@ class MyFrame(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
         self.notebook = wx.Notebook(self.main_panel, wx.ID_ANY)
-        self.notebook.SetFont(wx.Font(11, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
+        self.notebook.SetFont(wx.Font(11, wx.FONTFAMILY_DEFAULT,
+                                      wx.FONTSTYLE_NORMAL,
+                                      wx.FONTWEIGHT_NORMAL, 0, ""))
         sizer_1.Add(self.notebook, 1, wx.EXPAND, 0)
 
         self.action_pane = wx.Panel(self.notebook, wx.ID_ANY)
@@ -34,25 +39,49 @@ class MyFrame(wx.Frame):
 
         sizer_2 = wx.BoxSizer(wx.VERTICAL)
 
-        source_folder_label = wx.StaticText(self.action_pane, wx.ID_ANY, "Source Folder:")
-        source_folder_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
-        sizer_2.Add(source_folder_label, 1, wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP, 8)
+        source_folder_label = wx.StaticText(self.action_pane,
+                                            wx.ID_ANY,
+                                            "Source Folder:")
+        source_folder_label.SetFont(wx.Font(12,
+                                            wx.FONTFAMILY_DEFAULT,
+                                            wx.FONTSTYLE_NORMAL,
+                                            wx.FONTWEIGHT_NORMAL,
+                                            0, ""))
+        sizer_2.Add(source_folder_label, 1,
+                    wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
+                    8)
 
-        self.source_address_input = wx.TextCtrl(self.action_pane, wx.ID_ANY, "")
+        self.source_address_input = wx.TextCtrl(self.action_pane,
+                                                wx.ID_ANY, "")
         self.source_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
         sizer_2.Add(self.source_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
-        destination_folder_label = wx.StaticText(self.action_pane, wx.ID_ANY, "Destination Folder:", style=wx.ALIGN_LEFT)
-        destination_folder_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
-        sizer_2.Add(destination_folder_label, 1, wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP, 8)
+        destination_folder_label = wx.StaticText(self.action_pane, wx.ID_ANY,
+                                                 "Destination Folder:",
+                                                 style=wx.ALIGN_LEFT)
+        destination_folder_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT,
+                                                 wx.FONTSTYLE_NORMAL,
+                                                 wx.FONTWEIGHT_NORMAL, 0, ""))
+        sizer_2.Add(destination_folder_label,
+                    1,
+                    wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
+                    8)
 
-        self.destination_address_input = wx.TextCtrl(self.action_pane, wx.ID_ANY, "")
-        self.destination_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
+        self.destination_address_input = wx.TextCtrl(self.action_pane,
+                                                     wx.ID_ANY, "")
+        self.destination_address_input.SetBackgroundColour(
+            wx.Colour(250, 255, 196))
+
         sizer_2.Add(self.destination_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
         self.start_button = wx.Button(self.action_pane, wx.ID_ANY, "&Start")
-        self.start_button.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, ""))
-        self.start_button.SetToolTip("Start Detecting Files in Specified Addresses")
+        self.start_button.SetFont(wx.Font(12,
+                                          wx.FONTFAMILY_DEFAULT,
+                                          wx.FONTSTYLE_NORMAL,
+                                          wx.FONTWEIGHT_NORMAL, 0, ""))
+
+        self.start_button.SetToolTip(
+            "Start Detecting Files in Specified Addresses")
         self.start_button.SetFocus()
         sizer_2.Add(self.start_button, 2, wx.ALL | wx.EXPAND, 27)
 
@@ -61,45 +90,90 @@ class MyFrame(wx.Frame):
 
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
 
-        self.file_processor_radio = wx.RadioBox(self.option_pane, wx.ID_ANY, "File processor:", choices=["Fleep", "Magic"], majorDimension=1, style=wx.RA_SPECIFY_ROWS)
+        self.file_processor_radio = wx.RadioBox(self.option_pane,
+                                                wx.ID_ANY,
+                                                "File processor:",
+                                                choices=["Fleep", "Magic"],
+                                                majorDimension=1,
+                                                style=wx.RA_SPECIFY_ROWS)
+
         self.file_processor_radio.SetSelection(1)
         sizer_3.Add(self.file_processor_radio, 0, wx.ALL | wx.EXPAND, 4)
 
-        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY, "Logging"), wx.HORIZONTAL)
+        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY,
+                                                 "Logging"),
+                                    wx.HORIZONTAL)
+
         sizer_3.Add(sizer_4, 1, wx.EXPAND | wx.FIXED_MINSIZE | wx.SHAPED, 1)
 
-        self.save_log_cb = wx.CheckBox(self.option_pane, wx.ID_ANY, "Save Log to File")
+        self.save_log_cb = wx.CheckBox(self.option_pane,
+                                       wx.ID_ANY,
+                                       "Save Log to File")
+
         sizer_4.Add(self.save_log_cb, 1, wx.ALL, 1)
 
-        self.show_details_cb = wx.CheckBox(self.option_pane, wx.ID_ANY, "Show details to me")
+        self.show_details_cb = wx.CheckBox(self.option_pane,
+                                           wx.ID_ANY,
+                                           "Show details to me")
+
         sizer_4.Add(self.show_details_cb, 1, wx.ALL, 1)
 
-        sizer_7 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY, "Log File Address"), wx.HORIZONTAL)
+        sizer_7 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane,
+                                                 wx.ID_ANY,
+                                                 "Log File Address"),
+                                    wx.HORIZONTAL)
+
         sizer_3.Add(sizer_7, 1, wx.EXPAND, 0)
 
-        self.log_file_address_input = wx.TextCtrl(self.option_pane, wx.ID_ANY, "")
-        self.log_file_address_input.Enable(False)
-        sizer_7.Add(self.log_file_address_input, 1, wx.ALIGN_CENTER_VERTICAL | wx.ALL, 6)
+        self.log_file_address_input = wx.TextCtrl(self.option_pane,
+                                                  wx.ID_ANY, "")
 
-        self.calendar_cb_group = wx.RadioBox(self.option_pane, wx.ID_ANY, "Calendar  to be used in logs:", choices=["Khorsheedi (Persian)", "Gergorian"], majorDimension=1, style=wx.RA_SPECIFY_ROWS)
+        self.log_file_address_input.Enable(False)
+        sizer_7.Add(self.log_file_address_input, 1,
+                    wx.ALIGN_CENTER_VERTICAL | wx.ALL, 6)
+
+        self.calendar_cb_group = wx.RadioBox(self.option_pane,
+                                             wx.ID_ANY,
+                                             "Calendar  to be used in logs:",
+                                             choices=["Khorsheedi (Persian)",
+                                                      "Gergorian"],
+                                             majorDimension=1,
+                                             style=wx.RA_SPECIFY_ROWS)
+
         self.calendar_cb_group.SetSelection(0)
-        sizer_3.Add(self.calendar_cb_group, 0, wx.LEFT | wx.RIGHT | wx.SHAPED | wx.TOP, 3)
+        sizer_3.Add(self.calendar_cb_group, 0,
+                    wx.LEFT | wx.RIGHT | wx.SHAPED | wx.TOP, 3)
 
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3.Add(sizer_5, 1, wx.EXPAND, 0)
 
-        sizer_8 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY, "Log level"), wx.VERTICAL)
+        sizer_8 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane,
+                                                 wx.ID_ANY, "Log level"),
+                                    wx.VERTICAL)
         sizer_5.Add(sizer_8, 1, wx.LEFT | wx.RIGHT | wx.TOP, 1)
 
-        self.log_level_combo = wx.ComboBox(self.option_pane, wx.ID_ANY, choices=["Critical"], style=wx.CB_DROPDOWN | wx.CB_SIMPLE)
-        sizer_8.Add(self.log_level_combo, 1, wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
+        self.log_level_combo = wx.ComboBox(self.option_pane,
+                                           wx.ID_ANY,
+                                           choices=["Debug", "Info",
+                                                    "Warning", "Error",
+                                                    "Critical"],
+                                           style=wx.CB_DROPDOWN | wx.CB_SIMPLE)
+
+        sizer_8.Add(self.log_level_combo, 1,
+                    wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
 
         self.AboutPane = wx.Panel(self.notebook, wx.ID_ANY)
         self.notebook.AddPage(self.AboutPane, "About")
 
-        sizer_9 = wx.StaticBoxSizer(wx.StaticBox(self.AboutPane, wx.ID_ANY, ""), wx.HORIZONTAL)
+        sizer_9 = wx.StaticBoxSizer(wx.StaticBox(self.AboutPane,
+                                                 wx.ID_ANY, ""),
+                                    wx.HORIZONTAL)
 
-        About_label = wx.StaticText(self.AboutPane, wx.ID_ANY, "I created this tiny app for my own personal use. \nIt may (not) work on your system. however, you may find it useful.")
+        About_label = wx.StaticText(self.AboutPane, wx.ID_ANY,
+                                    "I created this tiny app for my own \
+                                        personal use. \nIt may (not) \
+                                            work on your system.\
+                                                However, you may find it useful.")
         sizer_9.Add(About_label, 0, 0, 0)
 
         self.AboutPane.SetSizer(sizer_9)
@@ -112,20 +186,46 @@ class MyFrame(wx.Frame):
 
         self.Layout()
 
-        self.Bind(wx.EVT_TEXT, self.change_source_address, self.source_address_input)
-        self.Bind(wx.EVT_TEXT, self.change_destination_address, self.destination_address_input)
-        self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
-        self.Bind(wx.EVT_RADIOBOX, self.change_file_processor, self.file_processor_radio)
-        self.Bind(wx.EVT_CHECKBOX, self.change_save_to_log_status, self.save_log_cb)
-        self.Bind(wx.EVT_CHECKBOX, self.change_show_details, self.show_details_cb)
-        self.Bind(wx.EVT_TEXT, self.change_log_file_address, self.log_file_address_input)
-        self.Bind(wx.EVT_RADIOBOX, self.change_calendar, self.calendar_cb_group)
-        self.Bind(wx.EVT_COMBOBOX, self.change_log_level, self.log_level_combo)
+        self.Bind(wx.EVT_TEXT,
+                  self.change_source_address,
+                  self.source_address_input)
+
+        self.Bind(wx.EVT_TEXT,
+                  self.change_destination_address,
+                  self.destination_address_input)
+
+        self.Bind(wx.EVT_BUTTON,
+                  self.button_clicked,
+                  self.start_button)
+
+        self.Bind(wx.EVT_RADIOBOX,
+                  self.change_file_processor,
+                  self.file_processor_radio)
+
+        self.Bind(wx.EVT_CHECKBOX,
+                  self.change_save_to_log_status,
+                  self.save_log_cb)
+
+        self.Bind(wx.EVT_CHECKBOX,
+                  self.change_show_details,
+                  self.show_details_cb)
+
+        self.Bind(wx.EVT_TEXT,
+                  self.change_log_file_address,
+                  self.log_file_address_input)
+
+        self.Bind(wx.EVT_RADIOBOX,
+                  self.change_calendar,
+                  self.calendar_cb_group)
+
+        self.Bind(wx.EVT_COMBOBOX,
+                  self.change_log_level,
+                  self.log_level_combo)
         # end wxGlade
 
     def change_source_address(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_source_address' not implemented!")
-        event.Skip()
+        # print("Event handler 'change_source_address' not implemented!")
+        # event.Skip()
 
     def change_destination_address(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_destination_address' not implemented!")

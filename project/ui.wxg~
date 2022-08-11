@@ -198,7 +198,11 @@
                                                         <style>wxCB_SIMPLE|wxCB_DROPDOWN</style>
                                                         <selection>-1</selection>
                                                         <choices>
-                                                            <choice>Critical</choice>
+                                                            <choice>Debug</choice>
+															 <choice>Info</choice>
+                                                            <choice>Warning</choice>
+															 <choice>Error</choice>
+															 <choice>Critical</choice>
                                                         </choices>
                                                     </object>
                                                 </object>
