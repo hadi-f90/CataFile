@@ -1,6 +1,6 @@
 import logging.config
-
-
+from pypref import Preferences
+from os import getcwd
 logging_config = {
     'disable_existing_loggers': False,
     'version': 1,
@@ -31,8 +31,19 @@ logging_config = {
 
 logging.config.dictConfig(logging_config)
 
+pref = Preferences(directory=getcwd(),
+                   filename="preferences.py")
 
-log_file_address = ''
-source_dir = ''
-destination_dir = ''
-calendar = ''
+
+options_dict = {
+    'source_dir': '',
+    'destination_dir': '',
+    'file_processor': 'magic',
+    'save_log': '',
+    'show_details': '',
+    'log_file_address': '',
+    'calendar': '',
+    'log_level': ''}
+
+
+pref.set_preferences(options_dict)

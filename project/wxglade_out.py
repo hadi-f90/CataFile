@@ -13,6 +13,8 @@ from config import *
 # begin wxGlade: extracode
 # end wxGlade
 
+#  preferences file\
+
 
 class MyFrame(wx.Frame):
     def __init__(self, *args, **kwds):
@@ -74,7 +76,7 @@ class MyFrame(wx.Frame):
 
         sizer_2.Add(self.destination_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
-        self.start_button = wx.Button(self.action_pane, wx.ID_ANY, "&Start")
+        self.start_button = wx.Button(self.action_pane, wx.ID_APPLY, "&Start")
         self.start_button.SetFont(wx.Font(12,
                                           wx.FONTFAMILY_DEFAULT,
                                           wx.FONTSTYLE_NORMAL,
@@ -224,20 +226,20 @@ class MyFrame(wx.Frame):
         # end wxGlade
 
     def change_source_address(self, event):  # wxGlade: MyFrame.<event_handler>
-        # print("Event handler 'change_source_address' not implemented!")
-        # event.Skip()
+        pref.update_preferences({
+            'source_dir': self.source_address_input.GetLineText(0)})
 
     def change_destination_address(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_destination_address' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'destination_dir': self.destination_address_input.GetLineText(0)})
 
     def button_clicked(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'button_clicked' not implemented!")
-        event.Skip()
+        if '' in (pref.get('source_dir'), pref.get('destination_dir')):
+            print('No Address Found in inputs')
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_file_processor' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'file_processor':self.file_processor_radio.})
 
     def change_save_to_log_status(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_save_to_log_status' not implemented!")
