@@ -225,21 +225,50 @@ class MyFrame(wx.Frame):
                   self.log_level_combo)
         # end wxGlade
 
-    def change_source_address(self, event):  # wxGlade: MyFrame.<event_handler>
+    def change_source_address(self, event):
         pref.update_preferences({
             'source_dir': self.source_address_input.GetLineText(0)})
 
-    def change_destination_address(self, event):  # wxGlade: MyFrame.<event_handler>
+    def directory_selector(self, event):
+        wx.DirSelector(message='Selected directory', default_path=wx.GetHomeDir(), style=0, parent=None)
+        # A souble click runs this function
+
+    def change_destination_address(self, event):
         pref.update_preferences({
             'destination_dir': self.destination_address_input.GetLineText(0)})
 
-    def button_clicked(self, event):  # wxGlade: MyFrame.<event_handler>
-        if '' in (pref.get('source_dir'), pref.get('destination_dir')):
-            print('No Address Found in inputs')
+    def button_clicked(self, event):
+        if '' in pref.get('source_dir'):
+            wx.LogVerbose(f"No Source Directory specified!\n The result will be got from \n{wx.GetHomeDir()}",
+                          "Directory not specified",
+                          wx.OK | wx.ICON_WARNING)
+            pref.update_preferences({'source_dir': wx.GetExecutablePath()})
+
+        elif '' in pref.get('destination_dir'):
+            wx.LogVerbose(f"No Destination Directory specified!\n The result will be put in \n{wx.GetExecutablePath()}",
+                          "Directory not specified",
+                          wx.OK | wx.ICON_WARNING)
+            pref.update_preferences({'destination_dir': wx.GetExecutablePath()})
+
+        print('going through main process...')
+        self.start_button.SetLabel('Stop')
+        self.source_address_input.Disabled = True
+        self.start_button.SetBackgroundColour('#F8E71C')
+        self.start_button.SetForegroundColour('#E81404')
+        self.start_button.SetFont(wx.Font(12))
+        self.Bind(wx.EVT_BUTTON,
+                  self.stop_process,
+                  self.start_button)
+
+    def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
+        self.start_button.SetLabel('Start')
+        self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
+        wx.Abort()
+        # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
-            'file_processor':self.file_processor_radio.})
+            'file_processor': self.file_processor_radio.})
 
     def change_save_to_log_status(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_save_to_log_status' not implemented!")
