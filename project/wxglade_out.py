@@ -129,6 +129,7 @@ class MyFrame(wx.Frame):
 
         self.log_file_address_input = wx.TextCtrl(self.option_pane,
                                                   wx.ID_ANY, "")
+        self.log_file_address_input.Disabled = True
 
         self.log_file_address_input.Enable(False)
         sizer_7.Add(self.log_file_address_input, 1,
@@ -252,6 +253,11 @@ class MyFrame(wx.Frame):
         self.destination_address_input.Disabled = True
         self.start_button.SetBackgroundColour('#F8E71C')
         self.start_button.SetForegroundColour('#E81404')
+        self.start_button.SetFont(wx.Font(14,
+                                          wx.FONTFAMILY_DEFAULT,
+                                          wx.FONTSTYLE_ITALIC,
+                                          wx.FONTWEIGHT_BOLD,
+                                          0, ""))
         self.Bind(wx.EVT_BUTTON,
                   self.stop_process,
                   self.start_button)
@@ -261,6 +267,11 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
         self.start_button.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE))
         self.start_button.SetForegroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_CAPTIONTEXT))
+        self.start_button.SetFont(wx.Font(14,
+                                          wx.FONTFAMILY_DEFAULT,
+                                          wx.FONTSTYLE_NORMAL,
+                                          wx.FONTWEIGHT_NORMAL,
+                                          0, ""))
         self.source_address_input.Disabled = False
         self.destination_address_input.Disabled = True
         print('Stopping...')
@@ -276,9 +287,18 @@ class MyFrame(wx.Frame):
         print("Event handler 'change_file_processor' not implemented!")
         event.Skip()
 
-    def change_save_to_log_status(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_save_to_log_status' not implemented!")
-        event.Skip()
+    def change_save_to_log_status(self, event):
+        if self.save_log_cb.IsChecked():
+            self.log_file_address_input.Enable(True)
+            pref.update_preferences({
+                'save_log': True})
+            print('Enabled')  # Todo: replace it with logging mechanism
+
+        else:
+            self.log_file_address_input.Enable(False)
+            pref.update_preferences({
+                'save_log': False})
+            print('Disabled')  # Todo: replace it with logging mechanism
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_show_details' not implemented!")

@@ -5,7 +5,7 @@ __pypref_version__ = '3.3.0'
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi'
+preferences['source_dir']       = ''
 preferences['destination_dir']  = ''
 preferences['file_processor']   = 'magic'
 preferences['save_log']         = ''
