@@ -304,9 +304,9 @@ class MyFrame(wx.Frame):
         print("Event handler 'change_show_details' not implemented!")
         event.Skip()
 
-    def change_log_file_address(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_log_file_address' not implemented!")
-        event.Skip()
+    def change_log_file_address(self, event):
+        pref.update_preferences({
+            'destination_dir': self.log_file_address_input.GetLineText(0)})
 
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_calendar' not implemented!")
