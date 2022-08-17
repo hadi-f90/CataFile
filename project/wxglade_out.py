@@ -288,17 +288,10 @@ class MyFrame(wx.Frame):
         event.Skip()
 
     def change_save_to_log_status(self, event):
-        if self.save_log_cb.IsChecked():
-            self.log_file_address_input.Enable(True)
-            pref.update_preferences({
-                'save_log': True})
-            print('Enabled')  # Todo: replace it with logging mechanism
-
-        else:
-            self.log_file_address_input.Enable(False)
-            pref.update_preferences({
-                'save_log': False})
-            print('Disabled')  # Todo: replace it with logging mechanism
+        log_value = self.save_log_cb.IsChecked()
+        pref.update_preferences({'save_log': log_value})
+        self.log_file_address_input.Enable(log_value)
+        print(log_value)  # Todo: replace it with logging mechanism
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         print("Event handler 'change_show_details' not implemented!")
