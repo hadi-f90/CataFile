@@ -285,10 +285,9 @@ class MyFrame(wx.Frame):
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
-        # pref.update_preferences({
-        #     'file_processor': self.file_processor_radio.})
-        print("Event handler 'change_file_processor' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'file_processor': self.file_processor_radio.GetString(
+                self.file_processor_radio.GetSelection())})
 
     def change_save_to_log_status(self, event):
         log_value = self.save_log_cb.IsChecked()

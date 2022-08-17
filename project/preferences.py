@@ -7,12 +7,12 @@ __pypref_version__ = '3.3.0'
 preferences = {}
 preferences['source_dir']       = ''
 preferences['destination_dir']  = ''
-preferences['file_processor']   = 'magic'
+preferences['file_processor']   = 'Fleep'
 preferences['save_log']         = ''
 preferences['show_details']     = ''
 preferences['log_file_address'] = ''
 preferences['calendar']         = ''
-preferences['log_level']        = 'Debug'
+preferences['log_level']        = ''
 
 ##########################################################################################
 ############################## DYNAMIC PREFERENCES MODULES ###############################
