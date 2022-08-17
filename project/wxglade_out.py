@@ -238,7 +238,6 @@ class MyFrame(wx.Frame):
             message='Selected directory',
             default_path=wx.GetHomeDir(),
             style=0, parent=None)
-        
         # A double click runs this function
 
     def change_destination_address(self, event):
