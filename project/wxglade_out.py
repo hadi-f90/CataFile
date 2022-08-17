@@ -138,7 +138,7 @@ class MyFrame(wx.Frame):
         self.calendar_cb_group = wx.RadioBox(self.option_pane,
                                              wx.ID_ANY,
                                              "Calendar  to be used in logs:",
-                                             choices=["Khorsheedi (Persian)",
+                                             choices=["Khorsheedi",
                                                       "Gergorian"],
                                              majorDimension=1,
                                              style=wx.RA_SPECIFY_ROWS)
@@ -306,8 +306,9 @@ class MyFrame(wx.Frame):
             'log_file_address': self.log_file_address_input.GetLineText(0)})
 
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_calendar' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'calendar': self.calendar_cb_group.GetString(
+                self.calendar_cb_group.GetSelection())})
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
