@@ -5,12 +5,12 @@ __pypref_version__ = '3.3.0'
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi'
-preferences['destination_dir']  = '/home/hadi/Documents/GitHub/file_categorizer/project'
+preferences['source_dir']       = ''
+preferences['destination_dir']  = ''
 preferences['file_processor']   = 'magic'
 preferences['save_log']         = False
-preferences['show_details']     = ''
-preferences['log_file_address'] = 'fgnfgnfnfnfntyrtyu'
+preferences['show_details']     = False
+preferences['log_file_address'] = ''
 preferences['calendar']         = ''
 preferences['log_level']        = ''
 

@@ -277,10 +277,6 @@ class MyFrame(wx.Frame):
         print('Stopping...')
         # Add Stop Action function to stop
 
-    def change_log_file_address(self, event):
-        print("Event handler 'change_log_file_address' not implemented!")
-        event.Skip()
-
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
         # pref.update_preferences({
         #     'file_processor': self.file_processor_radio.})
@@ -291,11 +287,12 @@ class MyFrame(wx.Frame):
         log_value = self.save_log_cb.IsChecked()
         pref.update_preferences({'save_log': log_value})
         self.log_file_address_input.Enable(log_value)
-        print(log_value)  # Todo: replace it with logging mechanism
+        print(f'Save log to file set to {log_value}')  # Todo: replace it with logging mechanism
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_show_details' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'show_details': self.show_details_cb.IsChecked()})
+        print(f'Show details {self.show_details_cb.IsChecked()}')  # Todo: replace it with logging mechanism
 
     def change_log_file_address(self, event):
         pref.update_preferences({
