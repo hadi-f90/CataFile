@@ -228,17 +228,26 @@ class MyFrame(wx.Frame):
     def change_source_address(self, event):
         pref.update_preferences({
             'source_dir': self.source_address_input.GetLineText(0)})
+        if os.path.exists(self.source_address_input.GetLineText(0)):
+            self.source_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+        else:
+            self.source_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
 
     def directory_selector(self, event):
         wx.DirSelector(
             message='Selected directory',
             default_path=wx.GetHomeDir(),
             style=0, parent=None)
+        
         # A double click runs this function
 
     def change_destination_address(self, event):
         pref.update_preferences({
             'destination_dir': self.destination_address_input.GetLineText(0)})
+        if os.path.exists(self.destination_address_input.GetLineText(0)):
+            self.destination_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+        else:
+            self.destination_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
 
     def button_clicked(self, event):
         if '' == pref.get('source_dir'):
@@ -304,6 +313,10 @@ class MyFrame(wx.Frame):
     def change_log_file_address(self, event):
         pref.update_preferences({
             'log_file_address': self.log_file_address_input.GetLineText(0)})
+        if os.path.exists(self.log_file_address_input.GetLineText(0)):
+            self.log_file_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+        else:
+            self.log_file_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
 
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
