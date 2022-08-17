@@ -8,11 +8,11 @@ preferences = {}
 preferences['source_dir']       = ''
 preferences['destination_dir']  = ''
 preferences['file_processor']   = 'magic'
-preferences['save_log']         = False
-preferences['show_details']     = False
+preferences['save_log']         = ''
+preferences['show_details']     = ''
 preferences['log_file_address'] = ''
 preferences['calendar']         = ''
-preferences['log_level']        = ''
+preferences['log_level']        = 'Debug'
 
 ##########################################################################################
 ############################## DYNAMIC PREFERENCES MODULES ###############################

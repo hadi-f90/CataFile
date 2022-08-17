@@ -155,14 +155,13 @@ class MyFrame(wx.Frame):
                                     wx.VERTICAL)
         sizer_5.Add(sizer_8, 1, wx.LEFT | wx.RIGHT | wx.TOP, 1)
 
-        self.log_level_combo = wx.ComboBox(self.option_pane,
-                                           wx.ID_ANY,
-                                           choices=["Debug", "Info",
-                                                    "Warning", "Error",
-                                                    "Critical"],
-                                           style=wx.CB_DROPDOWN | wx.CB_SIMPLE)
+        self.log_level_choice = wx.Choice(self.option_pane,
+                                          wx.ID_ANY,
+                                          choices=["Debug", "Info",
+                                                   "Warning", "Error",
+                                                   "Critical"])
 
-        sizer_8.Add(self.log_level_combo, 1,
+        sizer_8.Add(self.log_level_choice, 1,
                     wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
 
         self.AboutPane = wx.Panel(self.notebook, wx.ID_ANY)
@@ -221,9 +220,9 @@ class MyFrame(wx.Frame):
                   self.change_calendar,
                   self.calendar_cb_group)
 
-        self.Bind(wx.EVT_COMBOBOX,
+        self.Bind(wx.EVT_CHOICE,
                   self.change_log_level,
-                  self.log_level_combo)
+                  self.log_level_choice)
         # end wxGlade
 
     def change_source_address(self, event):
@@ -231,8 +230,11 @@ class MyFrame(wx.Frame):
             'source_dir': self.source_address_input.GetLineText(0)})
 
     def directory_selector(self, event):
-        wx.DirSelector(message='Selected directory', default_path=wx.GetHomeDir(), style=0, parent=None)
-        # A souble click runs this function
+        wx.DirSelector(
+            message='Selected directory',
+            default_path=wx.GetHomeDir(),
+            style=0, parent=None)
+        # A double click runs this function
 
     def change_destination_address(self, event):
         pref.update_preferences({
@@ -265,13 +267,18 @@ class MyFrame(wx.Frame):
     def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
         self.start_button.SetLabel('Start')
         self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
-        self.start_button.SetBackgroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE))
-        self.start_button.SetForegroundColour(wx.SystemSettings.GetColour(wx.SYS_COLOUR_CAPTIONTEXT))
+        self.start_button.SetBackgroundColour(
+            wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE))
+
+        self.start_button.SetForegroundColour(
+            wx.SystemSettings.GetColour(wx.SYS_COLOUR_CAPTIONTEXT))
+
         self.start_button.SetFont(wx.Font(14,
                                           wx.FONTFAMILY_DEFAULT,
                                           wx.FONTSTYLE_NORMAL,
                                           wx.FONTWEIGHT_NORMAL,
                                           0, ""))
+
         self.source_address_input.Disabled = False
         self.destination_address_input.Disabled = True
         print('Stopping...')
@@ -293,6 +300,7 @@ class MyFrame(wx.Frame):
         pref.update_preferences({
             'show_details': self.show_details_cb.IsChecked()})
         print(f'Show details {self.show_details_cb.IsChecked()}')  # Todo: replace it with logging mechanism
+        # Add a function to show terminal output
 
     def change_log_file_address(self, event):
         pref.update_preferences({
@@ -303,8 +311,10 @@ class MyFrame(wx.Frame):
         event.Skip()
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
-        print("Event handler 'change_log_level' not implemented!")
-        event.Skip()
+        pref.update_preferences({
+            'log_level': self.log_level_choice.GetStringSelection()})
+        print(f'Log level set to {self.log_level_choice.GetStringSelection()}')
+        # Maybe you need to add a logging mechanism here
 
 # end of class MyFrame
 
