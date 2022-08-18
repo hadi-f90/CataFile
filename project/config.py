@@ -1,51 +1,16 @@
-import logging.config
-from pypref import Preferences
 from os import getcwd
-import ui
-
-logging_config = {
-    'disable_existing_loggers': False,
-    'version': 1,
-    'formatters': {
-        'short': {
-            'format': '%(asctime)s %(levelname)s %(name)s: %(message)s'
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'formatter': 'short',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-        },
-        'plugins': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False
-        }
-    },
-}
-
-logging.config.dictConfig(logging_config)
-
+from pypref import Preferences
+from logger import logger
+# =============preferences setting=================
 pref = Preferences(directory=getcwd(),
                    filename="preferences.py")
 
-
-options_dict = {
+file_processing_dict = {
     'source_dir': '',
     'destination_dir': '',
-    'file_processor': 'magic',
-    'save_log': '',
-    'show_details': '',
-    'log_file_address': '',
-    'calendar': '',
-    'log_level': ''}
+    'file_processor': 'magic'}
 
+pref.set_preferences(file_processing_dict)
 
-pref.set_preferences(options_dict)
+if pref.get('save_log') or pref.get('show_details'):
+    new_log = logger()

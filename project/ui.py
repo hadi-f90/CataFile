@@ -5,7 +5,6 @@
 #
 import os
 import wx
-# import logger
 from config import *
 
 # begin wxGlade: dependencies
@@ -158,9 +157,9 @@ class MyFrame(wx.Frame):
 
         self.log_level_choice = wx.Choice(self.option_pane,
                                           wx.ID_ANY,
-                                          choices=["Debug", "Info",
-                                                   "Warning", "Error",
-                                                   "Critical"])
+                                          choices=["Not Set", "Debug",
+                                                   "Info", "Warning",
+                                                   "Error", "Critical"])
 
         sizer_8.Add(self.log_level_choice, 1,
                     wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
@@ -330,9 +329,11 @@ class MyFrame(wx.Frame):
                 self.calendar_cb_group.GetSelection())})
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
+        '''Log level index in choices *10 equals that level of index'''
         pref.update_preferences({
-            'log_level': self.log_level_choice.GetStringSelection()})
-        print(f'Log level set to {self.log_level_choice.GetStringSelection()}')
+            'log_level': self.log_level_choice.GetSelection()*10})
+        print(f'Log level set to {self.log_level_choice.GetSelection()}\
+            {self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
 # end of class MyFrame
