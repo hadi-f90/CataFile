@@ -1,6 +1,8 @@
 import logging.config
 from pypref import Preferences
 from os import getcwd
+import ui
+
 logging_config = {
     'disable_existing_loggers': False,
     'version': 1,

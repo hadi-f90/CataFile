@@ -1,11 +1,12 @@
 import os
 
 import logger
-import config
 
 
 # =============directory definitions=================
 class folder:
+    """initial variables:
+    current_directory: set to current working directory if not set"""
     def __init__(self, current_directory=os.getcwd()[:]):
         # Setting and checking the directory
         self.current_dir = current_directory

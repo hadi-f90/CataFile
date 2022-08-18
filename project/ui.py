@@ -5,6 +5,7 @@
 #
 import os
 import wx
+# import logger
 from config import *
 
 # begin wxGlade: dependencies
@@ -272,6 +273,8 @@ class MyFrame(wx.Frame):
                   self.stop_process,
                   self.start_button)
 
+        self.option_pane.Enable(False)
+
     def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
         self.start_button.SetLabel('Start')
         self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
@@ -290,6 +293,7 @@ class MyFrame(wx.Frame):
         self.source_address_input.Disabled = False
         self.destination_address_input.Disabled = True
         print('Stopping...')
+        self.option_pane.Enable(True)
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
