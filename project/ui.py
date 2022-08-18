@@ -250,18 +250,19 @@ class MyFrame(wx.Frame):
             self.destination_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
 
     def button_clicked(self, event):
-        if '' == pref.get('source_dir'):
-            wx.LogVerbose(f"No Source Directory specified!\n The result will be got from \n{wx.GetHomeDir()}")
+        if pref.get('source_dir') == '':
+            wx.LogVerbose(
+                f"No source Directory! The result will be set to \n{wx.GetHomeDir()}")
             pref.update_preferences({'source_dir': wx.GetHomeDir()})
 
-        elif '' == pref.get('destination_dir'):
-            wx.LogVerbose(f"No Destination Directory specified!\n The result will be put in \n{os.getcwd()}")
+        elif pref.get('destination_dir') == '':
+            wx.LogVerbose(
+                f"No destination Directory! The result will be put in \n{os.getcwd()}")
             pref.update_preferences({'destination_dir': os.getcwd()})
 
         print('going through main process...')
         self.start_button.SetLabel('Stop')
-        self.source_address_input.Disabled = True
-        self.destination_address_input.Disabled = True
+
         self.start_button.SetBackgroundColour('#F8E71C')
         self.start_button.SetForegroundColour('#E81404')
         self.start_button.SetFont(wx.Font(14,
@@ -273,6 +274,8 @@ class MyFrame(wx.Frame):
                   self.stop_process,
                   self.start_button)
 
+        self.source_address_input.Enable(False)
+        self.destination_address_input.Enable(False)
         self.option_pane.Enable(False)
 
     def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
@@ -290,10 +293,10 @@ class MyFrame(wx.Frame):
                                           wx.FONTWEIGHT_NORMAL,
                                           0, ""))
 
-        self.source_address_input.Disabled = False
-        self.destination_address_input.Disabled = True
-        print('Stopping...')
+        self.source_address_input.Enable(True)
+        self.destination_address_input.Enable(True)
         self.option_pane.Enable(True)
+        print('Stopping...')
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
