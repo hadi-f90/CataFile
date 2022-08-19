@@ -4,11 +4,11 @@ from sys import argv
 
 from jalali.Jalalian import jdate
 
-from logger import *
-from folders import destination_folder, folder
-from my_file import MyFile
-from pypref import Preferences
 from config import *
+from folders import destination_folder, folder
+from logger import *
+from my_file import MyFile
+
 # ==========main course====================
 SOURCE = folder(pref.get('source_dir'))
 DESTINATION = destination_folder(pref.get('destination_dir'))

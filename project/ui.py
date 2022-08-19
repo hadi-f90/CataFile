@@ -289,6 +289,7 @@ class MyFrame(wx.Frame):
         self.source_address_input.Enable(False)
         self.destination_address_input.Enable(False)
         self.option_pane.Enable(False)
+        main.main()
 
     def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
         self.start_button.SetLabel('Start')
