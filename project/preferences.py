@@ -5,14 +5,11 @@ __pypref_version__ = '3.3.0'
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi/'
-preferences['destination_dir']  = ''
-preferences['file_processor']   = 'Magic'
-preferences['save_log']         = False
-preferences['log_level']        = 10
-preferences['show_details']     = False
+preferences['save_log']         = True
+preferences['show_details']     = True
+preferences['log_file_address'] = '/home/hadi/Documents/GitHub/file_categorizer'
 preferences['calendar']         = 'Khorsheedi'
-preferences['log_file_address'] = 'ghm'
+preferences['log_level']        = 40
 
 ##########################################################################################
 ############################## DYNAMIC PREFERENCES MODULES ###############################
