@@ -10,12 +10,12 @@ class folder:
     def __init__(self, current_directory=os.getcwd()[:]):
         # Setting and checking the directory
         self.current_dir = current_directory
-        logger.log.info(f'Trying to set address to: {self.current_dir}')
+        logger.info(f'Trying to set address to: {self.current_dir}')
 
         try:
             assert os.path.isdir(self.current_dir)
         except AssertionError:
-            logger.log.critical(
+            logger.critical(
                 f'{self.current_dir} either is not a directory or doesn\'t \
                     exist. Check it!')
 
@@ -52,22 +52,22 @@ class folder:
     def mkdir(self, sub_dir):
         """Creates a series of directorys from a given list/tuple/set"""
         try:
-            logger.log.info(f'Creating {self.current_dir} if not exist...')
+            logger.info(f'Creating {self.current_dir} if not exist...')
             os.makedirs(sub_dir)
 
         except OSError:
-            logger.log.info(f'Using it the existing {sub_dir} directory...')
+            logger.info(f'Using it the existing {sub_dir} directory...')
 
     def delete(self, sub_dir):
         try:
-            logger.log.info(f'Checking if {sub_dir} exists...')
+            logger.info(f'Checking if {sub_dir} exists...')
             assert os.path.exists(sub_dir)
-            logger.log.warning(f'Removing {sub_dir}...')
+            logger.warning(f'Removing {sub_dir}...')
             os.rmdir(sub_dir)
-            logger.log.info(f'{sub_dir} Removed successfully!')
+            logger.info(f'{sub_dir} Removed successfully!')
 
         except AssertionError:
-            logger.log.warning(f'{sub_dir} was not a directory.')
+            logger.warning(f'{sub_dir} was not a directory.')
 
     def __str__(self) -> str:
         return self.current_dir
@@ -83,15 +83,15 @@ class destination_folder(folder):
             if input_dir in ('', None) else input_dir
         # print(self.current_dir)
         if os.path.exists(self.current_dir):
-            logger.log.info(f'Using already existing \
+            logger.info(f'Using already existing \
                 {self.current_dir} directory.')
 
         else:
             os.mkdir(self.current_dir)
-            logger.log.info(f'Creating {self.current_dir}')
+            logger.info(f'Creating {self.current_dir}')
 
         os.chdir(self.current_dir)
-        logger.log.info(f'destination set to dir: {self.current_dir}')
+        logger.info(f'destination set to dir: {self.current_dir}')
         # print(self.current_dir)
 
         self.category_dirs = {}
@@ -102,11 +102,11 @@ class destination_folder(folder):
             self.current_dir + category_name
         # print(self.category_dirs)
         if os.path.exists(self.category_dirs[category_name]):
-            logger.log.info(f'Using the existing \
+            logger.info(f'Using the existing \
                 {self.category_dirs[category_name]}')
         else:
             self.mkdir(self.category_dirs[category_name])
-            logger.log.info(f'{category_name} directory structure created.')
+            logger.info(f'{category_name} directory structure created.')
 
     def __dict__(self):
         return self.category_dirs

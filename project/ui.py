@@ -57,9 +57,9 @@ class MyFrame(wx.Frame):
                     wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
                     8)
 
-        self.source_address_input = wx.DirPickerCtrl(self.action_pane,
-                                                     wx.ID_ANY,
-                                                     "Select source folder")
+        self.source_address_input = wx.TextCtrl(self.action_pane,
+                                                wx.ID_ANY,
+                                                "Select source folder")
         self.source_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
         sizer_2.Add(self.source_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
@@ -74,9 +74,9 @@ class MyFrame(wx.Frame):
                     wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
                     8)
 
-        self.destination_address_input = wx.DirPickerCtrl(self.action_pane,
-                                                          wx.ID_ANY,
-                                                          "Select destination folder")
+        self.destination_address_input = wx.TextCtrl(self.action_pane,
+                                                     wx.ID_ANY,
+                                                     "Select destination folder")
         self.destination_address_input.SetBackgroundColour(
             wx.Colour(250, 255, 196))
 
@@ -350,7 +350,7 @@ class MyFrame(wx.Frame):
         pref.update_preferences({
             'log_level': self.log_level_choice.GetSelection()*10})
         change_level()
-        logger.log(f'Log level set to {self.log_level_choice.GetSelection()*10}\
+        logger.warning(f'Log level set to {self.log_level_choice.GetSelection()*10}\
             {self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 

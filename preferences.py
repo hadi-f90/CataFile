@@ -5,12 +5,12 @@ __pypref_version__ = '3.3.0'
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files'
-preferences['destination_dir']  = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/Recovered'
+preferences['source_dir']       = ''
+preferences['destination_dir']  = ''
 preferences['file_processor']   = 'magic'
 preferences['save_log']         = True
 preferences['show_details']     = True
-preferences['log_file_address'] = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/Recovered'
+preferences['log_file_address'] = '/home/hadi/Documents/GitHub/file_categorizer'
 preferences['calendar']         = 'Khorsheedi'
 preferences['log_level']        = 10
 

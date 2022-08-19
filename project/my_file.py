@@ -34,7 +34,7 @@ class MyFile():
             patoolib.test_archive(file)
             return True
         except patoolib.PatoolError:
-            logger.log.error(f'Error. {file} test Failed.')
+            logger.error(f'Error. {file} test Failed.')
             return False
 
     def check_integerity(self):
@@ -49,12 +49,12 @@ class MyFile():
             os.remove(test_case)
             return result
         else:
-            logger.log.warning('Not implemented integerity check!')
+            logger.warning('Not implemented integerity check!')
             return True
 
     def move(self, destination):
         shutil.move(self.path, destination)
-        logger.log.info(f'{self.path} moved to {self.mime}.')
+        logger.info(f'{self.path} moved to {self.mime}.')
 
     def __str__(self) -> str:
         self.full_name = self.path + self.name + self.extension
@@ -79,11 +79,11 @@ class MyFile():
                     font_rename.rename_font(self.path)
 
                 except FileExistsError:
-                    logger.log.error(f'An Error occured renaming \
+                    logger.error(f'An Error occured renaming \
                         {self.path}')
 
                 finally:
-                    logger.log.info(f'Font name reverted to it original name:\
+                    logger.info(f'Font name reverted to it original name:\
                         {self.name}')
 
 

@@ -43,3 +43,5 @@ def show_details():
 
 def change_level():
     logger.setLevel(pref.get('log_level'))
+
+print(logger.handlers)
