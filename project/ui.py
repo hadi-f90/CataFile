@@ -129,7 +129,6 @@ class MyFrame(wx.Frame):
 
         self.log_file_address_input = wx.TextCtrl(self.option_pane,
                                                   wx.ID_ANY, "")
-        self.log_file_address_input.Disabled = True
 
         self.log_file_address_input.Enable(False)
         sizer_7.Add(self.log_file_address_input, 1,
@@ -144,6 +143,7 @@ class MyFrame(wx.Frame):
                                              style=wx.RA_SPECIFY_ROWS)
 
         self.calendar_cb_group.SetSelection(0)
+        self.calendar_cb_group.Enable(False)
         sizer_3.Add(self.calendar_cb_group, 0,
                     wx.LEFT | wx.RIGHT | wx.SHAPED | wx.TOP, 3)
 
@@ -161,6 +161,7 @@ class MyFrame(wx.Frame):
                                                    "Info", "Warning",
                                                    "Error", "Critical"])
 
+        self.log_level_choice.Enable(False)
         sizer_8.Add(self.log_level_choice, 1,
                     wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
 
@@ -304,15 +305,15 @@ class MyFrame(wx.Frame):
                 self.file_processor_radio.GetSelection())})
 
     def change_save_to_log_status(self, event):
-        log_value = self.save_log_cb.IsChecked()
-        pref.update_preferences({'save_log': log_value})
-        self.log_file_address_input.Enable(log_value)
-        print(f'Save log to file set to {log_value}')  # Todo: replace it with logging mechanism
+        self.change_log_setting_status()
+        pref.update_preferences({'save_log': self.save_log_value})
+        self.log_file_address_input.Enable(self.save_log_value)
+        print(f'Save log to file set to {self.save_log_value}')  # Todo: replace it with logging mechanism
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
-        pref.update_preferences({
-            'show_details': self.show_details_cb.IsChecked()})
-        print(f'Show details {self.show_details_cb.IsChecked()}')  # Todo: replace it with logging mechanism
+        self.change_log_setting_status()
+        pref.update_preferences({'show_details': self.show_details_value})
+        print(f'Show details {self.show_details_value}')  # Todo: replace it with logging mechanism
         # Add a function to show terminal output
 
     def change_log_file_address(self, event):
@@ -332,10 +333,19 @@ class MyFrame(wx.Frame):
         '''Log level index in choices *10 equals that level of index'''
         pref.update_preferences({
             'log_level': self.log_level_choice.GetSelection()*10})
-        print(f'Log level set to {self.log_level_choice.GetSelection()}\
+        print(f'Log level set to {self.log_level_choice.GetSelection()*10}\
             {self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
+    def change_log_setting_status(self):
+        self.save_log_value = self.save_log_cb.IsChecked()
+        self.show_details_value = self.show_details_cb.IsChecked()
+        if self.save_log_value or self.show_details_value:
+            self.calendar_cb_group.Enable(True)
+            self.log_level_choice.Enable(True)
+        else:
+            self.calendar_cb_group.Enable(False)
+            self.log_level_choice.Enable(False)
 # end of class MyFrame
 
 
