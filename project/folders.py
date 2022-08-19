@@ -1,6 +1,6 @@
 import os
 
-import logger
+from logger import *
 
 
 # =============directory definitions=================

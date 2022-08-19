@@ -4,23 +4,23 @@ from sys import argv
 
 from jalali.Jalalian import jdate
 
-import logger
+from logger import *
 from folders import destination_folder, folder
 from my_file import MyFile
-
-
+from pypref import Preferences
+from config import *
 # ==========main course====================
-SOURCE = folder()
-DESTINATION = destination_folder()
+SOURCE = folder(pref.get('source_dir'))
+DESTINATION = destination_folder(pref.get('destination_dir'))
 
 
 def main():
-    print(argv[0], logger.LOG_FILE.name)
+    print(argv[0], logger.loghandler[0])
     for _ in SOURCE.walker():
         print(SOURCE.selected_file_name, _, logger.LOG_FILE.name, argv[0])
         # if the sellected file is the current app , then forget about it
         # To d: now that I have multiple app files, I need change itP
-        if _ in {logger.LOG_FILE.name, _ == argv[0]}:
+        if _ in {logger.loghandler[0], _ == argv[0]}:
             # print(_)
             continue
         # print(_)

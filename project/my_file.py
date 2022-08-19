@@ -6,7 +6,7 @@ import magic
 import patoolib
 import regex
 
-import logger
+from logger import *
 import fleep
 
 
