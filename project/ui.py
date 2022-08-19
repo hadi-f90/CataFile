@@ -6,6 +6,7 @@
 import os
 import wx
 from config import *
+from logger import *
 
 # begin wxGlade: dependencies
 # end wxGlade
@@ -53,8 +54,9 @@ class MyFrame(wx.Frame):
                     wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
                     8)
 
-        self.source_address_input = wx.TextCtrl(self.action_pane,
-                                                wx.ID_ANY, "")
+        self.source_address_input = wx.DirPickerCtrl(self.action_pane,
+                                                     wx.ID_ANY,
+                                                     "Select source folder")
         self.source_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
         sizer_2.Add(self.source_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
@@ -69,8 +71,9 @@ class MyFrame(wx.Frame):
                     wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
                     8)
 
-        self.destination_address_input = wx.TextCtrl(self.action_pane,
-                                                     wx.ID_ANY, "")
+        self.destination_address_input = wx.DirPickerCtrl(self.action_pane,
+                                                          wx.ID_ANY,
+                                                          "Select destination folder")
         self.destination_address_input.SetBackgroundColour(
             wx.Colour(250, 255, 196))
 
@@ -112,11 +115,14 @@ class MyFrame(wx.Frame):
                                        wx.ID_ANY,
                                        "Save Log to File")
 
+        self.save_log_cb.SetValue(pref.get('save_log'))
         sizer_4.Add(self.save_log_cb, 1, wx.ALL, 1)
 
         self.show_details_cb = wx.CheckBox(self.option_pane,
                                            wx.ID_ANY,
                                            "Show details to me")
+
+        self.show_details_cb.SetValue(pref.get('show_details'))
 
         sizer_4.Add(self.show_details_cb, 1, wx.ALL, 1)
 
@@ -130,7 +136,7 @@ class MyFrame(wx.Frame):
         self.log_file_address_input = wx.TextCtrl(self.option_pane,
                                                   wx.ID_ANY, "")
 
-        self.log_file_address_input.Enable(False)
+        self.log_file_address_input.Enable(pref.get('save_log'))
         sizer_7.Add(self.log_file_address_input, 1,
                     wx.ALIGN_CENTER_VERTICAL | wx.ALL, 6)
 
@@ -143,7 +149,8 @@ class MyFrame(wx.Frame):
                                              style=wx.RA_SPECIFY_ROWS)
 
         self.calendar_cb_group.SetSelection(0)
-        self.calendar_cb_group.Enable(False)
+        self.calendar_cb_group.Enable(
+            pref.get('save_log') or pref.get('show_details'))
         sizer_3.Add(self.calendar_cb_group, 0,
                     wx.LEFT | wx.RIGHT | wx.SHAPED | wx.TOP, 3)
 
@@ -161,7 +168,9 @@ class MyFrame(wx.Frame):
                                                    "Info", "Warning",
                                                    "Error", "Critical"])
 
-        self.log_level_choice.Enable(False)
+        self.log_level_choice.SetSelection(1)
+        self.log_level_choice.Enable(
+            pref.get('save_log') or pref.get('show_details'))
         sizer_8.Add(self.log_level_choice, 1,
                     wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
 
@@ -251,16 +260,16 @@ class MyFrame(wx.Frame):
 
     def button_clicked(self, event):
         if pref.get('source_dir') == '':
-            wx.LogVerbose(
+            logger.info(
                 f"No source Directory! The result will be set to \n{wx.GetHomeDir()}")
             pref.update_preferences({'source_dir': wx.GetHomeDir()})
 
         elif pref.get('destination_dir') == '':
-            wx.LogVerbose(
+            logger.info(
                 f"No destination Directory! The result will be put in \n{os.getcwd()}")
             pref.update_preferences({'destination_dir': os.getcwd()})
 
-        print('going through main process...')
+        logger.warning('going through main process...')
         self.start_button.SetLabel('Stop')
 
         self.start_button.SetBackgroundColour('#F8E71C')
@@ -296,7 +305,7 @@ class MyFrame(wx.Frame):
         self.source_address_input.Enable(True)
         self.destination_address_input.Enable(True)
         self.option_pane.Enable(True)
-        print('Stopping...')
+        logger.warning('Stopping...')
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
@@ -308,12 +317,14 @@ class MyFrame(wx.Frame):
         self.change_log_setting_status()
         pref.update_preferences({'save_log': self.save_log_value})
         self.log_file_address_input.Enable(self.save_log_value)
-        print(f'Save log to file set to {self.save_log_value}')  # Todo: replace it with logging mechanism
+        save_log()
+        logger.info(f'Save log to file set to {self.save_log_value}')  # Todo: replace it with logging mechanism
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         self.change_log_setting_status()
         pref.update_preferences({'show_details': self.show_details_value})
-        print(f'Show details {self.show_details_value}')  # Todo: replace it with logging mechanism
+        show_details()
+        logger.info(f'Show details {self.show_details_value}')  # Todo: replace it with logging mechanism
         # Add a function to show terminal output
 
     def change_log_file_address(self, event):
@@ -328,12 +339,14 @@ class MyFrame(wx.Frame):
         pref.update_preferences({
             'calendar': self.calendar_cb_group.GetString(
                 self.calendar_cb_group.GetSelection())})
+        set_calendar()
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
         '''Log level index in choices *10 equals that level of index'''
         pref.update_preferences({
             'log_level': self.log_level_choice.GetSelection()*10})
-        print(f'Log level set to {self.log_level_choice.GetSelection()*10}\
+        change_level()
+        logger.warning(f'Log level set to {self.log_level_choice.GetSelection()*10}\
             {self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
