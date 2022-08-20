@@ -264,15 +264,15 @@ class MyFrame(wx.Frame):
     def button_clicked(self, event):
         if pref.get('source_dir') == '':
             logger.info(
-                f"No source Directory! The result will be set to \n{wx.GetHomeDir()}")
+                f"No source Directory! Setting to \n{wx.GetHomeDir()}")
             pref.update_preferences({'source_dir': wx.GetHomeDir()})
 
         elif pref.get('destination_dir') == '':
             logger.info(
-                f"No destination Directory! The result will be put in \n{os.getcwd()}")
+                f"No destination Directory! Files will be in \n{os.getcwd()}")
             pref.update_preferences({'destination_dir': os.getcwd()})
 
-        logger.warning('going through main process...')
+        logger.warning('Processing files...')
         self.start_button.SetLabel('Stop')
 
         self.start_button.SetBackgroundColour('#F8E71C')
@@ -322,13 +322,13 @@ class MyFrame(wx.Frame):
         pref.update_preferences({'save_log': self.save_log_value})
         self.log_file_address_input.Enable(self.save_log_value)
         save_log()
-        logger.info(f'Save log to file set to {self.save_log_value}')
+        logger.debug(f'Save log file set to {self.save_log_value}')
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         self.change_log_setting_status()
         pref.update_preferences({'show_details': self.show_details_value})
         show_details()
-        logger.info(f'Show details {self.show_details_value}')
+        logger.debug(f'Show details set to {self.show_details_value}')
         # Add a function to show terminal output
 
     def change_log_file_address(self, event):
@@ -350,7 +350,7 @@ class MyFrame(wx.Frame):
         pref.update_preferences({
             'log_level': self.log_level_choice.GetSelection()*10})
         change_level()
-        logger.warning(f'Log level set to {self.log_level_choice.GetSelection()*10}\
+        logger.critical(f'Log level set to {self.log_level_choice.GetSelection()*10}\
             {self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
@@ -363,6 +363,20 @@ class MyFrame(wx.Frame):
         else:
             self.calendar_cb_group.Enable(False)
             self.log_level_choice.Enable(False)
+
+    def update_ui_based_on_preferences(self):
+        try:
+            self.source_address_input.SetValue(pref.get('source_dir'))
+            self.destination_address_input.SetValue(pref.get('destination_dir'))
+            self.log_file_address_input.SetValue(pref.get('log_file_address'))
+            self.save_log_cb.SetValue(pref.get('save_log'))
+            self.show_details_cb.SetValue(pref.get('show_details'))
+            self.calendar_cb_group.SetSelection(pref.get('calendar'))
+            self.log_level_choice.SetSelection(pref.get('log_level')//10)
+            self.file_processor_radio.SetSelection(pref.get('file_processor'))
+
+        except TypeError:
+            logger.error('Missing preferences!')
 # end of class MyFrame
 
 
@@ -371,6 +385,7 @@ class MainWindow(wx.App):
         self.main_frame = MyFrame(None, wx.ID_ANY, "")
         self.SetTopWindow(self.main_frame)
         self.main_frame.Show()
+        self.main_frame.update_ui_based_on_preferences()
         return True
 
 # end of class MainWindow

@@ -100,8 +100,7 @@ class destination_folder(folder):
             self.current_dir + category_name
         # print(self.category_dirs)
         if os.path.exists(self.category_dirs[category_name]):
-            logger.info(f'Using the existing \
-                {self.category_dirs[category_name]}')
+            logger.info(f'Using existing {self.category_dirs[category_name]}')
         else:
             self.mkdir(self.category_dirs[category_name])
             logger.info(f'{category_name} directory structure created.')

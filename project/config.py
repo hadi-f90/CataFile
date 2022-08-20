@@ -5,15 +5,15 @@ from pypref import Preferences
 pref = Preferences(directory=getcwd(),
                    filename="preferences.py")
 
-options_dict = {
-    'source_dir': '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/',
-    'destination_dir': '/home/hadi/Documents/GitHub/file_categorizer/test/dest/',
+default_options_dict = {
+    'source_dir': getcwd(),
+    'destination_dir': getcwd(),
     'file_processor': 'magic',
     'save_log': True,
     'show_details': True,
-    'log_file_address': '/home/hadi/Documents/GitHub/file_categorizer/test',
+    'log_file_address': getcwd(),
     'calendar': 'Khorsheedi',
     'log_level': 10
     }
 
-pref.set_preferences(options_dict)
+pref.set_preferences(default_options_dict)
