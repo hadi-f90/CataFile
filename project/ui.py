@@ -59,7 +59,7 @@ class MyFrame(wx.Frame):
 
         self.source_address_input = wx.TextCtrl(self.action_pane,
                                                 wx.ID_ANY,
-                                                "Select source folder")
+                                                "")
         self.source_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
         sizer_2.Add(self.source_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
@@ -76,7 +76,7 @@ class MyFrame(wx.Frame):
 
         self.destination_address_input = wx.TextCtrl(self.action_pane,
                                                      wx.ID_ANY,
-                                                     "Select destination folder")
+                                                     "")
         self.destination_address_input.SetBackgroundColour(
             wx.Colour(250, 255, 196))
 

@@ -18,6 +18,7 @@ def main():
     global SOURCE, DESTINATION
     SOURCE = folder(pref.get('source_dir'))
     DESTINATION = destination_folder(pref.get('destination_dir'))
+    setup_logger()
     print(argv[0], logger.handlers[0])
     for _ in SOURCE.walker():
         print(SOURCE.selected_file_name, _, logger.handlers[0], argv[0])

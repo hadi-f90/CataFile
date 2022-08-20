@@ -44,4 +44,12 @@ def show_details():
 def change_level():
     logger.setLevel(pref.get('log_level'))
 
+
+def setup_logger():
+    set_calendar()
+    change_level()
+    save_log()
+    show_details()
+
+print(pref.get('save_log'),pref.get('show_details'))
 print(logger.handlers)

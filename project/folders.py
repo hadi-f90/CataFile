@@ -10,14 +10,13 @@ class folder:
     def __init__(self, current_directory=os.getcwd()[:]):
         # Setting and checking the directory
         self.current_dir = current_directory
-        logger.info(f'Trying to set address to: {self.current_dir}')
 
         try:
+            logger.info(f'Trying to set address to: {self.current_dir}')
             assert os.path.isdir(self.current_dir)
         except AssertionError:
             logger.critical(
-                f'{self.current_dir} either is not a directory or doesn\'t \
-                    exist. Check it!')
+                f"{self.current_dir} either isn't a folder or doesn't exist!")
 
     # Appending path to file/folder name function
     def walker(self, n=False,):
@@ -56,7 +55,7 @@ class folder:
             os.makedirs(sub_dir)
 
         except OSError:
-            logger.info(f'Using it the existing {sub_dir} directory...')
+            logger.info(f'Using existing {sub_dir} directory...')
 
     def delete(self, sub_dir):
         try:
@@ -83,8 +82,7 @@ class destination_folder(folder):
             if input_dir in ('', None) else input_dir
         # print(self.current_dir)
         if os.path.exists(self.current_dir):
-            logger.info(f'Using already existing \
-                {self.current_dir} directory.')
+            logger.info(f'Using existing directory: {self.current_dir}')
 
         else:
             os.mkdir(self.current_dir)
