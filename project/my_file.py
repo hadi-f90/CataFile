@@ -32,18 +32,17 @@ class MyFile():
             file = self.path
         try:
             patoolib.test_archive(file)
+            logger.debug(f'Testing file {file}')
             return True
-        except:
-            logger.error(f'Error. Testing archive {file} Failed.')
+        except patoolib.util.PatoolError as e:
+            logger.error(f'Error. Testing {file} Failed with error {str(e)}')
             return False
 
     def check_integerity(self):
-        # To do: use patoolib to check it
         if self.extension in patoolib.ArchiveFormats:
             self.__test_archive()
         # not tested for documents
-        elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+',
-                          self.extension, flags=regex.IGNORECASE) is not None:
+        elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+ .od[b|c|f|g|m|p|t|s]+', self.extension, flags=regex.IGNORECASE) is not None:
             test_case = shutil.copyfile(self.path, f'{self.name}.zip')
             result = self.__test_archive(file=test_case)
             os.remove(test_case)
@@ -58,7 +57,7 @@ class MyFile():
 
     def __str__(self) -> str:
         self.full_name = self.path + self.name + self.extension
-        return self.name
+        return self.full_name
 
     def name_revert(self):  # not testes Yet!
         # if the file type is not known thentry fo file its type

@@ -11,10 +11,10 @@ global date_time
 # creating logger instance
 logger = logging.getLogger(__name__)
 date_time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-line = '-'*50
+line = '-'*100
 # setting up formatter
 formatter = logging.Formatter(
-    f"{line}\n{date_time}:\n@file: %(filename)s \n@module: %(module)s @line(lineno)d - %(funcName)s\n%(levelname)s - %(message)s{line}")
+    f"{line}\n{date_time}:\nfile: %(filename)s\nmodule: %(module)s\nline: %(lineno)d\nfunction: %(funcName)s\n%(levelname)s - %(message)s\n")
 
 
 # setting calandar settings

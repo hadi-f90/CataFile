@@ -19,15 +19,9 @@ def main():
     setup_logger()
     logger.debug(argv[0], logger.handlers[0])
     for _ in SOURCE.walker():
-        logger.debug(SOURCE.selected_file_name, _, logger.handlers[0], argv[0])
-        # if the sellected file is the current app , then forget about it
-        # To d: now that I have multiple app files, I need change itP
-        if _ in {logger.handlers[0], _ == argv[0]}:
-            # print(_)
-            continue
-        # print(_)
-        else:
-            process_file(_)
+        logger.debug(f'file to be processed: {SOURCE.selected_file_name}')
+        process_file(_)
+        continue
 
     empty_folder_delete()
 
@@ -37,7 +31,7 @@ def process_file(_):
 
     if os.path.isfile(f.path) and f.check_integerity():
         try:
-            logger.info(f.mime, '\n', f.path)
+            logger.debug(f.mime, '\n', f.path)
             if f.mime not in DESTINATION.category_dirs.keys():
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
@@ -57,9 +51,9 @@ def process_file(_):
 
         except shutil.Error:
             logger.critical(
-                f'Error copying {f.name}. Maybe because of duplicate name')
+                f'Error copying {str(f)}. Maybe because of duplicate name')
         finally:
-            logger.critical(f'file {f.name} has integeritiy errors. Check it!')
+            logger.critical(f'It seems that an error occured while processing {str(f)}. Check it manually!')
 
 
 def empty_folder_delete():
