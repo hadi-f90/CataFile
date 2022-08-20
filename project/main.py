@@ -2,11 +2,9 @@ import os
 import shutil
 from sys import argv
 
-from jalali.Jalalian import jdate
-
-from config import *
+from config import pref
 from folders import destination_folder, folder
-from logger import *
+from logger import logger, setup_logger
 from my_file import MyFile
 
 # ==========main course====================
@@ -50,7 +48,8 @@ def process_file(_):
                         being moved')
 
         except AttributeError:
-            logger.critical(f"Error during processing{_}. File type isn't known.")
+            logger.critical(
+                f"Error during processing{_}. File type isn't known.")
 
         DESTINATION.add_category('/Corrupted')
         try:

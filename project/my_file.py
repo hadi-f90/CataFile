@@ -6,7 +6,7 @@ import magic
 import patoolib
 import regex
 
-from logger import *
+from logger import logger
 import fleep
 
 
@@ -82,7 +82,8 @@ class MyFile():
                     logger.error(f'An Error occured renaming {self.path}')
 
                 finally:
-                    logger.info(f'Font reverted to its original name: {self.name}')
+                    logger.info(
+                        f'Font reverted to its original name: {self.name}')
 
 
 class FontFile(MyFile):

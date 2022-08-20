@@ -5,7 +5,7 @@ __pypref_version__ = '3.3.0'
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files (copy)/'
+preferences['source_dir']       = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files'
 preferences['destination_dir']  = '/home/hadi/Documents/GitHub/file_categorizer/test/dest/'
 preferences['file_processor']   = 'magic'
 preferences['save_log']         = True

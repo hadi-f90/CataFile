@@ -8,7 +8,7 @@ import os
 import wx
 
 import main
-from config import *
+from config import pref
 from logger import *
 
 # begin wxGlade: dependencies
@@ -187,8 +187,7 @@ class MyFrame(wx.Frame):
         About_label = wx.StaticText(self.AboutPane, wx.ID_ANY,
                                     "I created this tiny app for my own \
                                         personal use. \nIt may (not) \
-                                            work on your system.\
-                                                However, you may find it useful.")
+                                            work on your system.")
         sizer_9.Add(About_label, 0, 0, 0)
 
         self.AboutPane.SetSizer(sizer_9)
@@ -314,8 +313,9 @@ class MyFrame(wx.Frame):
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
-            'file_processor': self.file_processor_radio.GetString(
-                self.file_processor_radio.GetSelection())})
+            'file_processor': self.file_processor_radio.GetSelection()})
+        logger.debug(self.file_processor_radio.GetString(
+                self.file_processor_radio.GetSelection()))
 
     def change_save_to_log_status(self, event):
         self.change_log_setting_status()
@@ -341,17 +341,18 @@ class MyFrame(wx.Frame):
 
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
-            'calendar': self.calendar_cb_group.GetString(
-                self.calendar_cb_group.GetSelection())})
+            'calendar': self.calendar_cb_group.GetSelection()})
+        logger.debug(self.calendar_cb_group.GetString(
+                self.calendar_cb_group.GetSelection()))
         set_calendar()
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
         '''Log level index in choices *10 equals that level of index'''
-        pref.update_preferences({
-            'log_level': self.log_level_choice.GetSelection()*10})
+        log_lvl = self.log_level_choice.GetSelection()*10
+        pref.update_preferences({'log_level': log_lvl})
         change_level()
-        logger.critical(f'Log level set to {self.log_level_choice.GetSelection()*10}\
-            {self.log_level_choice.GetStringSelection()}')
+        logger.critical(
+            f'Loglevel:{log_lvl}{self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
     def change_log_setting_status(self):
@@ -365,18 +366,19 @@ class MyFrame(wx.Frame):
             self.log_level_choice.Enable(False)
 
     def update_ui_based_on_preferences(self):
-        try:
-            self.source_address_input.SetValue(pref.get('source_dir'))
-            self.destination_address_input.SetValue(pref.get('destination_dir'))
-            self.log_file_address_input.SetValue(pref.get('log_file_address'))
-            self.save_log_cb.SetValue(pref.get('save_log'))
-            self.show_details_cb.SetValue(pref.get('show_details'))
-            self.calendar_cb_group.SetSelection(pref.get('calendar'))
-            self.log_level_choice.SetSelection(pref.get('log_level')//10)
-            self.file_processor_radio.SetSelection(pref.get('file_processor'))
-
+        # try:
+        self.source_address_input.SetValue(pref.get('source_dir'))
+        self.destination_address_input.SetValue(
+            pref.get('destination_dir'))
+        self.log_file_address_input.SetValue(pref.get('log_file_address'))
+        self.save_log_cb.SetValue(pref.get('save_log'))
+        self.show_details_cb.SetValue(pref.get('show_details'))
+        self.calendar_cb_group.SetSelection(int(pref.get('calendar')))
+        self.log_level_choice.SetSelection(pref.get('log_level')//10)
+        self.file_processor_radio.SetSelection(pref.get('file_processor'))
+        '''
         except TypeError:
-            logger.error('Missing preferences!')
+            logger.error('Missing preferences!')'''
 # end of class MyFrame
 
 

@@ -7,11 +7,11 @@ __pypref_version__ = '3.3.0'
 preferences = {}
 preferences['source_dir']       = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/'
 preferences['destination_dir']  = '/home/hadi/Documents/GitHub/file_categorizer/test/dest/'
-preferences['file_processor']   = 'magic'
+preferences['file_processor']   = 0
 preferences['save_log']         = True
 preferences['show_details']     = True
 preferences['log_file_address'] = '/home/hadi/Documents/GitHub/file_categorizer/test/'
-preferences['calendar']         = 'Khorsheedi'
+preferences['calendar']         = 0
 preferences['log_level']        = 10
 
 ##########################################################################################

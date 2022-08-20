@@ -1,19 +1,20 @@
 import logging
-from sys import stdout
 from datetime import datetime
+from sys import stdout
 
 from jalali.Jalalian import jdate
 
-from config import *
+from config import pref
 
 global date_time
 
 # creating logger instance
 logger = logging.getLogger(__name__)
 date_time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+line = '-'*50
 # setting up formatter
 formatter = logging.Formatter(
-    f"{date_time} - %(name)s - %(levelname)s - %(message)s")
+    f"{line}\n{date_time}:\n@file: %(filename)s \n@module: %(module)s @line(lineno)d - %(funcName)s\n%(levelname)s - %(message)s{line}")
 
 
 # setting calandar settings
@@ -51,5 +52,6 @@ def setup_logger():
     save_log()
     show_details()
 
-print(pref.get('save_log'),pref.get('show_details'))
+
+print(pref.get('save_log'), pref.get('show_details'))
 print(logger.handlers)
