@@ -14,7 +14,7 @@ files_list = [f for f in os.listdir(TEST_ADDRESS) if os.path.isfile(f)]
 print(files_list)
 
 # testcase_MyFile = my_file.MyFile(choice(files_list))
-testcase_MyFile = my_file.MyFile('f1559560368.apk')
+testcase_MyFile = my_file.MyFile('1.ttf')
 print(testcase_MyFile.name)
 print(testcase_MyFile.extension)
 print(testcase_MyFile.mime)
@@ -23,8 +23,8 @@ print(testcase_MyFile)
 print(testcase_MyFile.file_date_time())
 print(testcase_MyFile.test_archive())
 print(testcase_MyFile.check_integerity())
-
-# print(testcase_MyFile.full_name) # no full name
+testcase_MyFile.name_revert()
+print(os.listdir())
 
 """ print('=========2ns file==========')
 testcase_my_file = my_file.my_file(choice(files_list))
