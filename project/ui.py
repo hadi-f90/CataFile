@@ -101,7 +101,7 @@ class MyFrame(wx.Frame):
         self.file_processor_radio = wx.RadioBox(self.option_pane,
                                                 wx.ID_ANY,
                                                 "File processor:",
-                                                choices=["Fleep", "Magic"],
+                                                choices=["Fleep", "Magic", "Extension"],
                                                 majorDimension=1,
                                                 style=wx.RA_SPECIFY_ROWS)
 
@@ -116,7 +116,7 @@ class MyFrame(wx.Frame):
 
         self.save_log_cb = wx.CheckBox(self.option_pane,
                                        wx.ID_ANY,
-                                       "Save Log to File")
+                                       "Save Log to a .log file")
 
         self.save_log_cb.SetValue(pref.get('save_log'))
         sizer_4.Add(self.save_log_cb, 1, wx.ALL, 1)

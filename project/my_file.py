@@ -25,25 +25,26 @@ class MyFile():
 
     def file_date_time(self):
         # To-do: returns file data and time
-        return (os.path.getatime(), os.path.getctime(), os.path.getmtime())
+        return (os.path.getatime(self.path),
+                os.path.getctime(self.path),
+                os.path.getmtime(self.path))
 
-    def __test_archive(self, file=None):
-        if file is None:
-            file = self.path
+    def test_archive(self):
         try:
-            patoolib.test_archive(file)
-            logger.debug(f'Testing file {file}')
+            patoolib.test_archive(self.path)
+            logger.debug(f'Testing file {self.path}')
             return True
         except patoolib.util.PatoolError as e:
-            logger.error(f'Error. Testing {file} Failed with error {str(e)}')
+            logger.error(f'Error. Testing {self.path} Failed with error {str(e)}')
             return False
 
     def check_integerity(self):
         if self.extension in patoolib.ArchiveFormats:
             self.__test_archive()
-        # not tested for documents
-        elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+ .od[b|c|f|g|m|p|t|s]+', self.extension, flags=regex.IGNORECASE) is not None:
+        # not tested for documents & apks
+        elif regex.search(r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+ .od[b|c|f|g|m|p|t|s]+ .ap[k|x]+', self.extension, flags=regex.IGNORECASE) is not None:
             test_case = shutil.copyfile(self.path, f'{self.name}.zip')
+            print(os.path.abspath(test_case))
             result = self.__test_archive(file=test_case)
             os.remove(test_case)
             return result
@@ -56,8 +57,7 @@ class MyFile():
         logger.info(f'{self.path} moved to {self.mime}.')
 
     def __str__(self) -> str:
-        self.full_name = self.path + self.name + self.extension
-        return self.full_name
+        return self.path
 
     def name_revert(self):  # not testes Yet!
         # if the file type is not known thentry fo file its type
@@ -83,6 +83,34 @@ class MyFile():
                 finally:
                     logger.info(
                         f'Font reverted to its original name: {self.name}')
+
+
+class my_file():
+    def __init__(self, file_object=None):
+        self.file_object = open(file_object, 'rb')
+        self.file_info = fleep.get(self.file_object.read(2048))
+        self.name, self.extension = os.path.splitext(file_object)
+        if len(self.file_info.mime) < 1:
+            self.mime = 'etc'
+        elif self.extension in ('.txt', '.py'):
+            self.mime = 'text/plain'
+        else:
+            self.file_info.mime[0]
+        self.path = os.path.abspath(file_object)
+
+    def file_date_time(self):
+        '''returns file data and time'''
+        return (os.path.getatime(), os.path.getctime(), os.path.getmtime())
+
+    def check_integerity(self):
+        logger(msg='Not implemented integerity check!')
+
+    def move(self, destination):
+        shutil.move(self.path, destination)
+        logger(msg=f'{self.path} moved to {destination}.')
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class FontFile(MyFile):

@@ -39,12 +39,12 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 - :white_check_mark: Removing empty folders
 - Creating user customization in CLI
   - :white_check_mark: Creating simple prompt for currently automated procedure to give the user some options
-  - [ ] Directory input.
-  - [ ] Calendar choice.
-  - [ ] Logging procedure whether to print/save the log or not
+  - :heavy_check_mark: Directory input.
+  - :white_check_mark: Calendar choice.
+  - :heavy_check_mark: Logging procedure whether to print/save the log or not
   - [ ] Using mime type or extension or both.
   - [ ] Cleaning messy folders.
-  - [ ] Creating subfolders for each category
+  - :heavy_check_mark: Creating subfolders for each category
   - [ ] Selecting a different file type detector other than lib-magic e.g filetype or fleep
 - [ ] Using multi-processing to speed the script up.
 - Verifying file integerity and extension along with mime type matching procedure
