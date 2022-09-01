@@ -29,7 +29,7 @@ class folder:
         for root, dirs, files in os.walk(self.current_dir, topdown=False):
             if len(files) != 0:
                 for _ in files:
-                    self.selected_file_name = _
+                    self.selected_file_name = _  # Todo: why not to use os.path.abspath here?
                     yield os.path.join(root, _)
 
         if n is True:

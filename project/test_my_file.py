@@ -3,7 +3,7 @@
 import pytest
 import os
 from random import choice
-import my_file
+import MyFile as MyFile
 
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases'
@@ -14,16 +14,16 @@ files_list = [f for f in os.listdir(TEST_ADDRESS) if os.path.isfile(f)]
 print(files_list)
 
 # testcase_MyFile = my_file.MyFile(choice(files_list))
-testcase_MyFile = my_file.MyFile('1.ttf')
-print(testcase_MyFile.name)
-print(testcase_MyFile.extension)
-print(testcase_MyFile.mime)
-print(testcase_MyFile.path) # full path includes name no need to full name
-print(testcase_MyFile)
-print(testcase_MyFile.file_date_time())
-print(testcase_MyFile.test_archive())
-print(testcase_MyFile.check_integerity())
-testcase_MyFile.name_revert()
+testcase_MyFile = MyFile.MyFile('a.ttf')
+print(1, testcase_MyFile.name)
+print(2, testcase_MyFile.extension)
+print(3, testcase_MyFile.mime)
+print(4, testcase_MyFile.path)  # full path includes name no need to full name
+print(5, testcase_MyFile)
+print(6, testcase_MyFile.file_date_time())
+print(7, testcase_MyFile.test_archive())
+print(8, testcase_MyFile.check_integerity())
+testcase_MyFile.revert_font_name()
 print(os.listdir())
 
 """ print('=========2ns file==========')

@@ -5,7 +5,7 @@ from sys import argv
 from config import pref
 from folders import destination_folder, folder
 from logger import logger, setup_logger
-from my_file import MyFile
+from MyFile import MyFile
 
 # ==========main course====================
 SOURCE = None

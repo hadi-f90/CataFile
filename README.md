@@ -37,7 +37,7 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 - :heavy_check_mark: Creating first working build for categorizing
 - :heavy_check_mark: Renaming font files into their internal file name
 - :white_check_mark: Removing empty folders
-- Creating user customization in CLI
+- Creating GUI
   - :white_check_mark: Creating simple prompt for currently automated procedure to give the user some options
   - :heavy_check_mark: Directory input.
   - :white_check_mark: Calendar choice.
@@ -46,6 +46,7 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
   - [ ] Cleaning messy folders.
   - :heavy_check_mark: Creating subfolders for each category
   - [ ] Selecting a different file type detector other than lib-magic e.g filetype or fleep
+  - [ ] Adding internationalization / translations features
 - [ ] Using multi-processing to speed the script up.
 - Verifying file integerity and extension along with mime type matching procedure
   - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted
@@ -54,5 +55,3 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
   - [ ] Font inegerity check
   - [ ] Audio / video check
   - [ ] Verifying Image and fixes byte errors using
-- Adding GUI.
-  - [ ] Adding internationalization / translations features
