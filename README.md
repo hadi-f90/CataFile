@@ -31,27 +31,27 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 
 ## Roadmap
 
-  :heavy_check_mark: Done
-  :white_check_mark: Being Developed
+  :heavy_check_mark: **Done** 
+  
+  :white_check_mark: **Being Developed**
 
 - :heavy_check_mark: Creating first working build for categorizing
-- :heavy_check_mark: Renaming font files into their internal file name
-- :white_check_mark: Removing empty folders
-- Creating GUI
-  - :white_check_mark: Creating simple prompt for currently automated procedure to give the user some options
+- Creating GUI:
+  - :heavy_check_mark: Creating simple UI for currently automated procedure to give the user some options
   - :heavy_check_mark: Directory input.
-  - :white_check_mark: Calendar choice.
+  - :heavy_check_mark: Calendar choice.
   - :heavy_check_mark: Logging procedure whether to print/save the log or not
-  - [ ] Using mime type or extension or both.
-  - [ ] Cleaning messy folders.
+  - [ ] Removing empty folders :Cleaning messy folders.
   - :heavy_check_mark: Creating subfolders for each category
-  - [ ] Selecting a different file type detector other than lib-magic e.g filetype or fleep
+  - :white_check_mark: Selecting a different file mime detector other than lib-magic e.g filetype or fleep
   - [ ] Adding internationalization / translations features
-- [ ] Using multi-processing to speed the script up.
-- Verifying file integerity and extension along with mime type matching procedure
-  - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted
-  - :white_check_mark: Reverting font names to their orginal names
-  - [ ] Trying to fix corrupted archives using patoolib
-  - [ ] Font inegerity check
-  - [ ] Audio / video check
-  - [ ] Verifying Image and fixes byte errors using
+- [ ] Using multi-processing to speed the script up
+- Verifying file integerity and extension along with mime type matching procedure:
+  - [ ] Archives:
+      - [ ] Trying to fix corrupted archives using patoolib/some other tools
+      - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted folder category
+  - [ ] Fonts:
+    - :white_check_mark: Inegerity check;
+    - :white_check_mark: Renaming font files into their internal original file name;
+  - [ ] Audio / video files:
+  - [ ] Verifying Image and fixes byte errors
