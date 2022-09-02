@@ -68,7 +68,6 @@ class destination_folder(folder):
         # preparing destination path
         self.current_dir = f'{os.getcwd()} /Categories/' \
             if input_dir in ('', None) else input_dir
-        # print(self.current_dir)
         if os.path.exists(self.current_dir):
             logger(msg=f'Using already existing {self.current_dir} directory.')
 
@@ -78,7 +77,6 @@ class destination_folder(folder):
 
         os.chdir(self.current_dir)
         logger(msg=f'destination set to dir: {self.current_dir}')
-        # print(self.current_dir)
 
         self.category_dirs = {}
         for _ in fleep.supported_mimes():

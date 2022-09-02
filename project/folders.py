@@ -80,7 +80,6 @@ class destination_folder(folder):
         # self.mkdir(os.getcwd()+'/Categories/')
         self.current_dir = f'{os.getcwd()} /Categories/' \
             if input_dir in ('', None) else input_dir
-        # print(self.current_dir)
         if os.path.exists(self.current_dir):
             logger.info(f'Using existing directory: {self.current_dir}')
 
@@ -90,15 +89,12 @@ class destination_folder(folder):
 
         os.chdir(self.current_dir)
         logger.info(f'destination set to dir: {self.current_dir}')
-        # print(self.current_dir)
 
         self.category_dirs = {}
-        # print(self.category_dirs)
 
     def add_category(self, category_name):
         self.category_dirs[category_name] = \
             self.current_dir + category_name
-        # print(self.category_dirs)
         if os.path.exists(self.category_dirs[category_name]):
             logger.info(f'Using existing {self.category_dirs[category_name]}')
         else:

@@ -46,7 +46,6 @@ class MyFile():
         self.mime = magic.from_buffer(self.file_object.read(2048), mime=True)
         if self.mime == '':
             self.mime = 'etc'
-        # print(self.mime)
 
     def fleep_detect(self):
         '''Detects file type using fleep module'''

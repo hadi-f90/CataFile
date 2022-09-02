@@ -13,7 +13,6 @@ os.chdir(TEST_ADDRESS)
 files_list = [f for f in os.listdir(TEST_ADDRESS) if os.path.isfile(f)]
 print(files_list)
 
-# testcase_MyFile = my_file.MyFile(choice(files_list))
 testcase_MyFile = MyFile.MyFile('a.ttf')
 print(1, testcase_MyFile.name)
 print(2, testcase_MyFile.extension)
