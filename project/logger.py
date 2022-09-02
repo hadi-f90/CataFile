@@ -6,8 +6,6 @@ from jalali.Jalalian import jdate
 
 from config import pref
 
-global date_time
-
 # creating logger instance
 logger = logging.getLogger(__name__)
 date_time = datetime.now().strftime('%Y-%m-%d-%H-%M-%S')

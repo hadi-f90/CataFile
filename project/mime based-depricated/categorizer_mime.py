@@ -171,7 +171,6 @@ def main():
 
 
 if __name__ == '__main__':
-    global log_file
     with open(os.path.join(
                             os.getcwd(),
                             'log' + jdate('Y-m-d-H-i-s') + '.txt'),
