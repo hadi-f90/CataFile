@@ -37,7 +37,7 @@ print(testcase_my_file.extension) """
 
 
 def test_file_tester(self):
-    assert testcase_MyFile.__test_archive() == True
+    assert testcase_MyFile.__test_archive() is True
 
 
 def test_extension(self):
