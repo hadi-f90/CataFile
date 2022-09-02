@@ -3,7 +3,7 @@
 import pytest
 import os
 from random import choice
-import MyFile as MyFile
+import MyFile
 
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases'
