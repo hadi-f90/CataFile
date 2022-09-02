@@ -65,7 +65,6 @@ class destination_folder(folder):
                      f'Enter the destination folder for the categories.\n \
                      deffault:{os.getcwd()}:')):
         super().__init__()
-        global logger
         # preparing destination path
         self.current_dir = f'{os.getcwd()} /Categories/' \
             if input_dir in ('', None) else input_dir
@@ -131,7 +130,6 @@ class my_file():
 
 # =============== loggging mechanism ======================
 def logger(*args, func=None, msg):
-    global log_file
     if func:
         if len(args) > 1:
             output = str(func(args))
