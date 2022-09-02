@@ -32,7 +32,7 @@ def process_file(_):
     if os.path.isfile(f.path) and f.check_integerity():
         try:
             logger.debug(f.mime, '\n', f.path)
-            if f.mime not in DESTINATION.category_dirs.keys():
+            if f.mime not in DESTINATION.category_dirs:
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
 

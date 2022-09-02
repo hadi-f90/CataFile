@@ -156,7 +156,7 @@ def main():
         f = my_file(_)
         if os.path.isfile(f.path):
             try:
-                if f.mime not in destination.category_dirs.keys():
+                if f.mime not in destination.category_dirs:
                     destination.add_category(f.mime)
 
                 f.move(destination.category_dirs[f.mime])
