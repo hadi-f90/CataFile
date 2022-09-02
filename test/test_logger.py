@@ -1,6 +1,5 @@
 import os
 import sys
-# import unittest
 
 sys.path.append('.')
 
@@ -15,10 +14,6 @@ print(
       'formatter', test_logger.formatter, '\n'*4,
       test_logger.level,
       test_logger.log,
-      # test_logger.datetime,
-      # test_logger.log_level,
-      # test_logger.stream_handler,
-      # test_logger.file_handler,
       test_logger.log_file)
 
 
