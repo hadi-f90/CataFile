@@ -30,17 +30,20 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
 - [Python Magic Library](https://github.com/ahupp/python-magic) : As mentioned this library is used to detect file mimes/types. Amongst *filetype*, *fleep*, and *Python Maigc Library*, I tried the latter two. Fleep was good, magic worked better. so, I changed the code to use *magic* before uploading it here.
 
 ## Roadmap
+
   Status:
 
-  :heavy_check_mark: **Done** 
+  :heavy_check_mark: **Done**
   
   :white_check_mark: **Being Developed**
   
 :heavy_check_mark: **Version 1:**
+
 - :heavy_check_mark: Creating subfolders for each category
 - :heavy_check_mark: Creating first working build for categorizing
 
 :white_check_mark: **Version 2:**
+
 - :heavy_check_mark: Creating GUI:
   - :heavy_check_mark: Creating simple UI for currently automated procedure to give the user some options
   - :heavy_check_mark: Directory input.
@@ -55,9 +58,11 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
     - :white_check_mark: Renaming font files into their internal original file name;
 
 **Version 3:**
+
 - [ ] Trying to fix corrupted archives using patoolib/some other tools
 - [ ] Adding internationalization / translations features
 - [ ] Using multi-processing to speed the script up
 - [ ] Option to remove remaining empty folders
 - [ ] Processing Audio / video files
 - [ ] Verifying Image and fixes byte errors
+- [ ] Processing files usign [filetype](https://github.com/h2non/filetype.py)

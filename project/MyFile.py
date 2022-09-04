@@ -26,34 +26,36 @@ class MyFile():
     def __init__(self, file_object=None):
         # file type info
         self.file_object = open(file_object, 'rb')
-        self.name, self.extension = os.path.splitext(self.file_object)
+        self.path = os.path.abspath(file_object)
+        self.name, self.extension = os.path.splitext(self.path)
+        self.file_header = self.file_object.read(2048)
         if pref.get('file_processor') == 0:
             self.fleep_detect()
 
         elif pref.get('file_processor') == 1:
-            self.magic_detect()
+            self.mime = self.extension = self.magic_detect()
 
         elif pref.get('file_processor') == 2:
             self.mime = self.extension
 
         else:
             logger.error('file_processor not set')
-        self.path = os.path.abspath(file_object)
-        self.extension_revert()
+        # self.extension_revert()
 
     def magic_detect(self):
         '''Detects file type using magic module'''
-        self.mime = magic.from_buffer(self.file_object.read(2048), mime=True)
-        if self.mime == '':
+        self.mime = magic.from_buffer(self.file_header, mime=True)
+        self.type, self.detected_extension = self.mime.split('/')
+        if self.mime == ('', None):
             self.mime = 'etc'
 
     def fleep_detect(self):
         '''Detects file type using fleep module'''
-        self.file_info = fleep.get(self.file_object.read(2048))
-        if len(self.file_info.mime) < 1:
-            self.mime = 'etc'
-        else:
-            self.file_info.mime[0]
+        self.file_info = fleep.get(self.file_header)
+        self.type = self.file_info.type[0]
+        self.detected_extension = self.file_info.extension[0]
+        self.mime = self.file_info.mime
+        self.mime = 'etc' if len(self.mime) < 1 else self.file_info.mime[0]
 
     def file_date_time(self):
         # To-do: returns file data and time
@@ -71,13 +73,11 @@ class MyFile():
 
     def extension_revert(self):
         # if the file type is not known then try fo file its type
-        if self.extension in (None, ''):
-            self.fleep_info = fleep.get(self.file_object.read(2048))
-            new_extension = self.fleep_info.mime.split('/')[-1]
-            logger.info(f'Changing {self.path} extension to {new_extension}')
-            new_name = f'{self.path[:len(new_extension)]}.{new_extension}'
+        if self.extension in (None, '') or self.detected_extension != self.extension:
+            logger.info(f'Changing {self.path} extension to {self.detected_extension}')
+            new_name = f'{self.name}.{self.detected_extension}'
             os.rename(self.path, new_name)
-            self.extension = new_extension
+            self.extension = self.detected_extension
             self.path = os.path.abspath(new_name)
 
     def __str__(self) -> str:
