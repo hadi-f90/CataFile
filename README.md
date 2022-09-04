@@ -50,9 +50,10 @@ On my own PC running linux, it took about 10 min to categorize 160 GB of my own 
   - :heavy_check_mark: Calendar choice.
   - :heavy_check_mark: Logging procedure whether to print/save the log or not
   - :white_check_mark: Selecting a different file mime detector other than lib-magic e.g filetype or fleep
+  - :heavy_check_mark: Renaming file extensions into their detected  ones (still have some problems becuase of the libraries);
 - [ ] Verifying file integerity and extension along with mime type matching procedure:
   - [ ] Archives:
-      - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted folder category
+    - :heavy_check_mark: Checking archive like files e.g. new MS-Office files and moving possible corrupted ones to /corrupted folder category
   - [ ] Fonts:
     - :white_check_mark: Inegerity check;
     - :white_check_mark: Renaming font files into their internal original file name;
