@@ -65,6 +65,7 @@ class MyFile():
 
     def move(self, destination):
         shutil.move(self.path, destination)
+        self.path = destination + self.name + self.extension
         logger.info(f'{self.path} moved to {self.mime}.')
 
     def copy(self, destination):
