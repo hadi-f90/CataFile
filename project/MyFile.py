@@ -27,7 +27,7 @@ class MyFile():
         # file type info
         self.file_object = open(file_object, 'rb')
         self.path = os.path.abspath(file_object)
-        self.name, self.extension = os.path.splitext(self.path)
+        self.file_name, self.extension = os.path.splitext(self.path)
         self.file_header = self.file_object.read(2048)
         if pref.get('file_processor') == 0:
             self.fleep_detect()
@@ -64,20 +64,45 @@ class MyFile():
                 os.path.getmtime(self.path))
 
     def move(self, destination):
-        shutil.move(self.path, destination)
-        self.path = destination + self.name + self.extension
-        logger.info(f'{self.path} moved to {self.mime}.')
+        try:
+            shutil.move(self.path, destination)
+            logger.info(f'Moved {self.path} to {destination}.')
+            self.path = destination + self.file_name + self.extension
+
+        except Exception as e:
+            logger.error(f'Error moving {self.path} to {destination}.')
+            logger.error(e)
 
     def copy(self, destination):
         shutil.copy(self.path, destination)
         logger.info(f'{self.path} copied to {destination}')
 
+    def rename(self, new_name):
+        '''Changes the name of the file to a new given name.'''
+        logger.info(f'Changing {self.path} name to {new_name}')
+        try:
+            os.rename(self.path, new_name)
+
+        except FileExistsError as e:
+            logger.error(f'Error {e} prevented it from renaming \
+                {self.path} to {new_name}.\
+                Another File with the same file_name already exists.\
+                Trying Numbering...')
+
+            number = 0
+            new_file_name = f'{self.file_name}({number}).{self.extension}'
+            while os.path.exists(new_file_name):
+                number += 1
+                new_file_name = f'{self.file_name}({number}).{self.extension}'
+            os.rename(self.path, new_file_name)
+            logger.info(f'{self.path} renamed to {new_file_name}')
+
     def extension_revert(self):
         # if the file type is not known then try fo file its type
         if self.extension in (None, '') or self.detected_extension != self.extension:
             logger.info(f'Changing {self.path} extension to {self.detected_extension}')
-            new_name = f'{self.name}.{self.detected_extension}'
-            os.rename(self.path, new_name)
+            new_name = f'{self.file_name}.{self.detected_extension}'
+            self.rename(new_name)
             self.extension = self.detected_extension
             self.path = os.path.abspath(new_name)
 
@@ -90,30 +115,17 @@ class FontFile(MyFile, Font):
         super().__init__(file_object)
         self.font = Font(file_object)
         self.extension = self.font.get_format()
-        self.name = self.font.get_name(key=Font.NAME_FAMILY_NAME)
+        self.font_name = self.font.get_name(key=Font.NAME_FAMILY_NAME)
         self.version = self.font.get_version()
-        self.weight = self.font.get_weight()
+        self.weight = self.font.get_weight()['name']
 
-        self.revert_font_name()
+        # self.revert_font_name()
 
     def revert_font_name(self):  # not testes Yet!
-        try:
-            self.font.rename()
-            logger.info(f'Font reverted to its original name: {self.name}')
-
-        except FileExistsError as e:
-            logger.error(f'Error {e} prevented it from renaming {self.path}.\
-                Another File with the same name already exists.\
-                Trying Numbering...')
-            number = 0
-            new_font_name = f'{self.name}{self.version}{number}.{self.extension}'
-            while os.path.exists(new_font_name):
-                number += 1
-                new_font_name = f'{self.name}{self.version}({number}).{self.extension}'
-
-            self.font.rename(new_font_name)
-            logger.info(f'{self.name} renamed to {new_font_name}')
-            self.name = self.font.get_name(key=Font.NAME_FAMILY_NAME)
+        new_font_name = f'{self.font_name}-{self.weight}.{self.extension}'
+        self.rename(new_font_name)
+        logger.info(f'Font reverted to its original file_name: {self.file_name}')
+        self.file_name = new_font_name
 
 
 class ArchiveFile(MyFile):
@@ -128,7 +140,7 @@ class ArchiveFile(MyFile):
             return True
         except patoolib.util.PatoolError as e:
             logger.error(
-                f'Error. Testing {self.path} Failed with error {str(e)}')
+                f'Error. Testing {self.path} Failed with error {e}')
             return False
 
     def check_integerity(self):
@@ -140,7 +152,7 @@ class ArchiveFile(MyFile):
                 .od[b|c|f|g|m|p|t|s]+ .ap*2[k|x]+',
                 self.extension,
                 flags=regex.IGNORECASE) is not None:
-            test_case = shutil.copyfile(self.path, f'{self.name}.zip')
+            test_case = shutil.copyfile(self.path, f'{self.file_name}.zip')
             print(os.path.abspath(test_case))
             result = self.test_archive()
             os.remove(test_case)
