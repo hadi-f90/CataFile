@@ -1,15 +1,16 @@
-from random import choice
-import pytest
 import os
-from random import choice
-import MyFile
-from config import pref
 from pprint import pprint
+from random import choice
 
-SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases/dest'
-COPY_DEST = f'{DEST_TEST_ADDRESS}/copy'
-MOVE_DEST = f'{DEST_TEST_ADDRESS}/move'
+import MyFile
+import pytest
+from config import pref
+
+SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/file_categorizer/project/test_cases"
+DEST_TEST_ADDRESS = (
+    "/home/hadi/Documents/GitHub/file_categorizer/project/test_cases/dest")
+COPY_DEST = f"{DEST_TEST_ADDRESS}/copy"
+MOVE_DEST = f"{DEST_TEST_ADDRESS}/move"
 os.chdir(SOURCE_TEST_ADDRESS)
 
 
@@ -31,7 +32,7 @@ def populate_list_of_files(address, extension=None):
 files_list = populate_list_of_files(SOURCE_TEST_ADDRESS)
 pprint(files_list)
 
-print('=========Testing Archive File Class==========')
+print("=========Testing Archive File Class==========")
 # testcase_my_file = my_file.my_file(choice(files_list))
 # print(testcase_my_file.file_info.mime)
 # print(testcase_my_file.path)
