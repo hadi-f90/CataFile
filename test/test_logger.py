@@ -1,22 +1,25 @@
 import os
 import sys
 
-sys.path.append('.')
-
-import project.logger as Logger
 from jalali.Jalalian import jdate
 
+import project.logger as Logger
+
+sys.path.append(".")
 
 test_logger = Logger.Logger()
 
 print(
-      'name', test_logger.name, '\n'*4,
-      'formatter', test_logger.formatter, '\n'*4,
-      test_logger.level,
-      test_logger.log,
-      test_logger.log_file)
-
-
+    "name",
+    test_logger.name,
+    "\n" * 4,
+    "formatter",
+    test_logger.formatter,
+    "\n" * 4,
+    test_logger.level,
+    test_logger.log,
+    test_logger.log_file,
+)
 """ class Testlogger(unittest.TestCase):
     msgs = ['This is a warning',
             'This is a debug',
