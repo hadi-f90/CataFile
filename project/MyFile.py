@@ -131,7 +131,7 @@ class FontFile(MyFile, Font):
 class ArchiveFile(MyFile):
     def __init__(self, file_object=None):
         super().__init__(file_object)
-        self.test_archive()
+        # self.test_archive()
 
     def test_archive(self):
         try:
@@ -148,8 +148,8 @@ class ArchiveFile(MyFile):
             self.test_archive()
         # not tested for documents & apks
         elif regex.search(
-            r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+ \
-                .od[b|c|f|g|m|p|t|s]+ .ap*2[k|x]+',
+            r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
+                .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+',
                 self.extension,
                 flags=regex.IGNORECASE) is not None:
             test_case = shutil.copyfile(self.path, f'{self.file_name}.zip')
@@ -157,9 +157,10 @@ class ArchiveFile(MyFile):
             result = self.test_archive()
             os.remove(test_case)
             return result
+
         else:
-            logger.debug('Integerity check not implemented for This file type! Skipping')
-            return True
+            logger.debug(f"Checking {self.extension} isn't supported, yet!")
+            return False
 
 
 class OfficeDocumentFile(ArchiveFile):
