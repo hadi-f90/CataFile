@@ -1,8 +1,8 @@
 fleep==1.0.1
-font_rename==0.2.0
 jalali==1.2
 patool==1.12
-python_magic==0.4.27
-pytz==2022.1
+pypref==3.3.0
+pytest==7.1.2
+python_fontbro==0.11.1
 regex==2022.7.9
-textual==0.1.18
+wxPython==4.2.0

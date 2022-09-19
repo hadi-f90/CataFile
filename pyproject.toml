@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "file Categorizer"
+version = "0.1.0"
+description = ""
+authors = ["Hadi F <62212402+hadi-f90@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pre-commit = "^2.20.0"
+toml = "^0.10.2"
+python-dotenv = "^0.21.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mkdocs-material = "^8.5.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
