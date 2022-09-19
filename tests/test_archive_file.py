@@ -16,7 +16,7 @@ os.chdir(SOURCE_TEST_ADDRESS)
 def populate_list_of_files(address, extensions=()):
     """Create a list of files based on given list of extensions.
 
-    extension must have a dot 
+    extension must have a dot
     This function takes a directory address
     and returns a list of files filter by a given extension.
     """
@@ -47,4 +47,4 @@ print(testcase_my_file)
 print(testcase_my_file.file_info.mime)
 # print(testcase_my_file.path)
 # print(testcase_my_file.extension)
-# print(8, testcase_MyFile.check_integerity())
+# print(8, testcase_my_file.check_integerity())
