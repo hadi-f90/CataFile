@@ -4,7 +4,7 @@ import sys
 from pprint import pprint
 from random import choice
 
-import MyFile
+from lib import MyFile
 
 sys.dont_write_bytecode = True
 

@@ -3,8 +3,8 @@ import os
 import sys
 sys.path.append('.')
 
-from project.folders import folder
-import project.logger as logger
+from lib import folders
+from lib import logger
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files'
 new_dir = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/test2'
