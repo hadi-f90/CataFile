@@ -9,19 +9,19 @@ A small tool to categorize and check file integerity **(integerity test in under
 Sometimes e.g. after data recovery with tools like Photorec or downloading many files with your browser, you end up having a mess of different files scatterred in randomly named different folders and you may wonder:
 
 - How and where should you start checking and looking for specific file(s)?
-- Which files are healty?
-- It takes a lot of time checking it. How ca I do that?
+- Which files are healthy?
+- It takes a lot of time checking it. How can I do that?
 
 This tool can automate this job.
 On my own PC running linux, it took about 10 min to categorize 160 GB of my own data. I see, it might be pretty slow, but it really IS far more faster than human check.
 
 ## Some tips for using
 
-- This script makes use of Python Magic library for mime type detection. Any odd behavior in file mime detection could be result of that library. Hence, this was the most low-haning working fruit for me.
-- For the being time, except getting the source folder, the rest of process is automated in CLI.
-- The files will be copied to /Category directory within the given address. The will be some sub category directories based on libmagic file detection algorithm.
+- This script makes use of Python Magic library for mime type detection. Any odd behavior in file mime detection could be result of that library. Hence, this was the most low-hanging working fruit for me.
+- For the time being, except getting the source folder, the rest of process is automated in CLI.
+- The files will be copied to /Category directory within the given address. There will be some sub category directories based on libmagic file detection algorithm.
 - All corrputed files are copied to /Corrupted directory within /Category. The log file will be left in the source directory.
-- Do Check the code before using it to prevent further data lose (I created this script for my own use and redistributed in a hope that it would be useful for some one. It might not work as you expected. So, Change it in a way that you desire).
+- Do Check the code before using it to prevent further data loss (I created this script for my own use and redistributed in a hope that it would be useful for some one. It might not work as you expected. So, Change it in a way that you desire).
 
 ## Requirements
 
