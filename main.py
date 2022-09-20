@@ -1,11 +1,13 @@
+"""The main function that will be called when Start() is called."""
+
 import os
 import shutil
 from sys import argv
 
 from config import pref
-from folders import destination_folder, folder
-from logger import logger, setup_logger
-from MyFile import MyFile
+from lib.Folders import DestinationFolder, Folder
+from lib.Logger import LOGGER, setup_logger
+from lib.MyFile import MyFile
 
 # ==========main course====================
 SOURCE = None
@@ -13,13 +15,19 @@ DESTINATION = None
 
 
 def main():
+    """Process each file found in folders.
+
+    Set the source & destination directories based on preferences
+    then process files found in the directory tree.
+    Finally omit the empty directories.
+    """
     global SOURCE, DESTINATION
-    SOURCE = folder(pref.get('source_dir'))
-    DESTINATION = destination_folder(pref.get('destination_dir'))
+    SOURCE = Folder(pref.get('source_dir'))
+    DESTINATION = DestinationFolder(pref.get('destination_dir'))
     setup_logger()
-    logger.debug(argv[0], logger.handlers[0])
+    LOGGER.debug(argv[0], LOGGER.handlers[0])
     for _ in SOURCE.walker():
-        logger.debug(f'file to be processed: {SOURCE.selected_file_name}')
+        LOGGER.debug(f'file to be processed: {SOURCE.selected_file_name}')
         process_file(_)
         continue
 
@@ -27,22 +35,23 @@ def main():
 
 
 def process_file(_):
+    """Detect given file & move to its category folder."""
     f = MyFile(_)
 
-    if os.path.isfile(f.path) and f.check_integerity():
+    if os.path.isfile(f.path):  # Todo: removed f.check_integerity():
         try:
-            logger.debug(f.mime, '\n', f.path)
+            LOGGER.debug(f.mime, '\n', f.path)
             if f.mime not in DESTINATION.category_dirs:
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
 
         except (TypeError, shutil.Error):
-            logger.critical(f'Error during processing {_}.\n \
+            LOGGER.critical(f'Error during processing {_}.\n \
                     A file with the same name may have prevented it from \
                         being moved')
 
         except AttributeError:
-            logger.critical(
+            LOGGER.critical(
                 f"Error during processing{_}. File type isn't known.")
 
         DESTINATION.add_category('/Corrupted')
@@ -50,19 +59,21 @@ def process_file(_):
             f.move(DESTINATION.category_dirs['/Corrupted'])
 
         except shutil.Error:
-            logger.critical(
+            LOGGER.critical(
                 f'Error copying {str(f)}. Maybe because of duplicate name')
         finally:
-            logger.critical(f'It seems that an error occured while processing {str(f)}. Check it manually!')
+            LOGGER.critical(
+                f'An error occured processing {str(f)}. Check it manually!')
 
 
 def empty_folder_delete():
+    """Delete empty folders."""
     # ===== To do: Delete empty folders after moving files to categories
     for _ in os.walk(SOURCE.current_dir):
         if len(os.listdir(_)) < 1:
             try:
-                logger.warning(f'Removing {_}')
+                LOGGER.warning(f'Removing {_}')
                 os.rmdir(_)
 
             except OSError:
-                logger.critical(f'Error removing empty dir {_}')
+                LOGGER.critical(f'Error removing empty dir {_}')
