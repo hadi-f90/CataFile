@@ -4,10 +4,11 @@ import os
 import shutil
 from sys import argv
 
-from config import pref
 from lib.Folders import DestinationFolder, Folder
 from lib.Logger import LOGGER, setup_logger
 from lib.MyFile import MyFile
+
+from config import pref
 
 # ==========main course====================
 SOURCE = None
@@ -22,12 +23,12 @@ def main():
     Finally omit the empty directories.
     """
     global SOURCE, DESTINATION
-    SOURCE = Folder(pref.get('source_dir'))
-    DESTINATION = DestinationFolder(pref.get('destination_dir'))
+    SOURCE = Folder(pref.get("source_dir"))
+    DESTINATION = DestinationFolder(pref.get("destination_dir"))
     setup_logger()
     LOGGER.debug(argv[0], LOGGER.handlers[0])
     for _ in SOURCE.walker():
-        LOGGER.debug(f'file to be processed: {SOURCE.selected_file_name}')
+        LOGGER.debug(f"file to be processed: {SOURCE.selected_file_name}")
         process_file(_)
         continue
 
@@ -40,30 +41,30 @@ def process_file(_):
 
     if os.path.isfile(f.path):  # Todo: removed f.check_integerity():
         try:
-            LOGGER.debug(f.mime, '\n', f.path)
+            LOGGER.debug(f.mime, "\n", f.path)
             if f.mime not in DESTINATION.category_dirs:
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
 
         except (TypeError, shutil.Error):
-            LOGGER.critical(f'Error during processing {_}.\n \
+            LOGGER.critical(f"Error during processing {_}.\n \
                     A file with the same name may have prevented it from \
-                        being moved')
+                        being moved")
 
         except AttributeError:
             LOGGER.critical(
                 f"Error during processing{_}. File type isn't known.")
 
-        DESTINATION.add_category('/Corrupted')
+        DESTINATION.add_category("/Corrupted")
         try:
-            f.move(DESTINATION.category_dirs['/Corrupted'])
+            f.move(DESTINATION.category_dirs["/Corrupted"])
 
         except shutil.Error:
             LOGGER.critical(
-                f'Error copying {str(f)}. Maybe because of duplicate name')
+                f"Error copying {str(f)}. Maybe because of duplicate name")
         finally:
             LOGGER.critical(
-                f'An error occured processing {str(f)}. Check it manually!')
+                f"An error occured processing {str(f)}. Check it manually!")
 
 
 def empty_folder_delete():
@@ -72,8 +73,8 @@ def empty_folder_delete():
     for _ in os.walk(SOURCE.current_dir):
         if len(os.listdir(_)) < 1:
             try:
-                LOGGER.warning(f'Removing {_}')
+                LOGGER.warning(f"Removing {_}")
                 os.rmdir(_)
 
             except OSError:
-                LOGGER.critical(f'Error removing empty dir {_}')
+                LOGGER.critical(f"Error removing empty dir {_}")
