@@ -1,15 +1,14 @@
 """Logging mechanism test cases."""
 
-import os
 from sys import path, stderr, stdout
-import pytest
 
 path.append("..")
-from lib.Logger import Logger
+import pytest
+from lib.KonsoleLogger import *
+from logging import Logger
+# from preferences import preferences
 
-from preferences import preferences
-
-test_logger = Logger('TestLogger')
+test_logger = konsole
 TEST_PATH = 'tests'
 TEST_MSG = 'Test message'
 
@@ -18,24 +17,22 @@ TEST_MSG = 'Test message'
       '\n' * 4,
       test_logger.level)"""
 
-test_logger.log(0, 'This is unset level log')
-test_logger.info('This is info level log')
+
+
+test_logger.log(0, f'{DATE_TIME} This is unset level log {DATE_TIME}')
+test_logger._main_logger.level = logging.NOTSET
+# test_logger.trace('This is trace level log')
+test_logger.info(f'{DATE_TIME} This is info level log')
 test_logger.debug('This is debug level log')
 test_logger.warning('This is warning level log')
 test_logger.error('This is error level log')
-test_logger.critical('This is critical level log')
+# test_logger.success("This is success level log")
+test_logger.critical(f'This is critical level log {DATE_TIME}')
 
 
 def test_logger_init():
     """Test logger initialization."""
     assert isinstance(test_logger, Logger)
-
-
-def test_logger_create_log_file():
-    """Test logger log method."""
-    test_logger.log(40, TEST_MSG)
-    log_file = test_logger.log_file_name
-    assert os.path.exists(log_file) and os.path.isfile(log_file)
 
 
 def test_logger_log_to_file():

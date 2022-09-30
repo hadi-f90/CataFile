@@ -15,5 +15,9 @@
     "aiXcoder.showTrayIcon": true,
     "editor.tabCompletion": "on",
     "diffEditor.codeLens": true,
-    "sourcery.token": "user_E6u0cGCXpUhBwP9mQgnXE0l61QQwvkoi42nl_6JB4rluOoS0gQRZ8RdsgIw"
+    "sourcery.token": "user_E6u0cGCXpUhBwP9mQgnXE0l61QQwvkoi42nl_6JB4rluOoS0gQRZ8RdsgIw",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "",
+        "projectKey": ""
+    }
 }

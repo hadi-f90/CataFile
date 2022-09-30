@@ -45,11 +45,11 @@ class Logger(logging.Logger):
         return self.datetime
 
     def file_name_maker(self):
-        '''Returns An ever updated name for  log file '''
+        '''Returns An ever updated name for  log file.'''
         return str(join(getcwd(), f"log {self.datetime}.log"))
 
     def show_log_details(self):
-        '''Show the details of the  log file on the screen'''
+        '''Show the details of the  log file on the screen.'''
         self.stream_handler = logging.StreamHandler(stream=sys.stdout)
         self.log.addHandler(self.stream_handler)
         self.stream_handler.setFormatter()
