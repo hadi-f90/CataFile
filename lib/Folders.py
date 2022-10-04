@@ -26,14 +26,17 @@ class Folder:
         self.current_dir = current_directory
 
         try:
-            logger.info('Trying to set address to:%s', self.current_dir)
+            logger.info("Trying to set address to:%s", self.current_dir)
             assert os.path.isdir(self.current_dir)
         except AssertionError:
-            logger.critical(
-                "%s either isn't a folder or doesn't exist!", self.current_dir)
+            logger.critical("%s either isn't a folder or doesn't exist!",
+                            self.current_dir)
 
     # Appending path to file/folder name function
-    def walker(self, top_down=False,):
+    def walker(
+        self,
+        top_down=False,
+    ):
         """Walk through dir to return append the full adrress to each file.
 
         Yields:
@@ -64,23 +67,23 @@ class Folder:
     def mkdir(self, sub_dir):
         """Create a series of directories from a given list/tuple/set."""
         try:
-            logger.info('Creating %s if not exist...', self.current_dir)
+            logger.info("Creating %s if not exist...", self.current_dir)
             os.makedirs(sub_dir)
 
         except OSError:
-            logger.info('Using existing %s directory...', sub_dir)
+            logger.info("Using existing %s directory...", sub_dir)
 
     def delete(self, sub_dir):
         """Delete a series of directories from a given list/tuple/set."""
         try:
-            logger.info('Checking %s if exists...', sub_dir)
+            logger.info("Checking %s if exists...", sub_dir)
             assert os.path.exists(sub_dir)
-            logger.warning('Removing %s...', sub_dir)
+            logger.warning("Removing %s...", sub_dir)
             os.rmdir(sub_dir)
-            logger.info('%s Removed successfully!', sub_dir)
+            logger.info("%s Removed successfully!", sub_dir)
 
         except AssertionError:
-            logger.warning('%s was not a directory.', sub_dir)
+            logger.warning("%s was not a directory.", sub_dir)
 
     def __str__(self) -> str:
         """Return the name of current dir."""
@@ -98,8 +101,7 @@ class DestinationFolder(Folder):
         Folder (_type_): _description_
     """
 
-    def __init__(self,
-                 input_dir=os.getcwd()):
+    def __init__(self, input_dir=os.getcwd()):
         """Get a folder name, If not Set, Sets current directory as default.
 
         Args:
@@ -108,17 +110,17 @@ class DestinationFolder(Folder):
         super().__init__()
         # preparing destination path
         # self.mkdir(os.getcwd()+'/Categories/')
-        self.current_dir = f'{os.getcwd()} /Categories/' \
-            if input_dir in ('', None) else input_dir
+        self.current_dir = (f"{os.getcwd()} /Categories/"
+                            if input_dir in ("", None) else input_dir)
         if os.path.exists(self.current_dir):
-            logger.info('Using existing directory:%s', self.current_dir)
+            logger.info("Using existing directory:%s", self.current_dir)
 
         else:
             os.mkdir(self.current_dir)
-            logger.info('Creating %s', self.current_dir)
+            logger.info("Creating %s", self.current_dir)
 
         os.chdir(self.current_dir)
-        logger.info('destination set to dir:%s', self.current_dir)
+        logger.info("destination set to dir:%s", self.current_dir)
 
         self.category_dirs = {}
 
@@ -128,13 +130,12 @@ class DestinationFolder(Folder):
         Args:
             category_name (_type_): _description_
         """
-        self.category_dirs[category_name] = \
-            self.current_dir + category_name
+        self.category_dirs[category_name] = self.current_dir + category_name
         if os.path.exists(self.category_dirs[category_name]):
-            logger.info('Using existing %s', self.category_dirs[category_name])
+            logger.info("Using existing %s", self.category_dirs[category_name])
         else:
             self.mkdir(self.category_dirs[category_name])
-            logger.info('%s directory structure created.', category_name)
+            logger.info("%s directory structure created.", category_name)
 
     def __dict__(self):
         return self.category_dirs
