@@ -4,12 +4,13 @@ import sys
 
 import pytest
 
-sys.path.append('..')
-sys.path.append('.')
 from lib.Folders import Folder
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/test/test_files'
-new_dir = '/home/hadi/Documents/GitHub/CataFile/test/test_files/test2'
+sys.path.append("..")
+sys.path.append(".")
+
+TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/test/test_files"
+new_dir = "/home/hadi/Documents/GitHub/CataFile/test/test_files/test2"
 
 
 def test_initial_folder_set():
@@ -34,6 +35,7 @@ def test_representation():
 # Assign non-existent folder
 def test_assiging_none_existing_folder():
     pass
+
 
 # Assign file
 # Check the srting representation of Assign_folder
