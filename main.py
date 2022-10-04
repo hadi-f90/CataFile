@@ -6,7 +6,7 @@ from sys import argv
 
 from config import pref
 from lib.Folders import DestinationFolder, Folder
-from lib.KonsoleLogger import LOGGER, setup_logger
+from lib.Logger import LOGGER, setup_logger
 from lib.MyFile import MyFile
 
 # ==========main course====================

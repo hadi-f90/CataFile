@@ -62,4 +62,4 @@ Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d
 # setting up formatter
 
 
-LOGGGER = Logger(__name__)
+LOGGER = Logger(__name__)
