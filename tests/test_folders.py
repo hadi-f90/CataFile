@@ -1,16 +1,17 @@
-import unittest
 import os
 import sys
-sys.path.append('.')
+import unittest
 
-from lib import folders
-from lib import logger
+from lib import folders, logger
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/test/test_files'
-new_dir = '/home/hadi/Documents/GitHub/CataFile/test/test_files/test2'
+sys.path.append(".")
+
+TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/test/test_files"
+new_dir = "/home/hadi/Documents/GitHub/CataFile/test/test_files/test2"
 
 
 class TestFolders(unittest.TestCase):
+
     def test_initial_folder_set(self):
         self.folder = folder(os.getcwd()[:])
         self.assertEqual(os.getcwd(), self.folder.current_dir)
@@ -42,7 +43,7 @@ class TestFolders(unittest.TestCase):
         self.f = folder(TEST_ADDRESS)
         self.assertTrue(os.path.isfile(next(self.f.walker())))
 
-    # Walker bottom up
+        # Walker bottom up
         self.assertTrue(os.path.isfile(next(self.f.walker(n=True))))
 
     def test_dir_walker(self):
@@ -60,13 +61,16 @@ class TestFolders(unittest.TestCase):
         self.n = folder(new_dir)
         self.n.delete(new_dir)
         self.assertFalse(os.path.exists(new_dir))
+
     # delete directory
     # delete non-existent directory
 
 
 class TestDestination(unittest.TestCase):
+
     def Test_setFolder(self):
         pass
+
     # Checking Creating Destination path
     # Checking creating existing destination
     # Checking Setting destination path
@@ -80,5 +84,5 @@ class TestDestination(unittest.TestCase):
         pass
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
