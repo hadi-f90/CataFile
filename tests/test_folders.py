@@ -1,84 +1,87 @@
-import unittest
+"""A Test for Folders module."""
 import os
 import sys
-sys.path.append('.')
 
-from lib import folders
-from lib import logger
+import pytest
+
+sys.path.append('..')
+sys.path.append('.')
+from lib.Folders import Folder
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/test/test_files'
 new_dir = '/home/hadi/Documents/GitHub/CataFile/test/test_files/test2'
 
 
-class TestFolders(unittest.TestCase):
-    def test_initial_folder_set(self):
-        self.folder = folder(os.getcwd()[:])
-        self.assertEqual(os.getcwd(), self.folder.current_dir)
-        self.countTestCases()
-        del self.folder
+def test_initial_folder_set():
+    folder = Folder(os.getcwd()[:])
+    assert os.getcwd() == folder.current_dir
+    del folder
 
-    # Assign_folder
-    def test_Assign_folder(self):
-        self.folder = folder(TEST_ADDRESS)
-        self.assertEqual(TEST_ADDRESS, self.folder.current_dir)
-        self.countTestCases()
 
-    # Check the srting representation of Assign_folder
-    def test_representation(self):
-        self.folder = folder(TEST_ADDRESS)
-        self.assertEqual(TEST_ADDRESS, str(self.folder))
-        del self.folder
-        self.countTestCases()
+# Assign_folder
+def test_assign_folder():
+    folder = Folder(TEST_ADDRESS)
+    assert TEST_ADDRESS == folder.current_dir
 
-    # Assign non-existent folder
-    def test_assiging_none_existing_folder(self):
-        pass
 
-    # Assign file
-    # Check the srting representation of Assign_folder
+# Check the srting representation of Assign_folder
+def test_representation():
+    folder = Folder(TEST_ADDRESS)
+    assert TEST_ADDRESS == str(folder)
+    del folder
 
-    def test_walk_top_down(self):
-        # Walker topdown
-        self.f = folder(TEST_ADDRESS)
-        self.assertTrue(os.path.isfile(next(self.f.walker())))
+
+# Assign non-existent folder
+def test_assiging_none_existing_folder():
+    pass
+
+# Assign file
+# Check the srting representation of Assign_folder
+
+
+def test_walk_top_down():
+    # Walker topdown
+    f = Folder(TEST_ADDRESS)
+    assert os.path.isfile(next(f.walker()))
 
     # Walker bottom up
-        self.assertTrue(os.path.isfile(next(self.f.walker(n=True))))
+    assert os.path.isfile(next(f.walker(n=True)))
 
-    def test_dir_walker(self):
-        self.f = folder(TEST_ADDRESS)
-        self.assertTrue(os.path.isdir(next(self.f.dir_walker())))
-        self.assertTrue(os.path.isdir(next(self.f.dir_walker(n=True))))
 
-    def test_mkdir(self):
-        self.n = folder(new_dir)
-        # trying to mkdir a directory
-        self.n.mkdir(new_dir)
-        self.assertTrue(os.path.exists(new_dir))
+def test_dir_walker():
+    f = Folder(TEST_ADDRESS)
+    assert os.path.isdir(next(f.dir_walker()))
+    assert os.path.isdir(next(f.dir_walker(n=True)))
 
-    def test_delete(self):
-        self.n = folder(new_dir)
-        self.n.delete(new_dir)
-        self.assertFalse(os.path.exists(new_dir))
+
+def test_mkdir():
+    n = Folder(new_dir)
+    # trying to mkdir a directory
+    n.mkdir(new_dir)
+    assert os.path.exists(new_dir)
+
+
+def test_delete():
+    n = Folder(new_dir)
+    n.delete(new_dir)
+    assert not os.path.exists(new_dir)
     # delete directory
     # delete non-existent directory
 
 
-class TestDestination(unittest.TestCase):
-    def Test_setFolder(self):
-        pass
+# TestDestination Folder
+def test_set_folder():
+    pass
     # Checking Creating Destination path
     # Checking creating existing destination
     # Checking Setting destination path
 
-    def Test_add_category(self):
-        # Checking creating Categories dictionary
-        pass
 
-    def Test_folder_categories(self):
-        # checking creating folder categories
-        pass
+def test_add_category():
+    # Checking creating Categories dictionary
+    pass
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_folder_categories():
+    # checking creating folder categories
+    pass
