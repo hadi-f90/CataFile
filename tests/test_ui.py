@@ -5,8 +5,8 @@ sys.path.append('.')
 
 from project.ui import choice
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files'
-new_dir = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/test2'
+TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/test/test_files'
+new_dir = '/home/hadi/Documents/GitHub/CataFile/test/test_files/test2'
 
 try:
     wrong_input = choice("", "")

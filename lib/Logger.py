@@ -7,7 +7,7 @@ from sys import path, stdout
 from jalali.Jalalian import jdate
 
 path.append('..')
-# path.append('.')
+path.append('.')
 
 from preferences import preferences
 
@@ -29,14 +29,15 @@ class Logger(logging.Logger):
         super().__init__(name, level)
         self.logger_name = name
         self.log_file_address = preferences.get('log_file_address')
-        self.date_time = jdate('Y-m-d@H:i:s') if preferences.get('calendar') else datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
-        self.log_file_name = f'{self.log_file_address}/log{self.date_time}.log'
+        self.date_time = jdate('Y-m-d-H:i:s') if preferences.get('calendar') else datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
+        self.log_file_name = f'{self.log_file_address}/log@{self.date_time}.log'
         self.level = preferences.get('log_level')
         self.formatter = logging.Formatter(f"""{LINE}
 {self.date_time}\n%(levelname)s\tMessage: %(message)s
 Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d\tfunction: %(funcName)s""")
         self.save_log()
         self.show_details()
+        self.info(f'{self.logger_name} module started logging events')
 
     def save_log(self):
         """Save the log to a file."""

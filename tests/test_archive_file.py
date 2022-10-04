@@ -8,8 +8,8 @@ from lib import MyFile
 
 sys.dont_write_bytecode = True
 
-SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases'
-# DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases/dest'
+SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/project/test_cases'
+# DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/project/test_cases/dest'
 os.chdir(SOURCE_TEST_ADDRESS)
 
 

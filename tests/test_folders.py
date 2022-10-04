@@ -6,8 +6,8 @@ sys.path.append('.')
 from lib import folders
 from lib import logger
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files'
-new_dir = '/home/hadi/Documents/GitHub/file_categorizer/test/test_files/test2'
+TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/test/test_files'
+new_dir = '/home/hadi/Documents/GitHub/CataFile/test/test_files/test2'
 
 
 class TestFolders(unittest.TestCase):

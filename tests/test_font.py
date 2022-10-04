@@ -6,8 +6,8 @@ import MyFile
 from config import pref
 from pprint import pprint
 
-SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/project/test_cases/dest'
+SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/project/test_cases'
+DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/project/test_cases/dest'
 COPY_DEST = f'{DEST_TEST_ADDRESS}/copy'
 MOVE_DEST = f'{DEST_TEST_ADDRESS}/move'
 os.chdir(SOURCE_TEST_ADDRESS)

@@ -14,8 +14,8 @@ import fleep
 from config import pref
 from lib import MyFile
 
-SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/tests/test_cases'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/file_categorizer/tests/test_cases/dest'
+SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
+DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest'
 COPY_DEST = f'{DEST_TEST_ADDRESS}/copy'
 MOVE_DEST = f'{DEST_TEST_ADDRESS}/move'
 os.chdir(SOURCE_TEST_ADDRESS)
@@ -78,6 +78,6 @@ def test_file_tester(self):
 
 
 """ @pytest.mark.parametrize("file_name", files_list)
-def test_file_categorizer(file_name):
+def test_CataFile(file_name):
     print(file_name)
-    my_file.file_categorizer(file_name) """
+    my_file.CataFile(file_name) """
