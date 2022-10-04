@@ -1,7 +1,6 @@
 from random import choice
 import pytest
 import os
-from random import choice
 import MyFile
 from config import pref
 from pprint import pprint
