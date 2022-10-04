@@ -2,7 +2,7 @@
 
 ## About
 
-CataFile is a small tool to categorize and check file integerity **(File integerity tests is under development)**.
+CataFile is a small tool to categorize and check file integerity **(File integerity tests are under development)**.
 
 ### Why?
 
