@@ -6,14 +6,14 @@ from sys import path, stdout
 
 from jalali.Jalalian import jdate
 
-path.append('..')
-path.append('.')
-
 from preferences import preferences
+
+path.append("..")
+path.append(".")
 
 # creating logger instance
 
-LINE = '-' * 100
+LINE = "-" * 100
 
 
 class Logger(logging.Logger):
@@ -28,21 +28,23 @@ class Logger(logging.Logger):
         """
         super().__init__(name, level)
         self.logger_name = name
-        self.log_file_address = preferences.get('log_file_address')
-        self.date_time = jdate('Y-m-d-H:i:s') if preferences.get('calendar') else datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
-        self.log_file_name = f'{self.log_file_address}/log@{self.date_time}.log'
-        self.level = preferences.get('log_level')
+        self.log_file_address = preferences.get("log_file_address")
+        self.date_time = (jdate("Y-m-d-H:i:s") if preferences.get("calendar")
+                          else datetime.now().strftime("%Y-%m-%d-%H:%M:%S"))
+        self.log_file_name = f"{self.log_file_address}/log@{self.date_time}.log"
+        self.level = preferences.get("log_level")
         # Todo: Change formater for debugging and not debugging mode
         self.formatter = logging.Formatter(f"""{LINE}
 {self.date_time}\n%(levelname)s\tMessage: %(message)s
-Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d\tfunction: %(funcName)s""")
+Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d\tfunction: %(funcName)s"""
+                                           )
         self.save_log()
         self.show_details()
-        self.info(f'{self.logger_name} module started logging events')
+        self.info(f"{self.logger_name} module started logging events")
 
     def save_log(self):
         """Save the log to a file."""
-        if preferences.get('save_log'):
+        if preferences.get("save_log"):
             self.file_handler = logging.FileHandler(self.log_file_name)
             self.file_handler.setLevel(self.level)
             self.file_handler.setFormatter(self.formatter)
@@ -50,7 +52,7 @@ Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d
 
     def show_details(self):
         """Show the details of the log."""
-        if preferences.get('show_details'):
+        if preferences.get("show_details"):
             self.stream_handler = logging.StreamHandler(stdout)
             self.stream_handler.setLevel(self.level)
             self.stream_handler.setFormatter(self.formatter)
@@ -58,10 +60,9 @@ Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d
 
     def change_level(self, handler):
         """Change Logging leve to preference one."""
-        handler.setLevel(preferences.get('log_level'))
+        handler.setLevel(preferences.get("log_level"))
 
 
 # setting up formatter
-
 
 LOGGER = Logger(__name__)
