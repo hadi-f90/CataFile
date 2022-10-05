@@ -106,10 +106,10 @@ class DestinationFolder(Folder):
         Args:
             input_dir (_type_, optional): Defaults to os.getcwd().
         """
-        super().__init__()
+        super(DestinationFolder, self).__init__()
         # preparing destination path
         # self.mkdir(os.getcwd()+'/Categories/')
-        self.current_dir = f'{os.getcwd()} /Categories/' \
+        self.current_dir = f'{os.getcwd()}/Categories/' \
             if input_dir in ('', None) else input_dir
         if os.path.exists(self.current_dir):
             LOGGER.info('Using existing directory:%s', self.current_dir)
@@ -137,6 +137,3 @@ class DestinationFolder(Folder):
             self.mkdir(self.category_dirs[category_name])
             LOGGER.info('%s directory structure created.', category_name)
 
-    def __dict__(self):
-        """Return a dictionary of category names."""
-        return self.category_dirs

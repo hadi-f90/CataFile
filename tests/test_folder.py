@@ -6,7 +6,7 @@ import pytest
 
 sys.path.append('..')
 sys.path.append('.')
-from lib.Folders import Folder, DestinationFolder
+from lib.Folders import Folder
 
 TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
 NEW_DIR = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test2'
@@ -79,23 +79,3 @@ def test_not_existing_directory_delete():
         return False
     except FileNotFoundError:
         return True
-
-# Test for Destination Folder class
-DEST_TEST_FOLDER = DestinationFolder(DEST_TEST_ADDRESS)
-
-
-def test_set_folder():
-    pass
-    # Checking Creating Destination path
-    # Checking creating existing destination
-    # Checking Setting destination path
-
-
-def test_add_category():
-    """Test creating category dictionary."""
-    pass
-
-
-def test_folder_categories():
-    """Test checking creating folder categories."""
-    pass
