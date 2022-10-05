@@ -1,14 +1,16 @@
 """A Test for Folders module."""
 import os
 import sys
-sys.path.append('..')
-sys.path.append('.')
+
 from lib.Folders import Folder
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
-NEW_DIR = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test2'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest/'
-NOT_EXISTING_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test100'
+sys.path.append("..")
+sys.path.append(".")
+
+TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
+NEW_DIR = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test2"
+DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest/"
+NOT_EXISTING_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test100"
 
 
 def test_not_setting_initial_folder():
@@ -25,7 +27,6 @@ def test_not_setting_initial_folder():
         either isn't a folder or doesn't exist!"'''
 
 # Todo: TEST Assigning file
-
 
 TEST_FOLDER = Folder(TEST_ADDRESS)
 
