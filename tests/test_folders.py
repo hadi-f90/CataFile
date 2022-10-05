@@ -4,14 +4,15 @@ import sys
 
 import pytest
 
-sys.path.append('..')
-sys.path.append('.')
-from lib.Folders import Folder, DestinationFolder
+from lib.Folders import DestinationFolder, Folder
 
-TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
-NEW_DIR = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test2'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest/'
-NOT_EXISTING_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test100'
+sys.path.append("..")
+sys.path.append(".")
+
+TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
+NEW_DIR = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test2"
+DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest/"
+NOT_EXISTING_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/test100"
 
 
 def test_not_setting_initial_folder():
@@ -28,7 +29,6 @@ def test_not_setting_initial_folder():
         either isn't a folder or doesn't exist!"'''
 
 # Todo: TEST Assigning file
-
 
 TEST_FOLDER = Folder(TEST_ADDRESS)
 
@@ -79,6 +79,7 @@ def test_not_existing_directory_delete():
         return False
     except FileNotFoundError:
         return True
+
 
 # Test for Destination Folder class
 DEST_TEST_FOLDER = DestinationFolder(DEST_TEST_ADDRESS)
