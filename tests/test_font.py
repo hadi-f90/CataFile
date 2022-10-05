@@ -1,12 +1,13 @@
 import os
+import sys
 from pprint import pprint
 from random import choice
-import sys
-sys.path.append('..')
-sys.path.append('.')
-from lib.MyFile import MyFile
 
 from config import pref
+from lib.MyFile import MyFile
+
+sys.path.append("..")
+sys.path.append(".")
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/project/test_cases"
 DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/project/test_cases/dest"
