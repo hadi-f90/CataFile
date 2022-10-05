@@ -17,18 +17,16 @@ class Folder:
     """
 
     def __init__(self, current_directory=os.getcwd()[:]):
-        """_summary_ .
+        """Initiate Folder module.
 
         Args:
-            current_directory Defaults to os.getcwd()[:].
+            current_directory: Defaults to os.getcwd().
         """
         # Setting and checking the directory
         self.current_dir = current_directory
 
-        try:
-            LOGGER.info('Trying to set address to:%s', self.current_dir)
-            assert os.path.isdir(self.current_dir)
-        except AssertionError:
+        LOGGER.info('Trying to set address to:%s', self.current_dir)
+        if not os.path.isdir(self.current_dir):
             LOGGER.critical(
                 "%s either isn't a folder or doesn't exist!", self.current_dir)
 
@@ -82,6 +80,9 @@ class Folder:
         except AssertionError:
             LOGGER.warning('%s was not a directory.', sub_dir)
 
+        except FileNotFoundError:
+            LOGGER.warning('%s was not found.', sub_dir)
+
     def __str__(self) -> str:
         """Return the name of current dir."""
         return self.current_dir
@@ -100,7 +101,7 @@ class DestinationFolder(Folder):
 
     def __init__(self,
                  input_dir=os.getcwd()):
-        """Get a folder name, If not Set, Sets current directory as default.
+        """Get a folder name, If not set, os.getcwd() is default.
 
         Args:
             input_dir (_type_, optional): Defaults to os.getcwd().
@@ -137,4 +138,5 @@ class DestinationFolder(Folder):
             LOGGER.info('%s directory structure created.', category_name)
 
     def __dict__(self):
+        """Return a dictionary of category names."""
         return self.category_dirs

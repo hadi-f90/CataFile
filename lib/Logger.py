@@ -32,6 +32,7 @@ class Logger(logging.Logger):
         self.date_time = jdate('Y-m-d-H:i:s') if preferences.get('calendar') else datetime.now().strftime('%Y-%m-%d-%H:%M:%S')
         self.log_file_name = f'{self.log_file_address}/log@{self.date_time}.log'
         self.level = preferences.get('log_level')
+        # Todo: Change formater for debugging and not debugging mode
         self.formatter = logging.Formatter(f"""{LINE}
 {self.date_time}\n%(levelname)s\tMessage: %(message)s
 Logger name:{__name__}\tfile: %(filename)s\tmodule: %(module)s\tline: %(lineno)d\tfunction: %(funcName)s""")
