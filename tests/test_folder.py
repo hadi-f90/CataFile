@@ -1,9 +1,6 @@
 """A Test for Folders module."""
 import os
 import sys
-
-import pytest
-
 sys.path.append('..')
 sys.path.append('.')
 from lib.Folders import Folder

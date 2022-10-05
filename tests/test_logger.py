@@ -2,9 +2,8 @@
 
 import os
 from sys import path, stderr, stdout
-import pytest
-
-path.append("..")
+path.append('..')
+path.append('.')
 from lib.Logger import Logger
 
 from preferences import preferences

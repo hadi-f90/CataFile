@@ -1,9 +1,10 @@
 import os
 from pprint import pprint
 from random import choice
-
-import MyFile
-import pytest
+import sys
+sys.path.append('..')
+sys.path.append('.')
+from lib.MyFile import MyFile
 
 from config import pref
 
