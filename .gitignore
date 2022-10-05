@@ -34,7 +34,7 @@ MANIFEST
 *.spec
 
 #Documentations
-docs
+docs/
 
 # Installer logs
 pip-log.txt
