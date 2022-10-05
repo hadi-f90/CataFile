@@ -9,15 +9,17 @@ from pprint import pprint
 from random import choice
 from sys import path
 
-path.append('..')
 import fleep
+
 from config import pref
 from lib import MyFile
 
-SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
-DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest'
-COPY_DEST = f'{DEST_TEST_ADDRESS}/copy'
-MOVE_DEST = f'{DEST_TEST_ADDRESS}/move'
+path.append("..")
+
+SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
+DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest"
+COPY_DEST = f"{DEST_TEST_ADDRESS}/copy"
+MOVE_DEST = f"{DEST_TEST_ADDRESS}/move"
 os.chdir(SOURCE_TEST_ADDRESS)
 
 
@@ -51,7 +53,7 @@ print(0, testcase_my_file)
 print(1, testcase_my_file.file_name)
 print(2, testcase_my_file.extension)
 print(3.1, testcase_my_file.path)  # full path includes name no need 2 fullname
-print(3.2, ["Fleep", "Magic", "Extension"][pref.get('file_processor')])
+print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
 print(3.3, testcase_my_file.file_object.read(2048))
 print(3.4, fleep.get(testcase_my_file.file_object.read(2048)))
 print(4.0, testcase_my_file.fleep_detect())
