@@ -1,14 +1,13 @@
 import os
 import shutil
 
-
 import fleep
 import magic
 import patoolib
 import regex
 from fontbro import Font
-from lib import KonsoleLogger
 
+from lib.Logger import LOGGER
 from preferences import preferences
 
 
@@ -50,7 +49,7 @@ class MyFile():
             self.mime = self.extension
 
         else:
-            logger.LOGGGER.error('file_processor not set')
+            LOGGER.error('file_processor not set')
         # self.extension_revert()
 
     def magic_detect(self):
@@ -87,12 +86,12 @@ class MyFile():
         """
         try:
             shutil.move(self.path, destination)
-            logger.LOGGGER.info(f'Moved {self.path} to {destination}.')
+            LOGGER.info('Moved %s to %s.', self.path, destination)
             self.path = destination + self.file_name + self.extension
 
         except Exception as e:
-            logger.LOGGGER.error(f'Error moving {self.path} to {destination}.')
-            logger.LOGGGER.error(e)
+            LOGGER.error('Error moving %s to %s.', self.path, destination)
+            LOGGER.error(e)
 
     def copy(self, destination):
         """Copy file to given destination.
@@ -101,7 +100,7 @@ class MyFile():
             destination : str or path-like object
         """
         shutil.copy(self.path, destination)
-        logger.LOGGGER.info(f'{self.path} copied to {destination}')
+        LOGGER.info('%s copied to %s', self.path, destination)
 
     def rename(self, new_name):
         """
@@ -109,13 +108,13 @@ class MyFile():
 
         new_name: str
         """
-        logger.LOGGGER.info(f'Changing {self.path} name to {new_name}')
+        LOGGER.info('Changing %s name to %s', self.path, new_name )
         try:
             os.rename(self.path, new_name)
 
         except FileExistsError as e:
-            logger.LOGGGER.error('%s already exists. Numbering ...', new_name)
-            logger.LOGGGER.error(e)
+            LOGGER.error('%s already exists. Numbering ...', new_name)
+            LOGGER.error(e)
 
             number = 0
             new_file_name = f'{self.file_name}({number}).{self.extension}'
@@ -123,13 +122,13 @@ class MyFile():
                 number += 1
                 new_file_name = f'{self.file_name}({number}).{self.extension}'
             os.rename(self.path, new_file_name)
-            logger.LOGGGER.info(f'{self.path} renamed to {new_file_name}')
+            LOGGER.info('%s renamed to %s', self.path, new_file_name )
 
     def extension_revert(self):
         """Revert the extension of the file to the original one."""
         # if the file type is not known then try fo file its type
         if self.extension in (None, '') or self.detected_extension != self.extension:
-            logger.LOGGGER.info(f'Changing {self.path} extension to {self.detected_extension}')
+            LOGGER.info('Changing %s extension to %s', self.path, self.detected_extension)
             new_name = f'{self.file_name}.{self.detected_extension}'
             self.rename(new_name)
             self.extension = self.detected_extension
@@ -157,7 +156,7 @@ class FontFile(MyFile, Font):
         """Revert font file name to its internal name."""
         new_font_name = f'{self.font_name}-{self.weight}.{self.extension}'
         self.rename(new_font_name)
-        logger.LOGGGER.info('Font reverted to its name:%s', self.file_name)
+        LOGGER.info('Font reverted to its name: %s', self.file_name)
         self.file_name = new_font_name
 
 
@@ -172,11 +171,11 @@ class ArchiveFile(MyFile):
         """Test archive file health."""
         try:
             patoolib.test_archive(self.path)
-            logger.LOGGGER.debug('Testing file %s', self.path)
+            LOGGER.debug('Testing file %s', self.path)
             return True
         except patoolib.util.PatoolError as e:
-            logger.LOGGGER.error(
-                f'Error. Testing {self.path} Failed with error {e}')
+            LOGGER.error(
+                'Error. Testing %s Failed with error %s', self.path, e)
             return False
 
     def check_integerity(self):
@@ -196,7 +195,7 @@ class ArchiveFile(MyFile):
             return result
 
         else:
-            logger.LOGGGER.debug("Checking %s not supported!", self.extension)
+            LOGGER.debug("Checking %s not supported!", self.extension)
             return False
 
 

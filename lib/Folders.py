@@ -38,9 +38,11 @@ class Folder:
             [str]: [full path of file]
         """
         for root, dirs, files in os.walk(self.current_dir, topdown=top_down):
-            if len(files) != 0:
+            if len(files) > 0:
                 for _ in files:
                     # Todo: why not to use os.path.abspath here?
+                    # Todo: A good to use glob.iglob('**', recursive=True)
+                    # Todo: Do use pathlib 
                     self.selected_file_name = _
                     yield os.path.join(root, _)
 

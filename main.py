@@ -6,7 +6,7 @@ from sys import argv
 
 from config import pref
 from lib.Folders import DestinationFolder, Folder
-from lib.Logger import LOGGER, setup_logger
+from lib.Logger import LOGGER
 from lib.MyFile import MyFile
 
 # ==========main course====================
@@ -24,12 +24,11 @@ def main():
     global SOURCE, DESTINATION
     SOURCE = Folder(pref.get('source_dir'))
     DESTINATION = DestinationFolder(pref.get('destination_dir'))
-    setup_logger()
     LOGGER.debug(argv[0], LOGGER.handlers[0])
     for _ in SOURCE.walker():
-        LOGGER.debug(f'file to be processed: {SOURCE.selected_file_name}')
+        LOGGER.debug('file to be processed: %s', SOURCE.selected_file_name)
         process_file(_)
-        continue
+        # continue
 
     empty_folder_delete()
 
@@ -46,13 +45,13 @@ def process_file(_):
             f.move(DESTINATION.category_dirs[f.mime])
 
         except (TypeError, shutil.Error):
-            LOGGER.critical(f'Error during processing {_}.\n \
+            LOGGER.critical('Error during processing %s.\n \
                     A file with the same name may have prevented it from \
-                        being moved')
+                        being moved', _)
 
         except AttributeError:
             LOGGER.critical(
-                f"Error during processing{_}. File type isn't known.")
+                "Error during processing %s. File type isn't known.", _)
 
         DESTINATION.add_category('/Corrupted')
         try:
@@ -60,10 +59,10 @@ def process_file(_):
 
         except shutil.Error:
             LOGGER.critical(
-                f'Error copying {str(f)}. Maybe because of duplicate name')
+                'Error copying %s. Maybe because of duplicate name', str(f))
         finally:
             LOGGER.critical(
-                f'An error occured processing {str(f)}. Check it manually!')
+                'An error occured processing %s. Check it manually!', str(f))
 
 
 def empty_folder_delete():
@@ -72,8 +71,8 @@ def empty_folder_delete():
     for _ in os.walk(SOURCE.current_dir):
         if len(os.listdir(_)) < 1:
             try:
-                LOGGER.warning(f'Removing {_}')
+                LOGGER.warning('Removing %s', _)
                 os.rmdir(_)
 
             except OSError:
-                LOGGER.critical(f'Error removing empty dir {_}')
+                LOGGER.critical('Error removing empty dir %s', _)
