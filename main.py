@@ -22,11 +22,11 @@ def main():
     Finally omit the empty directories.
     """
     global SOURCE, DESTINATION
-    SOURCE = Folder(pref.get('source_dir'))
-    DESTINATION = DestinationFolder(pref.get('destination_dir'))
+    SOURCE = Folder(pref.get("source_dir"))
+    DESTINATION = DestinationFolder(pref.get("destination_dir"))
     LOGGER.debug(argv[0], LOGGER.handlers[0])
     for _ in SOURCE.walker():
-        LOGGER.debug('file to be processed: %s', SOURCE.selected_file_name)
+        LOGGER.debug("file to be processed: %s", SOURCE.selected_file_name)
         process_file(_)
         # continue
 
@@ -39,30 +39,33 @@ def process_file(_):
 
     if os.path.isfile(f.path):  # Todo: removed f.check_integerity():
         try:
-            LOGGER.debug(f.mime, '\n', f.path)
+            LOGGER.debug(f.mime, "\n", f.path)
             if f.mime not in DESTINATION.category_dirs:
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
 
         except (TypeError, shutil.Error):
-            LOGGER.critical('Error during processing %s.\n \
+            LOGGER.critical(
+                "Error during processing %s.\n \
                     A file with the same name may have prevented it from \
-                        being moved', _)
+                        being moved",
+                _,
+            )
 
         except AttributeError:
             LOGGER.critical(
                 "Error during processing %s. File type isn't known.", _)
 
-        DESTINATION.add_category('/Corrupted')
+        DESTINATION.add_category("/Corrupted")
         try:
-            f.move(DESTINATION.category_dirs['/Corrupted'])
+            f.move(DESTINATION.category_dirs["/Corrupted"])
 
         except shutil.Error:
             LOGGER.critical(
-                'Error copying %s. Maybe because of duplicate name', str(f))
+                "Error copying %s. Maybe because of duplicate name", str(f))
         finally:
             LOGGER.critical(
-                'An error occured processing %s. Check it manually!', str(f))
+                "An error occured processing %s. Check it manually!", str(f))
 
 
 def empty_folder_delete():
@@ -71,8 +74,8 @@ def empty_folder_delete():
     for _ in os.walk(SOURCE.current_dir):
         if len(os.listdir(_)) < 1:
             try:
-                LOGGER.warning('Removing %s', _)
+                LOGGER.warning("Removing %s", _)
                 os.rmdir(_)
 
             except OSError:
-                LOGGER.critical('Error removing empty dir %s', _)
+                LOGGER.critical("Error removing empty dir %s", _)
