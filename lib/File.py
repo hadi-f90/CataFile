@@ -1,7 +1,7 @@
 """This file contains a set of classes used to manipulate different file types."""
 import os
 import shutil
-
+import pathlib
 import fleep
 import magic
 import patoolib
@@ -26,6 +26,7 @@ def create_proper_file_instance():
 
 
 # ============================== file object class ============================
+
 class File():
     """A class to manipulate  files."""
 
@@ -37,28 +38,33 @@ class File():
         """
         # Todo: use pathlib & glob for later versions
         # file type info
-        self.path = os.path.abspath(file_object)
-        with open(file_object, 'rb') as self.file_object:
-            self.file_name, self.extension = os.path.splitext(self.path)
-            self.file_header = self.file_object.read(2048)
+        self.full_path = pathlib.PurePath(file_object)
+        self.parent_dir = self.full_path.parent
+        self.full_file_name = self.full_path.name
+        self.extension = self.full_path.suffix
+        self.file_name = self.full_path.stem
 
-            if preferences.get('file_processor') == 0:
-                self.fleep_detect()
+        self.file_object = open(file_object, 'rb')
+        self.file_header = self.file_object.read(2048)
 
-            elif preferences.get('file_processor') == 1:
-                self.magic_detect()
+        if preferences.get('file_processor') == 0:
+            self.fleep_detect()
 
-            elif preferences.get('file_processor') == 2:
-                self.mime = self.extension
+        elif preferences.get('file_processor') == 1:
+            self.magic_detect()
 
-            else:
-                LOGGER.error('File_processor not set')
+        elif preferences.get('file_processor') == 2:
+            self.mime = self.extension
+
+        else:
+            LOGGER.error('File_processor not set')
             # self.extension_revert()
 
     def magic_detect(self):
         """Detect file type using magic module."""
         self.mime = magic.from_buffer(self.file_header, mime=True)
         self.type, self.detected_extension = self.mime.split('/')
+        self.detected_extension = '.' + self.detected_extension
         if self.mime == ('', None):
             self.mime = 'etc'
 
@@ -66,7 +72,7 @@ class File():
         """Detect file type using fleep module."""
         self.file_info = fleep.get(self.file_header)
         self.type = self.file_info.type[0]
-        self.detected_extension = self.file_info.extension[0]
+        self.detected_extension = '.' + self.file_info.extension[0]
         self.mime = self.file_info.mime
         self.mime = 'etc' if len(self.mime) < 1 else self.file_info.mime[0]
 
@@ -77,9 +83,9 @@ class File():
         output: (accessed, created, modified)
         """
         # To-do: returns file data and time
-        return (os.path.getatime(self.path),
-                os.path.getctime(self.path),
-                os.path.getmtime(self.path))
+        return (os.path.getatime(self.full_path),
+                os.path.getctime(self.full_path),
+                os.path.getmtime(self.full_path))
 
     def move(self, destination):
         """Move file to  given destination.
@@ -87,14 +93,14 @@ class File():
         Args:
             destination : str or path-like object
         """
+        destination_path = pathlib.PurePath(destination)
         try:
-            shutil.move(self.path, destination)
-            LOGGER.info('Moved %s to %s.', self.path, destination)
-            self.path = destination + self.file_name + self.extension
+            shutil.move(self.full_path, destination_path)
+            self.full_path = destination_path
+            LOGGER.info('Moved %s to %s.', self.full_path, destination_path)
 
-        except Exception as e:
-            LOGGER.error('Error moving %s to %s.', self.path, destination)
-            LOGGER.error(e)
+        except Exception as error:
+            LOGGER.error('Error moving %s to %s because of:\n%s.', self.full_path, destination, error)
 
     def copy(self, destination):
         """Copy file to given destination.
@@ -102,8 +108,9 @@ class File():
         Args:
             destination : str or path-like object
         """
-        shutil.copy(self.path, destination)
-        LOGGER.info('%s copied to %s', self.path, destination)
+        destination_path = destination + '/' + self.full_file_name
+        shutil.copy(self.full_path, destination_path)
+        LOGGER.info('%s copied to %s', self.full_path, destination_path)
 
     def rename(self, new_name):
         """
@@ -111,9 +118,9 @@ class File():
 
         new_name: str
         """
-        LOGGER.info('Changing %s name to %s', self.path, new_name)
+        LOGGER.info('Changing %s name to %s', self.full_path, new_name)
         try:
-            os.rename(self.path, new_name)
+            pathlib.Path(self.full_path).rename(new_name)
 
         except FileExistsError as error:
             LOGGER.debug(error)
@@ -121,25 +128,25 @@ class File():
 
             number = 0
             new_file_name = f'{self.file_name}({number}).{self.extension}'
-            while os.path.exists(new_file_name):
+            while pathlib.Path(new_file_name).exists():
                 number += 1
                 new_file_name = f'{self.file_name}({number}).{self.extension}'
-            os.rename(self.path, new_file_name)
-            LOGGER.info('%s renamed to %s', self.path, new_file_name)
+            pathlib.Path(self.full_path).rename(new_file_name)
+            LOGGER.info('%s renamed to %s', self.full_path, new_file_name)
 
     def extension_revert(self):
         """Revert the extension of the file to the original one."""
         # if the file type is not known then try fo file its type
         if self.extension in (None, '') or self.detected_extension != self.extension:
-            LOGGER.info('Changing %s extension to %s', self.path, self.detected_extension)
-            new_name = f'{self.file_name}.{self.detected_extension}'
+            LOGGER.info('Changing %s extension to %s', self.full_path, self.detected_extension)
+            new_name = self.full_path.with_suffix(self.detected_extension)
             self.rename(new_name)
             self.extension = self.detected_extension
-            self.path = os.path.abspath(new_name)
+            self.full_path = pathlib.PurePath(new_name)
 
     def __str__(self) -> str:
         """Return string representation name of the class instance."""
-        return self.path
+        return self.full_path
 
 
 class FontFile(File, Font):
@@ -175,12 +182,12 @@ class ArchiveFile(File):
     def test_archive(self):
         """Test archive file health."""
         try:
-            patoolib.test_archive(self.path)
-            LOGGER.debug('Testing file %s', self.path)
+            patoolib.test_archive(self.full_path)
+            LOGGER.debug('Testing file %s', self.full_path)
             return True
         except patoolib.util.PatoolError as error:
             LOGGER.error(
-                'Error. Testing %s Failed with error %s', self.path, error)
+                'Error. Testing %s Failed with error %s', self.full_path, error)
             return False
 
     def check_integerity(self):
@@ -193,8 +200,8 @@ class ArchiveFile(File):
                 .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+',
                 self.extension,
                 flags=regex.IGNORECASE) is not None:
-            test_case = shutil.copyfile(self.path, f'{self.file_name}.zip')
-            print(os.path.abspath(test_case))
+            test_case = shutil.copyfile(self.full_path, f'{self.file_name}.zip')
+            print(os.full_path.abspath(test_case))
             result = self.test_archive()
             os.remove(test_case)
             return result
