@@ -7,7 +7,7 @@ from sys import argv
 from config import pref
 from lib.Folders import DestinationFolder, Folder
 from lib.Logger import LOGGER
-from lib.MyFile import MyFile
+from lib.File import MyFile
 
 # ==========main course====================
 SOURCE = None

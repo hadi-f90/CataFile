@@ -4,7 +4,7 @@ import sys
 from pprint import pprint
 from random import choice
 
-from lib import MyFile
+from lib import File
 
 sys.dont_write_bytecode = True
 
@@ -42,7 +42,7 @@ files_list = populate_list_of_files(SOURCE_TEST_ADDRESS,
                                     ('.zip', '.apk', '.rar', '.7z', '.docx'))
 pprint(files_list)
 
-testcase_my_file = MyFile.ArchiveFile(choice(files_list))
+testcase_my_file = File.ArchiveFile(choice(files_list))
 print(testcase_my_file)
 print(testcase_my_file.file_info.mime)
 # print(testcase_my_file.path)

@@ -1,3 +1,4 @@
+"""This file contains a set of classes used to manipulate different file types."""
 import os
 import shutil
 
@@ -25,10 +26,10 @@ def create_proper_file_instance():
 
 
 # ============================== file object class ============================
-class MyFile():
+class File():
     """A class to manipulate  files."""
 
-    def __init__(self, file_object=None):
+    def __init__(self, file_object):
         """Get a file object and create a MyFile instance.
 
         Args:
@@ -36,8 +37,8 @@ class MyFile():
         """
         # Todo: use pathlib & glob for later versions
         # file type info
+        self.path = os.path.abspath(file_object)
         with open(file_object, 'rb') as self.file_object:
-            self.path = os.path.abspath(file_object)
             self.file_name, self.extension = os.path.splitext(self.path)
             self.file_header = self.file_object.read(2048)
 
@@ -110,13 +111,13 @@ class MyFile():
 
         new_name: str
         """
-        LOGGER.info('Changing %s name to %s', self.path, new_name )
+        LOGGER.info('Changing %s name to %s', self.path, new_name)
         try:
             os.rename(self.path, new_name)
 
-        except FileExistsError as e:
-            LOGGER.error('%s already exists. Numbering ...', new_name)
-            LOGGER.error(e)
+        except FileExistsError as error:
+            LOGGER.debug(error)
+            LOGGER.info('%s already exists. Numbering ...', new_name)
 
             number = 0
             new_file_name = f'{self.file_name}({number}).{self.extension}'
@@ -124,7 +125,7 @@ class MyFile():
                 number += 1
                 new_file_name = f'{self.file_name}({number}).{self.extension}'
             os.rename(self.path, new_file_name)
-            LOGGER.info('%s renamed to %s', self.path, new_file_name )
+            LOGGER.info('%s renamed to %s', self.path, new_file_name)
 
     def extension_revert(self):
         """Revert the extension of the file to the original one."""
@@ -141,7 +142,7 @@ class MyFile():
         return self.path
 
 
-class FontFile(MyFile, Font):
+class FontFile(File, Font):
     """Special class for font file actions that inherits MyFile & Font methods."""
     def __init__(self, file_object=None):
         """Initialize the font file actions."""
@@ -162,10 +163,12 @@ class FontFile(MyFile, Font):
         self.file_name = new_font_name
 
 
-class ArchiveFile(MyFile):
+class ArchiveFile(File):
     """Archive File Type special class."""
 
     def __init__(self, file_object=None):
+        """Initialize a ArchiveFile object based File
+        """
         super().__init__(file_object)
         # self.test_archive()
 
@@ -175,17 +178,17 @@ class ArchiveFile(MyFile):
             patoolib.test_archive(self.path)
             LOGGER.debug('Testing file %s', self.path)
             return True
-        except patoolib.util.PatoolError as e:
+        except patoolib.util.PatoolError as error:
             LOGGER.error(
-                'Error. Testing %s Failed with error %s', self.path, e)
+                'Error. Testing %s Failed with error %s', self.path, error)
             return False
 
     def check_integerity(self):
         """Check an undetectable file."""
         if self.extension in patoolib.ArchiveFormats:
-            self.test_archive()
+            return self.test_archive()
         # not tested for documents & apks
-        elif regex.search(
+        if regex.search(
             r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
                 .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+',
                 self.extension,
@@ -196,14 +199,13 @@ class ArchiveFile(MyFile):
             os.remove(test_case)
             return result
 
-        else:
-            LOGGER.debug("Checking %s not supported!", self.extension)
-            return False
+        LOGGER.debug("Checking %s not supported!", self.extension)
+        return False
 
 
 class OfficeDocumentFile(ArchiveFile):
     """Will Process Documents."""
 
 
-class MediaFile(MyFile):
+class MediaFile(File):
     """Will process Media files e.g mp4, wav, etc."""

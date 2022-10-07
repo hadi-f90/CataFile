@@ -1,9 +1,5 @@
 #!/usr/bin/env python
-"""
-Test case for MyFile.py.
-
-This test case is for testing the MyFile class.
-"""
+"""Test cases for File class in File.py."""
 import os
 from pprint import pprint
 from random import choice
@@ -12,7 +8,7 @@ from sys import path
 path.append('..')
 import fleep
 from config import pref
-from lib import MyFile
+from lib import File
 
 SOURCE_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
 DEST_TEST_ADDRESS = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest'
@@ -46,7 +42,7 @@ files_list = populate_list_of_files(SOURCE_TEST_ADDRESS)
 pprint(files_list)
 
 # ==============MyFile Tests ====================
-testcase_my_file = MyFile.MyFile(choice(files_list))
+testcase_my_file = File.File(choice(files_list))
 print(0, testcase_my_file)
 print(1, testcase_my_file.file_name)
 print(2, testcase_my_file.extension)

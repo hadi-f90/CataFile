@@ -4,7 +4,7 @@ from random import choice
 import sys
 sys.path.append('..')
 sys.path.append('.')
-from lib.MyFile import MyFile
+from lib.File import MyFile
 
 from config import pref
 

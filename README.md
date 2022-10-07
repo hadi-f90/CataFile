@@ -68,3 +68,4 @@ On my own PC running Linux, it's first release took about 10 min to categorize 1
 - [ ] Verifying Image and fixes byte errors
 - [ ] Processing files usign [filetype](https://github.com/h2non/filetype.py)
 - [ ] Implementing some part of the tool in C to speed the procedures up.
+  - [ ] Replacing glob and some pathlib modules with some path related actions for more speed.
