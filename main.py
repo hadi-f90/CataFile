@@ -7,7 +7,7 @@ from sys import argv
 from config import pref
 from lib.Folders import DestinationFolder, Folder
 from lib.Logger import LOGGER
-from lib.File import MyFile
+from lib.File import File
 
 # ==========main course====================
 SOURCE = None
@@ -35,7 +35,7 @@ def main():
 
 def process_file(_):
     """Detect given file & move to its category folder."""
-    f = MyFile(_)
+    f = File(_)
 
     if os.path.isfile(f.path):  # Todo: removed f.check_integerity():
         try:
