@@ -62,10 +62,15 @@ On my own PC running Linux, it's first release took about 10 min to categorize 1
 
 - [ ] Trying to fix corrupted archives using patoolib/some other tools
 - [ ] Adding internationalization / translations features
-- [ ] Using multi-processing to speed the script up
 - [ ] Option to remove remaining empty folders
 - [ ] Processing Audio / video files
-- [ ] Verifying Image and fixes byte errors
-- [ ] Processing files usign [filetype](https://github.com/h2non/filetype.py)
-- [ ] Implementing some part of the tool in C to speed the procedures up.
-  - [ ] Replacing glob and some pathlib modules with some path related actions for more speed.
+- [ ] Processing files using [filetype](https://github.com/h2non/filetype.py)
+- [ ] Absurd dream ideas to categorize:
+  - [ ] images using opencv (More like a scary dream to me than an extravagant claim )
+  - [ ] books & articles based on their ISNB, online book services or processing their texts
+  - [ ] audio files based on their mood, tone, etc.
+    and also:
+  - [ ] implementing multi-processing / GPU processing thechniques to speed it up
+  - [ ] verifying images and fix their probable byte errors
+  - [ ] implementing some part of the tool in C to speed the procedures up.
+  - [ ] using glob and pathlib functions in some path-related actions for more speed.
