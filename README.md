@@ -69,6 +69,7 @@ On my own PC running Linux, it's first release took about 10 min to categorize 1
   - [ ] images using opencv (More like a scary dream to me than an extravagant claim )
   - [ ] books & articles based on their ISNB, online book services or processing their texts
   - [ ] audio files based on their mood, tone, etc.
+  
     and also:
   - [ ] implementing multi-processing / GPU processing thechniques to speed it up
   - [ ] verifying images and fix their probable byte errors
