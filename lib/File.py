@@ -26,7 +26,7 @@ def create_proper_file_instance():
 
 
 # ============================== file object class ============================
-class File():
+class File:
     """A class to manipulate  files."""
 
     def __init__(self, file_object):
@@ -38,29 +38,29 @@ class File():
         # Todo: use pathlib & glob for later versions
         # file type info
         self.path = os.path.abspath(file_object)
-        self.file_object = open(file_object, 'rb')
+        self.file_object = open(file_object, "rb")
         self.file_name, self.extension = os.path.splitext(self.path)
         self.file_header = self.file_object.read(2048)
 
-        if preferences.get('file_processor') == 0:
+        if preferences.get("file_processor") == 0:
             self.fleep_detect()
 
-        elif preferences.get('file_processor') == 1:
+        elif preferences.get("file_processor") == 1:
             self.magic_detect()
 
-        elif preferences.get('file_processor') == 2:
+        elif preferences.get("file_processor") == 2:
             self.mime = self.extension
 
         else:
-            LOGGER.error('File_processor not set')
+            LOGGER.error("File_processor not set")
             # self.extension_revert()
 
     def magic_detect(self):
         """Detect file type using magic module."""
         self.mime = magic.from_buffer(self.file_header, mime=True)
-        self.type, self.detected_extension = self.mime.split('/')
-        if self.mime == ('', None):
-            self.mime = 'etc'
+        self.type, self.detected_extension = self.mime.split("/")
+        if self.mime == ("", None):
+            self.mime = "etc"
 
     def fleep_detect(self):
         """Detect file type using fleep module."""
@@ -68,7 +68,7 @@ class File():
         self.type = self.file_info.type[0]
         self.detected_extension = self.file_info.extension[0]
         self.mime = self.file_info.mime
-        self.mime = 'etc' if len(self.mime) < 1 else self.file_info.mime[0]
+        self.mime = "etc" if len(self.mime) < 1 else self.file_info.mime[0]
 
     def file_date_time(self):
         """
@@ -77,9 +77,11 @@ class File():
         output: (accessed, created, modified)
         """
         # To-do: returns file data and time
-        return (os.path.getatime(self.path),
-                os.path.getctime(self.path),
-                os.path.getmtime(self.path))
+        return (
+            os.path.getatime(self.path),
+            os.path.getctime(self.path),
+            os.path.getmtime(self.path),
+        )
 
     def move(self, destination):
         """Move file to  given destination.
@@ -89,11 +91,11 @@ class File():
         """
         try:
             shutil.move(self.path, destination)
-            LOGGER.info('Moved %s to %s.', self.path, destination)
+            LOGGER.info("Moved %s to %s.", self.path, destination)
             self.path = destination + self.file_name + self.extension
 
         except Exception as e:
-            LOGGER.error('Error moving %s to %s.', self.path, destination)
+            LOGGER.error("Error moving %s to %s.", self.path, destination)
             LOGGER.error(e)
 
     def copy(self, destination):
@@ -103,7 +105,7 @@ class File():
             destination : str or path-like object
         """
         shutil.copy(self.path, destination)
-        LOGGER.info('%s copied to %s', self.path, destination)
+        LOGGER.info("%s copied to %s", self.path, destination)
 
     def rename(self, new_name):
         """
@@ -111,28 +113,30 @@ class File():
 
         new_name: str
         """
-        LOGGER.info('Changing %s name to %s', self.path, new_name)
+        LOGGER.info("Changing %s name to %s", self.path, new_name)
         try:
             os.rename(self.path, new_name)
 
         except FileExistsError as error:
             LOGGER.debug(error)
-            LOGGER.info('%s already exists. Numbering ...', new_name)
+            LOGGER.info("%s already exists. Numbering ...", new_name)
 
             number = 0
-            new_file_name = f'{self.file_name}({number}).{self.extension}'
+            new_file_name = f"{self.file_name}({number}).{self.extension}"
             while os.path.exists(new_file_name):
                 number += 1
-                new_file_name = f'{self.file_name}({number}).{self.extension}'
+                new_file_name = f"{self.file_name}({number}).{self.extension}"
             os.rename(self.path, new_file_name)
-            LOGGER.info('%s renamed to %s', self.path, new_file_name)
+            LOGGER.info("%s renamed to %s", self.path, new_file_name)
 
     def extension_revert(self):
         """Revert the extension of the file to the original one."""
         # if the file type is not known then try fo file its type
-        if self.extension in (None, '') or self.detected_extension != self.extension:
-            LOGGER.info('Changing %s extension to %s', self.path, self.detected_extension)
-            new_name = f'{self.file_name}.{self.detected_extension}'
+        if self.extension in (None,
+                              "") or self.detected_extension != self.extension:
+            LOGGER.info("Changing %s extension to %s", self.path,
+                        self.detected_extension)
+            new_name = f"{self.file_name}.{self.detected_extension}"
             self.rename(new_name)
             self.extension = self.detected_extension
             self.path = os.path.abspath(new_name)
@@ -144,6 +148,7 @@ class File():
 
 class FontFile(File, Font):
     """Special class for font file actions that inherits MyFile & Font methods."""
+
     def __init__(self, file_object=None):
         """Initialize the font file actions."""
         super().__init__(file_object)
@@ -151,15 +156,15 @@ class FontFile(File, Font):
         self.extension = self.font.get_format()
         self.font_name = self.font.get_name(key=Font.NAME_FAMILY_NAME)
         self.version = self.font.get_version()
-        self.weight = self.font.get_weight()['name']
+        self.weight = self.font.get_weight()["name"]
 
         # self.revert_font_name()
 
     def revert_font_name(self):  # not testes Yet!
         """Revert font file name to its internal name."""
-        new_font_name = f'{self.font_name}-{self.weight}.{self.extension}'
+        new_font_name = f"{self.font_name}-{self.weight}.{self.extension}"
         self.rename(new_font_name)
-        LOGGER.info('Font reverted to its name: %s', self.file_name)
+        LOGGER.info("Font reverted to its name: %s", self.file_name)
         self.file_name = new_font_name
 
 
@@ -167,8 +172,7 @@ class ArchiveFile(File):
     """Archive File Type special class."""
 
     def __init__(self, file_object=None):
-        """Initialize a ArchiveFile object based File
-        """
+        """Initialize a ArchiveFile object based File"""
         super().__init__(file_object)
         # self.test_archive()
 
@@ -176,11 +180,11 @@ class ArchiveFile(File):
         """Test archive file health."""
         try:
             patoolib.test_archive(self.path)
-            LOGGER.debug('Testing file %s', self.path)
+            LOGGER.debug("Testing file %s", self.path)
             return True
         except patoolib.util.PatoolError as error:
-            LOGGER.error(
-                'Error. Testing %s Failed with error %s', self.path, error)
+            LOGGER.error("Error. Testing %s Failed with error %s", self.path,
+                         error)
             return False
 
     def check_integerity(self):
@@ -188,12 +192,13 @@ class ArchiveFile(File):
         if self.extension in patoolib.ArchiveFormats:
             return self.test_archive()
         # not tested for documents & apks
-        if regex.search(
-            r'.doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
-                .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+',
+        if (regex.search(
+                r".doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
+                .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+",
                 self.extension,
-                flags=regex.IGNORECASE) is not None:
-            test_case = shutil.copyfile(self.path, f'{self.file_name}.zip')
+                flags=regex.IGNORECASE,
+        ) is not None):
+            test_case = shutil.copyfile(self.path, f"{self.file_name}.zip")
             print(os.path.abspath(test_case))
             result = self.test_archive()
             os.remove(test_case)
