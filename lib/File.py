@@ -38,21 +38,21 @@ class File():
         # Todo: use pathlib & glob for later versions
         # file type info
         self.path = os.path.abspath(file_object)
-        with open(file_object, 'rb') as self.file_object:
-            self.file_name, self.extension = os.path.splitext(self.path)
-            self.file_header = self.file_object.read(2048)
+        self.file_object = open(file_object, 'rb')
+        self.file_name, self.extension = os.path.splitext(self.path)
+        self.file_header = self.file_object.read(2048)
 
-            if preferences.get('file_processor') == 0:
-                self.fleep_detect()
+        if preferences.get('file_processor') == 0:
+            self.fleep_detect()
 
-            elif preferences.get('file_processor') == 1:
-                self.magic_detect()
+        elif preferences.get('file_processor') == 1:
+            self.magic_detect()
 
-            elif preferences.get('file_processor') == 2:
-                self.mime = self.extension
+        elif preferences.get('file_processor') == 2:
+            self.mime = self.extension
 
-            else:
-                LOGGER.error('File_processor not set')
+        else:
+            LOGGER.error('File_processor not set')
             # self.extension_revert()
 
     def magic_detect(self):
