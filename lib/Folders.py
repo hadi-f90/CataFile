@@ -37,14 +37,14 @@ class Folder:
         Yields:
             [str]: [full path of file]
         """
-        for root, dirs, files in os.walk(self.current_dir, topdown=top_down):
-            if len(files) > 0:
-                for _ in files:
+        for folder_data in os.walk(self.current_dir, topdown=top_down): # Changed root, dirs, files ==> folder_data tuple
+            if len(folder_data[-1]) > 0:
+                for _ in folder_data[-1]:
                     # Todo: why not to use os.path.abspath here?
                     # Todo: A good to use glob.iglob('**', recursive=True)
                     # Todo: Do use pathlib 
                     self.selected_file_name = _
-                    yield os.path.join(root, _)
+                    yield os.path.join(folder_data[0], _)
 
         if top_down is True:
             self.walker()
@@ -108,7 +108,7 @@ class DestinationFolder(Folder):
         Args:
             input_dir (_type_, optional): Defaults to os.getcwd().
         """
-        super(DestinationFolder, self).__init__()
+        super().__init__()
         # preparing destination path
         # self.mkdir(os.getcwd()+'/Categories/')
         self.current_dir = f'{os.getcwd()}/Categories/' \
@@ -138,4 +138,3 @@ class DestinationFolder(Folder):
         else:
             self.mkdir(self.category_dirs[category_name])
             LOGGER.info('%s directory structure created.', category_name)
-

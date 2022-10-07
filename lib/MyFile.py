@@ -34,23 +34,25 @@ class MyFile():
         Args:
             file_object ( file type ): Defaults to None.
         """
+        # Todo: use pathlib & glob for later versions
         # file type info
-        self.file_object = open(file_object, 'rb')
-        self.path = os.path.abspath(file_object)
-        self.file_name, self.extension = os.path.splitext(self.path)
-        self.file_header = self.file_object.read(2048)
-        if preferences.get('file_processor') == 0:
-            self.fleep_detect()
+        with open(file_object, 'rb') as self.file_object:
+            self.path = os.path.abspath(file_object)
+            self.file_name, self.extension = os.path.splitext(self.path)
+            self.file_header = self.file_object.read(2048)
 
-        elif preferences.get('file_processor') == 1:
-            self.mime = self.extension = self.magic_detect()
+            if preferences.get('file_processor') == 0:
+                self.fleep_detect()
 
-        elif preferences.get('file_processor') == 2:
-            self.mime = self.extension
+            elif preferences.get('file_processor') == 1:
+                self.magic_detect()
 
-        else:
-            LOGGER.error('file_processor not set')
-        # self.extension_revert()
+            elif preferences.get('file_processor') == 2:
+                self.mime = self.extension
+
+            else:
+                LOGGER.error('File_processor not set')
+            # self.extension_revert()
 
     def magic_detect(self):
         """Detect file type using magic module."""
