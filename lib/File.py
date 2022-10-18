@@ -88,7 +88,7 @@ class File:
         """Detect file type using magic module."""
         self.mime = magic.from_buffer(self.file_header, mime=True)
         self.type, self.detected_extension = self.mime.split("/")
-        self.detected_extension = "." + self.detected_extension
+        self.detected_extension = f".{self.detected_extension}"
         if self.mime == ("", None):
             self.mime = "etc"
 
@@ -96,7 +96,7 @@ class File:
         """Detect file type using fleep module."""
         self.file_info = fleep.get(self.file_header)
         self.type = self.file_info.type[0]
-        self.detected_extension = "." + self.file_info.extension[0]
+        self.detected_extension = f".{self.file_info.extension[0]}"
         self.mime = self.file_info.mime
         self.mime = "etc" if len(self.mime) < 1 else self.file_info.mime[0]
 
