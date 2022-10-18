@@ -5,7 +5,8 @@ from pathlib import PurePath
 from pprint import pprint
 from random import choice
 from sys import path
-
+path.append('..')
+path.append('.')
 import fleep
 
 from config import pref
@@ -66,29 +67,30 @@ def test_get_file_extension():
     return extension == testcase_file.extension
 
 
-print(
-    testcase_file.parent_dir,
-    PurePath("/home/hadi/Documents/GitHub/test center/CataFile/test_cases"),
-)
+# print(
+#    testcase_file.parent_dir,
+#    PurePath("/home/hadi/Documents/GitHub/test center/CataFile/test_cases"))
 
 
-def test_get_parent_folder(
-):  # In logs it represnts only  one dot! why and how?!
-    """Check parent folder representation"""
+def test_get_parent_folder():  # Todo:In logs it returns only 1 dot! why & how?!
+    """Check parent folder representation."""
     return testcase_file.parent_dir == PurePath(
         "/home/hadi/Documents/GitHub/test center/CataFile/test_cases"
     )  # full path includes name no need 2 fullname
 
 
 def test_get_full_file_name():
+    """Verifiy full name variable data."""
     return testcase_file.full_file_name == c
 
 
 def test_reading_file_header():  # Passed!
+    """Verify reading header."""
     return testcase_file.file_header == testcase_file.file_object.read(2048)
 
 
 def test_file_date_time_function():  # Passed!
+    """Verify read file date function works"""
     return (
         testcase_file.file_date_time() == os.path.getatime(
             testcase_file.full_path),
@@ -102,23 +104,28 @@ print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
 
 
 def test_file_detection_with_fleep():
+    """Verifiy fleep file detection function."""
     return (fleep.get(
         testcase_file.file_object.read(2048)) == testcase_file.fleep_detect())
 
 
 def test_file_info():
+    """Check file info variable."""
     print(4.1, testcase_file.file_info)
 
 
 def test_file_type():
+    """Check file type variable."""
     print(4.2, testcase_file.type)
 
 
 def test_file_detection_function_extension():
+    """Check file extension detecting function."""
     print(4.3, testcase_file.detected_extension)
 
 
 def test_file_detection_function_mime():
+    """Check file mime detecting function."""
     print(4.4, testcase_file.file_info.mime)
 
 
@@ -126,6 +133,7 @@ def test_file_detection_function_mime():
 
 
 def test_file_detection_with_magic():
+    """Check magic lib file detection facility."""
     print(5.1, testcase_file.magic_detect())
     print(5.2, testcase_file.mime)
     print(5.3, testcase_file.type)
@@ -133,23 +141,26 @@ def test_file_detection_with_magic():
 
 
 def test_reverting_file_extension_function():
+    """Verifiy extension revert functionality."""
     print(7, testcase_file.extension_revert())
 
 
 def test_file_copy_function():
+    """Check if file copy function is available."""
     testcase_file.copy(COPY_DEST)
     os.path.exists(testcase_file.full_path)
 
 
 def test_move_function(
-):  # Has problems with not existing directory, same is true about copy function
+):  # Has problems with not existing dirs, same is true about copy function
+    """Check that move function works correctly."""
     testcase_file.move(MOVE_DEST)
     return os.path.exists(testcase_file.full_path)
 
 
 def test_file_tester():
-    # assert testcase_my_file.__test_archive() is True
-    pass
+    """Haven't decided to test file_tester.
+    assert testcase_my_file.__test_archive() is True"""
 
 
 """ @pytest.mark.parametrize("file_name", files_list)
