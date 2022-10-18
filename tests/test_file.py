@@ -53,18 +53,18 @@ testcase_file = File.File(c)
 
 def test_file_init():  # passed!
     """Check initializing test file module."""
-    return isinstance(testcase_file, File.File)
+    assert isinstance(testcase_file, File.File)
 
 
 def test_get_file_name():
     """Check file name representation."""
-    return testcase_file.full_file_name == c
+    assert testcase_file.full_file_name == c
 
 
 def test_get_file_extension():
     """Check file extension."""
-    extension = c[c.index(".") + 1:]
-    return extension == testcase_file.extension
+    extension = c[c.index("."):]
+    assert extension == testcase_file.extension
 
 
 # print(
@@ -72,26 +72,26 @@ def test_get_file_extension():
 #    PurePath("/home/hadi/Documents/GitHub/test center/CataFile/test_cases"))
 
 
-def test_get_parent_folder():  # Todo:In logs it returns only 1 dot! why & how?!
+def test_get_parent_folder():  # Todo:In logs, returns only 1 dot! why & how?!
     """Check parent folder representation."""
-    return testcase_file.parent_dir == PurePath(
+    assert testcase_file.parent_dir == PurePath(
         "/home/hadi/Documents/GitHub/test center/CataFile/test_cases"
     )  # full path includes name no need 2 fullname
 
 
 def test_get_full_file_name():
     """Verifiy full name variable data."""
-    return testcase_file.full_file_name == c
+    assert testcase_file.full_file_name == c
 
 
 def test_reading_file_header():  # Passed!
     """Verify reading header."""
-    return testcase_file.file_header == testcase_file.file_object.read(2048)
+    assert testcase_file.file_header == testcase_file.file_object.read(2048)
 
 
-def test_file_date_time_function():  # Passed!
-    """Verify read file date function works"""
-    return (
+def test_file_date_time_function():  # Failed to pass!
+    """Verify read file date function works."""
+    assert (
         testcase_file.file_date_time() == os.path.getatime(
             testcase_file.full_path),
         os.path.getctime(testcase_file.full_path),
@@ -103,9 +103,9 @@ def test_file_date_time_function():  # Passed!
 print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
 
 
-def test_file_detection_with_fleep():
+def test_file_detection_with_fleep(): # Failed to pass!
     """Verifiy fleep file detection function."""
-    return (fleep.get(
+    assert (fleep.get(
         testcase_file.file_object.read(2048)) == testcase_file.fleep_detect())
 
 
@@ -155,11 +155,12 @@ def test_move_function(
 ):  # Has problems with not existing dirs, same is true about copy function
     """Check that move function works correctly."""
     testcase_file.move(MOVE_DEST)
-    return os.path.exists(testcase_file.full_path)
+    assert os.path.exists(testcase_file.full_path)
 
 
 def test_file_tester():
     """Haven't decided to test file_tester.
+
     assert testcase_my_file.__test_archive() is True"""
 
 
