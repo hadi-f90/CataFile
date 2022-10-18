@@ -5,12 +5,14 @@ from pathlib import PurePath
 from pprint import pprint
 from random import choice
 from sys import path
-path.append('..')
-path.append('.')
+
 import fleep
 
 from config import pref
 from lib import File
+
+path.append("..")
+path.append(".")
 
 path.append("..")
 
@@ -103,7 +105,7 @@ def test_file_date_time_function():  # Failed to pass!
 print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
 
 
-def test_file_detection_with_fleep(): # Failed to pass!
+def test_file_detection_with_fleep():  # Failed to pass!
     """Verifiy fleep file detection function."""
     assert (fleep.get(
         testcase_file.file_object.read(2048)) == testcase_file.fleep_detect())
