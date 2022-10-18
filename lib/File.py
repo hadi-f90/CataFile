@@ -59,6 +59,26 @@ class File():
         else:
             LOGGER.error('File_processor not set')
             # self.extension_revert()
+        LOGGER.debug("""Class file data:
+                     fullpath:%s
+                     parent_dir: %s
+                     full file name: %s
+                     extension: %s
+                     file name: %s
+                     file object: %s 
+                     file header:\n
+                     %s
+                     mime: %s
+                     file info: %s""",
+                     self.full_path,
+                     self.parent_dir,
+                     self.full_file_name,
+                     self.extension,
+                     self.file_name,
+                     self.file_object,
+                     self.file_header,
+                     self.mime,
+                     self.file_info)
 
     def magic_detect(self):
         """Detect file type using magic module."""
@@ -93,14 +113,16 @@ class File():
         Args:
             destination : str or path-like object
         """
-        destination_path = pathlib.PurePath(destination)
+        LOGGER.debug('variable data:\nself path: %s\ndestination: %s\n', self.full_path, destination)
+        destination = self._path_check(destination)
         try:
-            shutil.move(self.full_path, destination_path)
-            self.full_path = destination_path
-            LOGGER.info('Moved %s to %s.', self.full_path, destination_path)
+            shutil.move(self.full_path, destination)
+            self.full_path = destination
+            LOGGER.info('Moved %s to %s.', self.full_path, destination)
 
         except Exception as error:
             LOGGER.error('Error moving %s to %s because of:\n%s.', self.full_path, destination, error)
+            LOGGER.exception('Deatiled exception: %s', error)
 
     def copy(self, destination):
         """Copy file to given destination.
@@ -108,9 +130,16 @@ class File():
         Args:
             destination : str or path-like object
         """
-        destination_path = destination + '/' + self.full_file_name
-        shutil.copy(self.full_path, destination_path)
-        LOGGER.info('%s copied to %s', self.full_path, destination_path)
+        destination = self._path_check(destination)
+        LOGGER.debug('variable data:\nself path: %s\ndestination: %s\n', self.full_path, destination)
+        shutil.copy(self.full_path, destination)
+        LOGGER.info('%s copied to %s', self.full_path, destination)
+
+    def _path_check(self, path):
+        if not pathlib.Path(path).exists():
+            os.mkdir(path)
+        LOGGER.debug('Destination changed from %s to %s',path, path)
+        return path
 
     def rename(self, new_name):
         """
