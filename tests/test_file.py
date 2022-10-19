@@ -4,13 +4,15 @@ import os
 from pathlib import PurePath
 from random import choice
 from sys import path
-path.append('..')
-path.append('.')
-import fleep
 
+import fleep
 import magic
+
 from config import pref
 from lib import File
+
+path.append("..")
+path.append(".")
 
 path.append("..")
 
@@ -44,7 +46,6 @@ def populate_list_of_files(address, extension=None):
 
 files_list = populate_list_of_files(SOURCE_TEST_ADDRESS)
 
-
 # ==============MyFile Tests ====================
 c = choice(files_list)
 testcase_file = File.File(c)
@@ -71,7 +72,8 @@ def test_get_file_extension():  # Passed!
 #    PurePath("/home/hadi/Documents/GitHub/test center/CataFile/test_cases"))
 
 
-def test_get_parent_folder():  # Fails: Todo:In logs, returns only 1 dot! why & how?!
+def test_get_parent_folder(
+):  # Fails: Todo:In logs, returns only 1 dot! why & how?!
     """Check parent folder representation."""
     assert testcase_file.parent_dir == PurePath(
         "/home/hadi/Documents/GitHub/test center/CataFile/test_cases"
@@ -97,10 +99,9 @@ def test_reading_file_header():  # Passed!
         os.path.getmtime(testcase_file.full_path),
     ) """
 
-
 # ================fleep_detect tests======================
 # print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
-r = open(c, 'rb')
+r = open(c, "rb")
 info = fleep.get(r.read(2048))
 testcase_file.fleep_detect()
 
@@ -125,13 +126,13 @@ def test_file_detection_function_extension():
 testcase_file.magic_detect()
 
 
-def test_file_detection_with_magic(): # Todo write tests here
+def test_file_detection_with_magic():  # Todo write tests here
     """Check magic lib file detection facility."""
     testcase_file.mime
     testcase_file.type
 
 
-def test_reverting_file_extension_function(): # It seems that passed
+def test_reverting_file_extension_function():  # It seems that passed
     """Verifiy extension revert functionality."""
     ext = testcase_file.extension[:]
     testcase_file.extension_revert()
@@ -156,6 +157,7 @@ def test_file_tester():
 
     assert testcase_my_file.__test_archive() is True.
     """
+
 
 r.close()
 """ @pytest.mark.parametrize("file_name", files_list)
