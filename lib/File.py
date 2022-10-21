@@ -47,7 +47,7 @@ class File:
         self.file_name = self.full_path.stem
 
         self.file_object = open(file_object, "rb")
-        self.file_header = self.file_object.read(2048)
+        self.file_header = self.file_object.read(1024)
 
         if preferences.get("file_processor") == 0:
             self.fleep_detect()

@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 """Test cases for File class in File.py."""
 import os
-from pathlib import Path
 from glob import glob
+from pathlib import Path
 from random import choice
 from sys import path
+
 path.append('..')
 path.append('.')
 import fleep
-
 import magic
 from config import pref
-from lib import File
-from lib import Logger
-path.append("..")
+from lib import File, Logger
+
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
 DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest"
@@ -36,10 +35,11 @@ def populate_list_of_files(address, extension=None):
     return [x for x in Path(address).iterdir() if x.is_file()]
 
 
-list_f_files = populate_list_of_files(SOURCE_TEST_ADDRESS)
-
 # ==============MyFile Tests ====================
-c = choice(list_f_files)
+c = choice(populate_list_of_files(SOURCE_TEST_ADDRESS))
+f = open(c, 'rb')
+f_data = f.read(1024)
+
 testcase_file = File.File(c)
 
 
@@ -58,7 +58,7 @@ def test_get_file_extension():  # Passed!
     assert c.suffix == testcase_file.extension
 
 
-def test_get_full_file_name():
+def test_get_full_file_name(): # Passed!
     """Verifiy full name variable data."""
     assert testcase_file.full_file_name == c.name
 
@@ -68,9 +68,9 @@ def test_get_parent_folder():  # Passed!
     assert testcase_file.parent_dir == Path(SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
 
 
-def test_reading_file_header():  # Fails recently!
+def test_reading_file_header():  # Passed!
     """Verify reading header."""
-    assert testcase_file.file_header == testcase_file.file_object.read(2048)
+    assert testcase_file.file_header == f_data
 
 
 """ def test_file_date_time_function():  # passed just in py3.8 & py3.9 
@@ -85,38 +85,45 @@ def test_reading_file_header():  # Fails recently!
 
 # ================fleep_detect tests======================
 # print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
-r = open(c, 'rb')
-info = fleep.get(r.read(2048))
+
+info = fleep.get(f_data)
 testcase_file.fleep_detect()
 
 
-def test_file_mime_detection_with_fleep():  # Failed!
+def test_fleep_mime_detection():  # Failed!
     """Verifiy fleep file detection function."""
     assert info.mime[0] == testcase_file.mime
 
 
-def test_file_type():  # Failed!
+def test_fleep_file_type_detection():  # Failed!
     """Check file type variable."""
     assert info.type[0] == testcase_file.type
 
 
-def test_file_detection_function_extension():  # Failed!
+def test_fleep_extension_detection():  # Failed!
     """Check file extension detecting function."""
-    ext = testcase_file.extension[:]
-    assert ext == testcase_file.detected_extension
+    assert testcase_file.extension == testcase_file.detected_extension
 
 
 # ================maigc module test=====================
 testcase_file.magic_detect()
 
 
-def test_file_detection_with_magic():  # Todo write tests here
+def test_magic_mime_detection():  # Seemingly passed...
     """Check magic lib file detection facility."""
-    testcase_file.mime
-    testcase_file.type
+    assert testcase_file.mime == magic.from_buffer(f_data, mime=True)
 
 
-def test_reverting_file_extension_function():  # Failed
+def test_magic_type_detection():  # Failed
+    """Detect file type using magic type detection function."""
+    assert testcase_file.type == magic.from_buffer(f_data)
+
+
+def test_magic_extension_detection():
+    """Detect file extension using magic type detection function."""
+
+
+def test_reverting_file_extension_function():  # Failed due 2 type detection problem
     """Verifiy extension revert functionality."""
     ext = testcase_file.extension[:]
     testcase_file.extension_revert()
@@ -125,7 +132,6 @@ def test_reverting_file_extension_function():  # Failed
 
 def test_file_copy_function():  # Passed!
     """Check if file copy function is available."""
-
     testcase_file.copy(COPY_DEST)
     os.path.exists(testcase_file.full_path)
 
@@ -144,7 +150,7 @@ def test_file_tester():
     """
 
 
-r.close()
+f.close()
 """ @pytest.mark.parametrize("file_name", files_list)
 def test_CataFile(file_name):
     print(file_name)
