@@ -50,15 +50,15 @@ class File:
         self.file_header = self.file_object.read(128)
 
         if preferences.get("file_processor") == 0:
-            LOGGER.debug('file processor is set to fleep')
+            LOGGER.debug("file processor is set to fleep")
             self.fleep_detect()
 
         elif preferences.get("file_processor") == 1:
-            LOGGER.debug('file processor is set to magic')
+            LOGGER.debug("file processor is set to magic")
             self.magic_detect()
 
         elif preferences.get("file_processor") == 2:
-            LOGGER.debug('file processor is set to extension')
+            LOGGER.debug("file processor is set to extension")
             self.mime = self.extension
 
         else:
@@ -97,7 +97,8 @@ class File:
         self.file_info = fleep.get(self.file_header)
         self.type = self.file_info.type[0]
         self.detected_extension = f".{self.file_info.extension[0]}"
-        self.mime = "etc" if len(self.file_info.mime) < 1 else self.file_info.mime[0]
+        self.mime = "etc" if len(
+            self.file_info.mime) < 1 else self.file_info.mime[0]
 
     def file_date_time(self):
         """

@@ -6,13 +6,14 @@ from pathlib import Path
 from random import choice
 from sys import path
 
-path.append('..')
-path.append('.')
 import fleep
 import magic
+
 from config import pref
 from lib import File, Logger
 
+path.append("..")
+path.append(".")
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
 DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest"
@@ -30,14 +31,14 @@ def populate_list_of_files(address, extension=None):
     Returns: a list of files filter by a given extension
     """
     if extension is not None:
-        return glob(f'*.{extension}')
+        return glob(f"*.{extension}")
 
     return [x for x in Path(address).iterdir() if x.is_file()]
 
 
 # ==============MyFile Tests ====================
 c = choice(populate_list_of_files(SOURCE_TEST_ADDRESS))
-f = open(c, 'rb')
+f = open(c, "rb")
 f_data = f.read(128)
 
 testcase_file = File.File(c)
@@ -58,14 +59,15 @@ def test_get_file_extension():  # Passed!
     assert c.suffix == testcase_file.extension
 
 
-def test_get_full_file_name(): # Passed!
+def test_get_full_file_name():  # Passed!
     """Verifiy full name variable data."""
     assert testcase_file.full_file_name == c.name
 
 
 def test_get_parent_folder():  # Passed!
     """Check parent folder representation."""
-    assert testcase_file.parent_dir == Path(SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
+    assert testcase_file.parent_dir == Path(
+        SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
 
 
 def test_reading_file_header():  # Passed!
@@ -81,7 +83,6 @@ def test_reading_file_header():  # Passed!
         os.path.getctime(testcase_file.full_path),
         os.path.getmtime(testcase_file.full_path),
     ) """
-
 
 # ================fleep_detect tests======================
 # print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
@@ -102,7 +103,7 @@ def test_fleep_file_type_detection():  # Failed!
 
 def test_fleep_extension_detection():  # Failed!
     """Check file extension detecting function."""
-    assert f'.{info.extension[0]}' == testcase_file.detected_extension
+    assert f".{info.extension[0]}" == testcase_file.detected_extension
 
 
 # ================maigc module test=====================
@@ -123,7 +124,8 @@ def test_magic_extension_detection():
     """Detect file extension using magic type detection function."""
 
 
-def test_reverting_file_extension_function():  # Failed due 2 type detection problem
+def test_reverting_file_extension_function(
+):  # Failed due 2 type detection problem
     """Verifiy extension revert functionality."""
     ext = testcase_file.extension[:]
     testcase_file.extension_revert()
@@ -136,7 +138,8 @@ def test_file_copy_function():  # Passed!
     os.path.exists(testcase_file.full_path)
 
 
-def test_move_function():  # It seems that it's passed but logs show wrong addresses
+def test_move_function(
+):  # It seems that it's passed but logs show wrong addresses
     # Has problems with not existing dirs, same is true about copy function
     """Check that move function works correctly."""
     testcase_file.move(MOVE_DEST)
