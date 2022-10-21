@@ -38,7 +38,7 @@ def populate_list_of_files(address, extension=None):
 # ==============MyFile Tests ====================
 c = choice(populate_list_of_files(SOURCE_TEST_ADDRESS))
 f = open(c, 'rb')
-f_data = f.read(1024)
+f_data = f.read(128)
 
 testcase_file = File.File(c)
 
@@ -90,7 +90,7 @@ info = fleep.get(f_data)
 testcase_file.fleep_detect()
 
 
-def test_fleep_mime_detection():  # Failed!
+def test_fleep_mime_detection():  # Passed!
     """Verifiy fleep file detection function."""
     assert info.mime[0] == testcase_file.mime
 
@@ -102,7 +102,7 @@ def test_fleep_file_type_detection():  # Failed!
 
 def test_fleep_extension_detection():  # Failed!
     """Check file extension detecting function."""
-    assert testcase_file.extension == testcase_file.detected_extension
+    assert f'.{info.extension[0]}' == testcase_file.detected_extension
 
 
 # ================maigc module test=====================

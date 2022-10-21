@@ -47,15 +47,18 @@ class File:
         self.file_name = self.full_path.stem
 
         self.file_object = open(file_object, "rb")
-        self.file_header = self.file_object.read(1024)
+        self.file_header = self.file_object.read(128)
 
         if preferences.get("file_processor") == 0:
+            LOGGER.debug('file processor is set to fleep')
             self.fleep_detect()
 
         elif preferences.get("file_processor") == 1:
+            LOGGER.debug('file processor is set to magic')
             self.magic_detect()
 
         elif preferences.get("file_processor") == 2:
+            LOGGER.debug('file processor is set to extension')
             self.mime = self.extension
 
         else:
@@ -63,20 +66,22 @@ class File:
             # self.extension_revert()
         LOGGER.debug(
             """Class file data:
-                fullpath:%s
+                full path:%s
                 parent_dir: %s
                 full file name: %s
-                extension: %s
                 file name: %s
-                file header:\n%s
-                mime: %s""",
+                extension: %s
+                mime: %s
+                type: %s
+                file header:\n%s""",
             self.full_path,
             self.parent_dir,
             self.full_file_name,
-            self.extension,
             self.file_name,
-            self.file_header,
+            self.extension,
             self.mime,
+            self.type,
+            self.file_header,
         )
 
     def magic_detect(self):
@@ -84,7 +89,7 @@ class File:
         self.mime = magic.from_buffer(self.file_header, mime=True)
         self.type, self.detected_extension = self.mime.split("/")
         self.detected_extension = f".{self.detected_extension}"
-        if self.mime == ("", None):
+        if self.mime in ("", None):
             self.mime = "etc"
 
     def fleep_detect(self):
@@ -92,8 +97,7 @@ class File:
         self.file_info = fleep.get(self.file_header)
         self.type = self.file_info.type[0]
         self.detected_extension = f".{self.file_info.extension[0]}"
-        self.mime = self.file_info.mime
-        self.mime = "etc" if len(self.mime) < 1 else self.file_info.mime[0]
+        self.mime = "etc" if len(self.file_info.mime) < 1 else self.file_info.mime[0]
 
     def file_date_time(self):
         """
