@@ -21,11 +21,17 @@ from lib import Logger
 
 
 class MyFrame(wx.Frame):
+
     def __init__(self, *args, **kwds):
         # begin wxGlade: MyFrame.__init__
-        kwds["style"] = kwds.get("style", 0) | wx.CAPTION | wx.CLIP_CHILDREN \
-            | wx.CLOSE_BOX | wx.ICONIZE | wx.MINIMIZE_BOX | wx.RESIZE_BORDER \
-            | wx.SYSTEM_MENU
+        kwds["style"] = (kwds.get("style", 0)
+                         | wx.CAPTION
+                         | wx.CLIP_CHILDREN
+                         | wx.CLOSE_BOX
+                         | wx.ICONIZE
+                         | wx.MINIMIZE_BOX
+                         | wx.RESIZE_BORDER
+                         | wx.SYSTEM_MENU)
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((596, 449))
         self.SetTitle("File Categorizer")
@@ -35,9 +41,15 @@ class MyFrame(wx.Frame):
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
 
         self.notebook = wx.Notebook(self.main_panel, wx.ID_ANY)
-        self.notebook.SetFont(wx.Font(11, wx.FONTFAMILY_DEFAULT,
-                                      wx.FONTSTYLE_NORMAL,
-                                      wx.FONTWEIGHT_NORMAL, 0, ""))
+        self.notebook.SetFont(
+            wx.Font(
+                11,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            ))
         sizer_1.Add(self.notebook, 1, wx.EXPAND, 0)
 
         self.action_pane = wx.Panel(self.notebook, wx.ID_ANY)
@@ -45,48 +57,66 @@ class MyFrame(wx.Frame):
 
         sizer_2 = wx.BoxSizer(wx.VERTICAL)
 
-        source_folder_label = wx.StaticText(self.action_pane,
-                                            wx.ID_ANY,
+        source_folder_label = wx.StaticText(self.action_pane, wx.ID_ANY,
                                             "Source Folder:")
-        source_folder_label.SetFont(wx.Font(12,
-                                            wx.FONTFAMILY_DEFAULT,
-                                            wx.FONTSTYLE_NORMAL,
-                                            wx.FONTWEIGHT_NORMAL,
-                                            0, ""))
-        sizer_2.Add(source_folder_label, 1,
-                    wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
-                    8)
+        source_folder_label.SetFont(
+            wx.Font(
+                12,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            ))
+        sizer_2.Add(
+            source_folder_label,
+            1,
+            wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
+            8,
+        )
 
-        self.source_address_input = wx.TextCtrl(self.action_pane,
-                                                wx.ID_ANY,
+        self.source_address_input = wx.TextCtrl(self.action_pane, wx.ID_ANY,
                                                 "")
         self.source_address_input.SetBackgroundColour(wx.Colour(250, 255, 196))
         sizer_2.Add(self.source_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
-        destination_folder_label = wx.StaticText(self.action_pane, wx.ID_ANY,
+        destination_folder_label = wx.StaticText(self.action_pane,
+                                                 wx.ID_ANY,
                                                  "Destination Folder:",
                                                  style=wx.ALIGN_LEFT)
-        destination_folder_label.SetFont(wx.Font(12, wx.FONTFAMILY_DEFAULT,
-                                                 wx.FONTSTYLE_NORMAL,
-                                                 wx.FONTWEIGHT_NORMAL, 0, ""))
-        sizer_2.Add(destination_folder_label,
-                    1,
-                    wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
-                    8)
+        destination_folder_label.SetFont(
+            wx.Font(
+                12,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            ))
+        sizer_2.Add(
+            destination_folder_label,
+            1,
+            wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT | wx.RIGHT | wx.TOP,
+            8,
+        )
 
         self.destination_address_input = wx.TextCtrl(self.action_pane,
-                                                     wx.ID_ANY,
-                                                     "")
+                                                     wx.ID_ANY, "")
         self.destination_address_input.SetBackgroundColour(
             wx.Colour(250, 255, 196))
 
         sizer_2.Add(self.destination_address_input, 1, wx.ALL | wx.EXPAND, 8)
 
         self.start_button = wx.Button(self.action_pane, wx.ID_APPLY, "&Start")
-        self.start_button.SetFont(wx.Font(12,
-                                          wx.FONTFAMILY_DEFAULT,
-                                          wx.FONTSTYLE_NORMAL,
-                                          wx.FONTWEIGHT_NORMAL, 0, ""))
+        self.start_button.SetFont(
+            wx.Font(
+                12,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            ))
 
         self.start_button.SetToolTip(
             "Start Detecting Files in Specified Addresses")
@@ -98,96 +128,100 @@ class MyFrame(wx.Frame):
 
         sizer_3 = wx.BoxSizer(wx.VERTICAL)
 
-        self.file_processor_radio = wx.RadioBox(self.option_pane,
-                                                wx.ID_ANY,
-                                                "File processor:",
-                                                choices=["Fleep", "Magic", "Extension"],
-                                                majorDimension=1,
-                                                style=wx.RA_SPECIFY_ROWS)
+        self.file_processor_radio = wx.RadioBox(
+            self.option_pane,
+            wx.ID_ANY,
+            "File processor:",
+            choices=["Fleep", "Magic", "Extension"],
+            majorDimension=1,
+            style=wx.RA_SPECIFY_ROWS,
+        )
 
         self.file_processor_radio.SetSelection(1)
         sizer_3.Add(self.file_processor_radio, 0, wx.ALL | wx.EXPAND, 4)
 
-        sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY,
-                                                 "Logging"),
-                                    wx.HORIZONTAL)
+        sizer_4 = wx.StaticBoxSizer(
+            wx.StaticBox(self.option_pane, wx.ID_ANY, "Logging"),
+            wx.HORIZONTAL)
 
         sizer_3.Add(sizer_4, 1, wx.EXPAND | wx.FIXED_MINSIZE | wx.SHAPED, 1)
 
-        self.save_log_cb = wx.CheckBox(self.option_pane,
-                                       wx.ID_ANY,
+        self.save_log_cb = wx.CheckBox(self.option_pane, wx.ID_ANY,
                                        "Save Log to a .log file")
 
-        self.save_log_cb.SetValue(pref.get('save_log'))
+        self.save_log_cb.SetValue(pref.get("save_log"))
         sizer_4.Add(self.save_log_cb, 1, wx.ALL, 1)
 
-        self.show_details_cb = wx.CheckBox(self.option_pane,
-                                           wx.ID_ANY,
+        self.show_details_cb = wx.CheckBox(self.option_pane, wx.ID_ANY,
                                            "Show details to me")
 
-        self.show_details_cb.SetValue(pref.get('show_details'))
+        self.show_details_cb.SetValue(pref.get("show_details"))
 
         sizer_4.Add(self.show_details_cb, 1, wx.ALL, 1)
 
-        sizer_7 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane,
-                                                 wx.ID_ANY,
-                                                 "Log File Address"),
-                                    wx.HORIZONTAL)
+        sizer_7 = wx.StaticBoxSizer(
+            wx.StaticBox(self.option_pane, wx.ID_ANY, "Log File Address"),
+            wx.HORIZONTAL)
 
         sizer_3.Add(sizer_7, 1, wx.EXPAND, 0)
 
-        self.log_file_address_input = wx.TextCtrl(self.option_pane,
-                                                  wx.ID_ANY, "")
+        self.log_file_address_input = wx.TextCtrl(self.option_pane, wx.ID_ANY,
+                                                  "")
 
-        self.log_file_address_input.Enable(pref.get('save_log'))
+        self.log_file_address_input.Enable(pref.get("save_log"))
         sizer_7.Add(self.log_file_address_input, 1,
                     wx.ALIGN_CENTER_VERTICAL | wx.ALL, 6)
 
-        self.calendar_cb_group = wx.RadioBox(self.option_pane,
-                                             wx.ID_ANY,
-                                             "Calendar  to be used in logs:",
-                                             choices=["Khorsheedi",
-                                                      "Gergorian"],
-                                             majorDimension=1,
-                                             style=wx.RA_SPECIFY_ROWS)
+        self.calendar_cb_group = wx.RadioBox(
+            self.option_pane,
+            wx.ID_ANY,
+            "Calendar  to be used in logs:",
+            choices=["Khorsheedi", "Gergorian"],
+            majorDimension=1,
+            style=wx.RA_SPECIFY_ROWS,
+        )
 
         self.calendar_cb_group.SetSelection(0)
         self.calendar_cb_group.Enable(
-            pref.get('save_log') or pref.get('show_details'))
+            pref.get("save_log") or pref.get("show_details"))
         sizer_3.Add(self.calendar_cb_group, 0,
                     wx.LEFT | wx.RIGHT | wx.SHAPED | wx.TOP, 3)
 
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_3.Add(sizer_5, 1, wx.EXPAND, 0)
 
-        sizer_8 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane,
-                                                 wx.ID_ANY, "Log level"),
-                                    wx.VERTICAL)
+        sizer_8 = wx.StaticBoxSizer(
+            wx.StaticBox(self.option_pane, wx.ID_ANY, "Log level"),
+            wx.VERTICAL)
         sizer_5.Add(sizer_8, 1, wx.LEFT | wx.RIGHT | wx.TOP, 1)
 
-        self.log_level_choice = wx.Choice(self.option_pane,
-                                          wx.ID_ANY,
-                                          choices=["Not Set", "Debug",
-                                                   "Info", "Warning",
-                                                   "Error", "Critical"])
+        self.log_level_choice = wx.Choice(
+            self.option_pane,
+            wx.ID_ANY,
+            choices=[
+                "Not Set", "Debug", "Info", "Warning", "Error", "Critical"
+            ],
+        )
 
         self.log_level_choice.SetSelection(1)
         self.log_level_choice.Enable(
-            pref.get('save_log') or pref.get('show_details'))
+            pref.get("save_log") or pref.get("show_details"))
         sizer_8.Add(self.log_level_choice, 1,
                     wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, 4)
 
         self.AboutPane = wx.Panel(self.notebook, wx.ID_ANY)
         self.notebook.AddPage(self.AboutPane, "About")
 
-        sizer_9 = wx.StaticBoxSizer(wx.StaticBox(self.AboutPane,
-                                                 wx.ID_ANY, ""),
-                                    wx.HORIZONTAL)
+        sizer_9 = wx.StaticBoxSizer(
+            wx.StaticBox(self.AboutPane, wx.ID_ANY, ""), wx.HORIZONTAL)
 
-        About_label = wx.StaticText(self.AboutPane, wx.ID_ANY,
-                                    "I created this tiny app for my own \
+        About_label = wx.StaticText(
+            self.AboutPane,
+            wx.ID_ANY,
+            "I created this tiny app for my own \
                                         personal use. \nIt may (not) \
-                                            work on your system.")
+                                            work on your system.",
+        )
         sizer_9.Add(About_label, 0, 0, 0)
 
         self.AboutPane.SetSizer(sizer_9)
@@ -200,90 +234,85 @@ class MyFrame(wx.Frame):
 
         self.Layout()
 
-        self.Bind(wx.EVT_TEXT,
-                  self.change_source_address,
+        self.Bind(wx.EVT_TEXT, self.change_source_address,
                   self.source_address_input)
 
-        self.Bind(wx.EVT_TEXT,
-                  self.change_destination_address,
+        self.Bind(wx.EVT_TEXT, self.change_destination_address,
                   self.destination_address_input)
 
-        self.Bind(wx.EVT_BUTTON,
-                  self.button_clicked,
-                  self.start_button)
+        self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
 
-        self.Bind(wx.EVT_RADIOBOX,
-                  self.change_file_processor,
+        self.Bind(wx.EVT_RADIOBOX, self.change_file_processor,
                   self.file_processor_radio)
 
-        self.Bind(wx.EVT_CHECKBOX,
-                  self.change_save_to_log_status,
+        self.Bind(wx.EVT_CHECKBOX, self.change_save_to_log_status,
                   self.save_log_cb)
 
-        self.Bind(wx.EVT_CHECKBOX,
-                  self.change_show_details,
+        self.Bind(wx.EVT_CHECKBOX, self.change_show_details,
                   self.show_details_cb)
 
-        self.Bind(wx.EVT_TEXT,
-                  self.change_log_file_address,
+        self.Bind(wx.EVT_TEXT, self.change_log_file_address,
                   self.log_file_address_input)
 
-        self.Bind(wx.EVT_RADIOBOX,
-                  self.change_calendar,
+        self.Bind(wx.EVT_RADIOBOX, self.change_calendar,
                   self.calendar_cb_group)
 
-        self.Bind(wx.EVT_CHOICE,
-                  self.change_log_level,
-                  self.log_level_choice)
+        self.Bind(wx.EVT_CHOICE, self.change_log_level, self.log_level_choice)
         # end wxGlade
 
     def change_source_address(self, event):
-        pref.update_preferences({
-            'source_dir': self.source_address_input.GetLineText(0)})
+        pref.update_preferences(
+            {"source_dir": self.source_address_input.GetLineText(0)})
         if os.path.exists(self.source_address_input.GetLineText(0)):
-            self.source_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+            self.source_address_input.SetBackgroundColour(wx.Colour("#0AE075"))
         else:
-            self.source_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
+            self.source_address_input.SetBackgroundColour(wx.Colour("#EE6868"))
 
     def directory_selector(self, event):
         wx.DirSelector(
-            message='Selected directory',
+            message="Selected directory",
             default_path=wx.GetHomeDir(),
-            style=0, parent=None)
+            style=0,
+            parent=None,
+        )
         # A double click runs this function
 
     def change_destination_address(self, event):
-        pref.update_preferences({
-            'destination_dir': self.destination_address_input.GetLineText(0)})
+        pref.update_preferences(
+            {"destination_dir": self.destination_address_input.GetLineText(0)})
         if os.path.exists(self.destination_address_input.GetLineText(0)):
-            self.destination_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+            self.destination_address_input.SetBackgroundColour(
+                wx.Colour("#0AE075"))
         else:
-            self.destination_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
+            self.destination_address_input.SetBackgroundColour(
+                wx.Colour("#EE6868"))
 
     def button_clicked(self, event):
-        if pref.get('source_dir') == '':
+        if pref.get("source_dir") == "":
             Logger.LOGGER.info(
                 f"No source Directory! Setting to \n{wx.GetHomeDir()}")
-            pref.update_preferences({'source_dir': wx.GetHomeDir()})
+            pref.update_preferences({"source_dir": wx.GetHomeDir()})
 
-        elif pref.get('destination_dir') == '':
+        elif pref.get("destination_dir") == "":
             Logger.LOGGER.info(
                 f"No destination Directory! Files will be in \n{os.getcwd()}")
-            pref.update_preferences({'destination_dir': os.getcwd()})
+            pref.update_preferences({"destination_dir": os.getcwd()})
 
-        Logger.LOGGER.warning('Processing files...')
-        self.start_button.SetLabel('Stop')
+        Logger.LOGGER.warning("Processing files...")
+        self.start_button.SetLabel("Stop")
 
-        self.start_button.SetBackgroundColour('#F8E71C')
-        self.start_button.SetForegroundColour('#E81404')
-        self.start_button.SetFont(wx.Font(14,
-                                          wx.FONTFAMILY_DEFAULT,
-                                          wx.FONTSTYLE_ITALIC,
-                                          wx.FONTWEIGHT_BOLD,
-                                          0, ""))
-        self.Bind(wx.EVT_BUTTON,
-                  self.stop_process,
-                  self.start_button)
+        self.start_button.SetBackgroundColour("#F8E71C")
+        self.start_button.SetForegroundColour("#E81404")
+        self.start_button.SetFont(
+            wx.Font(
+                14,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_ITALIC,
+                wx.FONTWEIGHT_BOLD,
+                0,
+                "",
+            ))
+        self.Bind(wx.EVT_BUTTON, self.stop_process, self.start_button)
 
         self.source_address_input.Enable(False)
         self.destination_address_input.Enable(False)
@@ -291,7 +320,7 @@ class MyFrame(wx.Frame):
         main.main()
 
     def stop_process(self, event):  # wxGlade: MyFrame.<event_handler>
-        self.start_button.SetLabel('Start')
+        self.start_button.SetLabel("Start")
         self.Bind(wx.EVT_BUTTON, self.button_clicked, self.start_button)
         self.start_button.SetBackgroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE))
@@ -299,56 +328,64 @@ class MyFrame(wx.Frame):
         self.start_button.SetForegroundColour(
             wx.SystemSettings.GetColour(wx.SYS_COLOUR_CAPTIONTEXT))
 
-        self.start_button.SetFont(wx.Font(14,
-                                          wx.FONTFAMILY_DEFAULT,
-                                          wx.FONTSTYLE_NORMAL,
-                                          wx.FONTWEIGHT_NORMAL,
-                                          0, ""))
+        self.start_button.SetFont(
+            wx.Font(
+                14,
+                wx.FONTFAMILY_DEFAULT,
+                wx.FONTSTYLE_NORMAL,
+                wx.FONTWEIGHT_NORMAL,
+                0,
+                "",
+            ))
 
         self.source_address_input.Enable(True)
         self.destination_address_input.Enable(True)
         self.option_pane.Enable(True)
-        Logger.LOGGER.warning('Stopping...')
+        Logger.LOGGER.warning("Stopping...")
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
-        pref.update_preferences({
-            'file_processor': self.file_processor_radio.GetSelection()})
-        Logger.LOGGER.debug(self.file_processor_radio.GetString(
+        pref.update_preferences(
+            {"file_processor": self.file_processor_radio.GetSelection()})
+        Logger.LOGGER.debug(
+            self.file_processor_radio.GetString(
                 self.file_processor_radio.GetSelection()))
 
     def change_save_to_log_status(self, event):
         self.change_log_setting_status()
-        pref.update_preferences({'save_log': self.save_log_value})
+        pref.update_preferences({"save_log": self.save_log_value})
         self.log_file_address_input.Enable(self.save_log_value)
-        Logger.LOGGER.debug(f'Save log file set to {self.save_log_value}')
+        Logger.LOGGER.debug(f"Save log file set to {self.save_log_value}")
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         self.change_log_setting_status()
-        pref.update_preferences({'show_details': self.show_details_value})
-        Logger.LOGGER.debug(f'Show details set to {self.show_details_value}')
+        pref.update_preferences({"show_details": self.show_details_value})
+        Logger.LOGGER.debug(f"Show details set to {self.show_details_value}")
         # Add a function to show terminal output
 
     def change_log_file_address(self, event):
-        pref.update_preferences({
-            'log_file_address': self.log_file_address_input.GetLineText(0)})
+        pref.update_preferences(
+            {"log_file_address": self.log_file_address_input.GetLineText(0)})
         if os.path.exists(self.log_file_address_input.GetLineText(0)):
-            self.log_file_address_input.SetBackgroundColour(wx.Colour('#0AE075'))
+            self.log_file_address_input.SetBackgroundColour(
+                wx.Colour("#0AE075"))
         else:
-            self.log_file_address_input.SetBackgroundColour(wx.Colour('#EE6868'))
+            self.log_file_address_input.SetBackgroundColour(
+                wx.Colour("#EE6868"))
 
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
-        pref.update_preferences({
-            'calendar': self.calendar_cb_group.GetSelection()})
-        Logger.LOGGER.debug(self.calendar_cb_group.GetString(
+        pref.update_preferences(
+            {"calendar": self.calendar_cb_group.GetSelection()})
+        Logger.LOGGER.debug(
+            self.calendar_cb_group.GetString(
                 self.calendar_cb_group.GetSelection()))
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
-        '''Log level index in choices *10 equals that level of index'''
-        log_lvl = self.log_level_choice.GetSelection()*10
-        pref.update_preferences({'log_level': log_lvl})
+        """Log level index in choices *10 equals that level of index"""
+        log_lvl = self.log_level_choice.GetSelection() * 10
+        pref.update_preferences({"log_level": log_lvl})
         Logger.LOGGER.critical(
-            f'Loglevel:{log_lvl}{self.log_level_choice.GetStringSelection()}')
+            f"Loglevel:{log_lvl}{self.log_level_choice.GetStringSelection()}")
         # Maybe you need to add a logging mechanism here
 
     def change_log_setting_status(self):
@@ -363,22 +400,24 @@ class MyFrame(wx.Frame):
 
     def update_ui_based_on_preferences(self):
         # try:
-        self.source_address_input.SetValue(pref.get('source_dir'))
-        self.destination_address_input.SetValue(
-            pref.get('destination_dir'))
-        self.log_file_address_input.SetValue(pref.get('log_file_address'))
-        self.save_log_cb.SetValue(pref.get('save_log'))
-        self.show_details_cb.SetValue(pref.get('show_details'))
-        self.calendar_cb_group.SetSelection(int(pref.get('calendar')))
-        self.log_level_choice.SetSelection(pref.get('log_level')//10)
-        self.file_processor_radio.SetSelection(pref.get('file_processor'))
-        '''
+        self.source_address_input.SetValue(pref.get("source_dir"))
+        self.destination_address_input.SetValue(pref.get("destination_dir"))
+        self.log_file_address_input.SetValue(pref.get("log_file_address"))
+        self.save_log_cb.SetValue(pref.get("save_log"))
+        self.show_details_cb.SetValue(pref.get("show_details"))
+        self.calendar_cb_group.SetSelection(int(pref.get("calendar")))
+        self.log_level_choice.SetSelection(pref.get("log_level") // 10)
+        self.file_processor_radio.SetSelection(pref.get("file_processor"))
+        """
         except TypeError:
-            Logger.LOGGER.error('Missing preferences!')'''
+            Logger.LOGGER.error('Missing preferences!')"""
+
+
 # end of class MyFrame
 
 
 class MainWindow(wx.App):
+
     def OnInit(self):
         self.main_frame = MyFrame(None, wx.ID_ANY, "")
         self.SetTopWindow(self.main_frame)
@@ -386,8 +425,8 @@ class MainWindow(wx.App):
         self.main_frame.update_ui_based_on_preferences()
         return True
 
-# end of class MainWindow
 
+# end of class MainWindow
 
 if __name__ == "__main__":
     app = MainWindow(0)
