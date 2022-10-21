@@ -97,7 +97,7 @@ def test_fleep_mime_detection():  # Passed!
 
 def test_fleep_file_type_detection():  # Failed!
     """Check file type variable."""
-    assert info.type[0] == testcase_file.type
+    assert info.type[0] == testcase_file.type[:]
 
 
 def test_fleep_extension_detection():  # Failed!

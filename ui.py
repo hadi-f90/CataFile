@@ -9,7 +9,7 @@ import wx
 
 import main
 from config import pref
-from logger import *
+from lib import Logger
 
 # begin wxGlade: dependencies
 # end wxGlade
@@ -262,16 +262,16 @@ class MyFrame(wx.Frame):
 
     def button_clicked(self, event):
         if pref.get('source_dir') == '':
-            logger.info(
+            Logger.LOGGER.info(
                 f"No source Directory! Setting to \n{wx.GetHomeDir()}")
             pref.update_preferences({'source_dir': wx.GetHomeDir()})
 
         elif pref.get('destination_dir') == '':
-            logger.info(
+            Logger.LOGGER.info(
                 f"No destination Directory! Files will be in \n{os.getcwd()}")
             pref.update_preferences({'destination_dir': os.getcwd()})
 
-        logger.warning('Processing files...')
+        Logger.LOGGER.warning('Processing files...')
         self.start_button.SetLabel('Stop')
 
         self.start_button.SetBackgroundColour('#F8E71C')
@@ -308,27 +308,25 @@ class MyFrame(wx.Frame):
         self.source_address_input.Enable(True)
         self.destination_address_input.Enable(True)
         self.option_pane.Enable(True)
-        logger.warning('Stopping...')
+        Logger.LOGGER.warning('Stopping...')
         # Add Stop Action function to stop
 
     def change_file_processor(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
             'file_processor': self.file_processor_radio.GetSelection()})
-        logger.debug(self.file_processor_radio.GetString(
+        Logger.LOGGER.debug(self.file_processor_radio.GetString(
                 self.file_processor_radio.GetSelection()))
 
     def change_save_to_log_status(self, event):
         self.change_log_setting_status()
         pref.update_preferences({'save_log': self.save_log_value})
         self.log_file_address_input.Enable(self.save_log_value)
-        save_log()
-        logger.debug(f'Save log file set to {self.save_log_value}')
+        Logger.LOGGER.debug(f'Save log file set to {self.save_log_value}')
 
     def change_show_details(self, event):  # wxGlade: MyFrame.<event_handler>
         self.change_log_setting_status()
         pref.update_preferences({'show_details': self.show_details_value})
-        show_details()
-        logger.debug(f'Show details set to {self.show_details_value}')
+        Logger.LOGGER.debug(f'Show details set to {self.show_details_value}')
         # Add a function to show terminal output
 
     def change_log_file_address(self, event):
@@ -342,16 +340,14 @@ class MyFrame(wx.Frame):
     def change_calendar(self, event):  # wxGlade: MyFrame.<event_handler>
         pref.update_preferences({
             'calendar': self.calendar_cb_group.GetSelection()})
-        logger.debug(self.calendar_cb_group.GetString(
+        Logger.LOGGER.debug(self.calendar_cb_group.GetString(
                 self.calendar_cb_group.GetSelection()))
-        set_calendar()
 
     def change_log_level(self, event):  # wxGlade: MyFrame.<event_handler>
         '''Log level index in choices *10 equals that level of index'''
         log_lvl = self.log_level_choice.GetSelection()*10
         pref.update_preferences({'log_level': log_lvl})
-        change_level()
-        logger.critical(
+        Logger.LOGGER.critical(
             f'Loglevel:{log_lvl}{self.log_level_choice.GetStringSelection()}')
         # Maybe you need to add a logging mechanism here
 
@@ -378,7 +374,7 @@ class MyFrame(wx.Frame):
         self.file_processor_radio.SetSelection(pref.get('file_processor'))
         '''
         except TypeError:
-            logger.error('Missing preferences!')'''
+            Logger.LOGGER.error('Missing preferences!')'''
 # end of class MyFrame
 
 

@@ -1,12 +1,12 @@
-# This file is an automatically generated pypref preferences file.
+# This file is an automatically generated pypref preferences file. 
 
-__pypref_version__ = '3.3.0'
+__pypref_version__ = '3.3.0' 
 
 ##########################################################################################
 ###################################### PREFERENCES #######################################
 preferences = {}
-preferences['source_dir']       = '/home/hadi/Documents/GitHub/CataFile/test/test_files/'
-preferences['destination_dir']  = '/home/hadi/Documents/GitHub/CataFile/test/dest/'
+preferences['source_dir']       = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases'
+preferences['destination_dir']  = '/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest'
 preferences['file_processor']   = 0
 preferences['save_log']         = True
 preferences['show_details']     = True

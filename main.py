@@ -37,9 +37,9 @@ def process_file(_):
     """Detect given file & move to its category folder."""
     f = File(_)
 
-    if os.path.isfile(f.path):  # Todo: removed f.check_integerity():
+    if os.path.isfile(f.file_name):  # Todo: removed f.check_integerity():
         try:
-            LOGGER.debug(f.mime, '\n', f.path)
+            LOGGER.debug(f.mime, '\n', f.parent_dir)
             if f.mime not in DESTINATION.category_dirs:
                 DESTINATION.add_category(f.mime)
             f.move(DESTINATION.category_dirs[f.mime])
@@ -68,7 +68,7 @@ def process_file(_):
 def empty_folder_delete():
     """Delete empty folders."""
     # ===== To do: Delete empty folders after moving files to categories
-    for _ in os.walk(SOURCE.current_dir):
+    for _ in os.walk(SOURCE.current_dir): # TODO: path should be string, bytes, os.PathLike, integer or None, not tuple 
         if len(os.listdir(_)) < 1:
             try:
                 LOGGER.warning('Removing %s', _)

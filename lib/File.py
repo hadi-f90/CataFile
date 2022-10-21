@@ -29,7 +29,7 @@ def create_proper_file_instance():
 # ============================== file object class ============================
 
 
-class File:
+class File: # with problems of fleep and  magic I'm goign to shift to Defity, a tree based file type detector
     """A class to manipulate  files."""
 
     def __init__(self, file_object):
@@ -58,7 +58,7 @@ class File:
             self.magic_detect()
 
         elif preferences.get("file_processor") == 2:
-            LOGGER.debug('file processor is set to extension')
+            LOGGER.debug('file processor is set to file extension')
             self.mime = self.extension
 
         else:
@@ -86,7 +86,7 @@ class File:
 
     def magic_detect(self):
         """Detect file type using magic module."""
-        self.mime = magic.from_buffer(self.file_header, mime=True)
+        self.mime = magic.from_buffer(self.file_object.read(1024), mime=True)
         self.type, self.detected_extension = self.mime.split("/")
         self.detected_extension = f".{self.detected_extension}"
         if self.mime in ("", None):
@@ -94,10 +94,10 @@ class File:
 
     def fleep_detect(self):
         """Detect file type using fleep module."""
-        self.file_info = fleep.get(self.file_header)
-        self.type = self.file_info.type[0]
-        self.detected_extension = f".{self.file_info.extension[0]}"
-        self.mime = "etc" if len(self.file_info.mime) < 1 else self.file_info.mime[0]
+        self.file_info = fleep.get(self.file_object.read(128))
+        self.type = self.file_info.type
+        self.detected_extension = f".{self.file_info.extension}"
+        self.mime = "etc" if len(self.file_info.mime) < 1 else self.file_info.mime
 
     def file_date_time(self):
         """
