@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 """Test cases for File class in File.py."""
 import os
-from pathlib import PurePath
+from pathlib import Path
+from glob import glob
 from random import choice
 from sys import path
 path.append('..')
@@ -11,7 +12,7 @@ import fleep
 import magic
 from config import pref
 from lib import File
-
+from lib import Logger
 path.append("..")
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
@@ -22,31 +23,23 @@ os.chdir(SOURCE_TEST_ADDRESS)
 
 
 def populate_list_of_files(address, extension=None):
-    """
-    Create list of file objects from given address.
+    """Create list of file objects from given address.
 
-    Inpput:
+    Input:
     address: str or path-like object
     extension: lsit of str or None
     Returns: a list of files filter by a given extension
     """
-    list_of_files = []
+    if extension is not None:
+        return glob(f'*.{extension}')
 
-    if extension is None:
-        list_of_files.extend(_ for _ in os.listdir(address)
-                             if os.path.isfile(_))
-    else:
-        list_of_files.extend(_ for _ in os.listdir(address)
-                             if os.path.isfile(_) and _.endswith(extension))
-
-    return list_of_files
+    return [x for x in Path(address).iterdir() if x.is_file()]
 
 
-files_list = populate_list_of_files(SOURCE_TEST_ADDRESS)
-
+list_f_files = populate_list_of_files(SOURCE_TEST_ADDRESS)
 
 # ==============MyFile Tests ====================
-c = choice(files_list)
+c = choice(list_f_files)
 testcase_file = File.File(c)
 
 
@@ -57,33 +50,25 @@ def test_file_init():  # Passed!
 
 def test_get_file_name():  # passed!
     """Check file name representation."""
-    assert testcase_file.full_file_name == c
+    assert testcase_file.full_file_name == c.name
 
 
 def test_get_file_extension():  # Passed!
     """Check file extension."""
-    extension = c[c.index("."):]
-    assert extension == testcase_file.extension
-
-
-# print(
-#    testcase_file.parent_dir,
-#    PurePath("/home/hadi/Documents/GitHub/test center/CataFile/test_cases"))
-
-
-def test_get_parent_folder():  # Fails: Todo:In logs, returns only 1 dot! why & how?!
-    """Check parent folder representation."""
-    assert testcase_file.parent_dir == PurePath(
-        "/home/hadi/Documents/GitHub/test center/CataFile/test_cases"
-    )  # full path includes name no need 2 fullname
+    assert c.suffix == testcase_file.extension
 
 
 def test_get_full_file_name():
     """Verifiy full name variable data."""
-    assert testcase_file.full_file_name == c
+    assert testcase_file.full_file_name == c.name
 
 
-def test_reading_file_header():  # Passed!
+def test_get_parent_folder():  # Passed!
+    """Check parent folder representation."""
+    assert testcase_file.parent_dir == Path(SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
+
+
+def test_reading_file_header():  # Fails recently!
     """Verify reading header."""
     assert testcase_file.file_header == testcase_file.file_object.read(2048)
 
@@ -105,17 +90,17 @@ info = fleep.get(r.read(2048))
 testcase_file.fleep_detect()
 
 
-def test_file_mime_detection_with_fleep():  # Failed to pass!
+def test_file_mime_detection_with_fleep():  # Failed!
     """Verifiy fleep file detection function."""
     assert info.mime[0] == testcase_file.mime
 
 
-def test_file_type():
+def test_file_type():  # Failed!
     """Check file type variable."""
     assert info.type[0] == testcase_file.type
 
 
-def test_file_detection_function_extension():
+def test_file_detection_function_extension():  # Failed!
     """Check file extension detecting function."""
     ext = testcase_file.extension[:]
     assert ext == testcase_file.detected_extension
@@ -125,26 +110,27 @@ def test_file_detection_function_extension():
 testcase_file.magic_detect()
 
 
-def test_file_detection_with_magic(): # Todo write tests here
+def test_file_detection_with_magic():  # Todo write tests here
     """Check magic lib file detection facility."""
     testcase_file.mime
     testcase_file.type
 
 
-def test_reverting_file_extension_function(): # It seems that passed
+def test_reverting_file_extension_function():  # Failed
     """Verifiy extension revert functionality."""
     ext = testcase_file.extension[:]
     testcase_file.extension_revert()
     assert ext == testcase_file.extension
 
 
-def test_file_copy_function():
+def test_file_copy_function():  # Passed!
     """Check if file copy function is available."""
+
     testcase_file.copy(COPY_DEST)
     os.path.exists(testcase_file.full_path)
 
 
-def test_move_function():
+def test_move_function():  # It seems that it's passed but logs show wrong addresses
     # Has problems with not existing dirs, same is true about copy function
     """Check that move function works correctly."""
     testcase_file.move(MOVE_DEST)
@@ -156,6 +142,7 @@ def test_file_tester():
 
     assert testcase_my_file.__test_archive() is True.
     """
+
 
 r.close()
 """ @pytest.mark.parametrize("file_name", files_list)

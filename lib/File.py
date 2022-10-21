@@ -38,9 +38,9 @@ class File:
         Args:
             file_object ( file type ): Defaults to None.
         """
-        # Todo: use pathlib & glob for later versions
+        # Todo: use pathlib for later versions
         # file type info
-        self.full_path = pathlib.PurePath(file_object)
+        self.full_path = pathlib.Path(file_object).resolve()
         self.parent_dir = self.full_path.parent
         self.full_file_name = self.full_path.name
         self.extension = self.full_path.suffix
@@ -68,19 +68,15 @@ class File:
                 full file name: %s
                 extension: %s
                 file name: %s
-                file object: %s
                 file header:\n%s
-                mime: %s
-                file info: %s""",
+                mime: %s""",
             self.full_path,
             self.parent_dir,
             self.full_file_name,
             self.extension,
             self.file_name,
-            self.file_object,
             self.file_header,
             self.mime,
-            self.file_info,
         )
 
     def magic_detect(self):
