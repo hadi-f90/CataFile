@@ -109,15 +109,4 @@ def test_move_function():  # It seems that it's passed but logs show wrong addre
     assert os.path.exists(testcase_file.full_path)
 
 
-def test_file_tester():
-    """Haven't decided to test file_tester.
-
-    assert testcase_my_file.__test_archive() is True.
-    """
-
-
 f.close()
-""" @pytest.mark.parametrize("file_name", files_list)
-def test_CataFile(file_name):
-    print(file_name)
-    my_file.CataFile(file_name) """
