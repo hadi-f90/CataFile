@@ -28,7 +28,7 @@ def create_proper_file_instance():
 # ============================== file object class ============================
 
 
-class File: # with problems of fleep and  magic I'm goign to shift to Defity, a tree based file type detector
+class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a tree based file type detector
     """A class to manipulate  files."""
 
     def __init__(self, file_object):
@@ -48,11 +48,11 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
         self.file_header = self.file_object.read(128)
 
         if preferences.get("file_processor") == 0:
-            LOGGER.debug('file processor is set to fleep')
+            LOGGER.debug("file processor is set to fleep")
             self.defity_detect()
 
         elif preferences.get("file_processor") == 2:
-            LOGGER.debug('file processor is set to file extension')
+            LOGGER.debug("file processor is set to file extension")
             self.mime = self.extension
 
         else:
@@ -171,7 +171,7 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
             LOGGER.info("Changing %s extension to %s", self.full_path,
                         self.detected_extension)
             new_name = self.full_path.with_suffix(self.detected_extension)
-            LOGGER.debug('New extension will be: %s', new_name)
+            LOGGER.debug("New extension will be: %s", new_name)
             self.rename(new_name)
             self.extension = self.detected_extension
             self.full_path = pathlib.PurePath(new_name)
