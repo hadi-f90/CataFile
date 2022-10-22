@@ -8,8 +8,7 @@ from sys import path
 
 path.append('..')
 path.append('.')
-import fleep
-import magic
+import defity
 from config import pref
 from lib import File, Logger
 
@@ -73,56 +72,23 @@ def test_reading_file_header():  # Passed!
     assert testcase_file.file_header == f_data
 
 
-""" def test_file_date_time_function():  # passed just in py3.8 & py3.9 
-    ""Verify read file date function works.""
-    assert (
-        testcase_file.file_date_time() == os.path.getatime(
-            testcase_file.full_path),
-        os.path.getctime(testcase_file.full_path),
-        os.path.getmtime(testcase_file.full_path),
-    ) """
+# ================Defity module test=====================
+info = defity.from_file(f)
+type, extension = info.split('/')
+testcase_file.defity_detect()
 
 
-# ================fleep_detect tests======================
-# print(3.2, ["Fleep", "Magic", "Extension"][pref.get("file_processor")])
-
-info = fleep.get(f_data)
-testcase_file.fleep_detect()
+def test_defity_type_detection():
+    """Verify Defity Detected file type correctly."""
+    assert type ==testcase_file.type
 
 
-def test_fleep_mime_detection():  # Passed!
-    """Verifiy fleep file detection function."""
-    assert info.mime[0] == testcase_file.mime
+def test_defity_extension_detection():
+    """Verity defity detected extension of file correctly."""
+    assert extension == testcase_file.detected_extension
 
 
-def test_fleep_file_type_detection():  # Failed!
-    """Check file type variable."""
-    assert info.type[0] == testcase_file.type[:]
-
-
-def test_fleep_extension_detection():  # Failed!
-    """Check file extension detecting function."""
-    assert f'.{info.extension[0]}' == testcase_file.detected_extension
-
-
-# ================maigc module test=====================
-testcase_file.magic_detect()
-
-
-def test_magic_mime_detection():  # Seemingly passed...
-    """Check magic lib file detection facility."""
-    assert testcase_file.mime == magic.from_buffer(f_data, mime=True)
-
-
-def test_magic_type_detection():  # Failed
-    """Detect file type using magic type detection function."""
-    assert testcase_file.type == magic.from_buffer(f_data)
-
-
-def test_magic_extension_detection():
-    """Detect file extension using magic type detection function."""
-
-
+# ============ other functions ======================
 def test_reverting_file_extension_function():  # Failed due 2 type detection problem
     """Verifiy extension revert functionality."""
     ext = testcase_file.extension[:]

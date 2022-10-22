@@ -101,11 +101,11 @@ class MyFrame(wx.Frame):
         self.file_processor_radio = wx.RadioBox(self.option_pane,
                                                 wx.ID_ANY,
                                                 "File processor:",
-                                                choices=["Fleep", "Magic", "Extension"],
+                                                choices=["Defity", "Extension"],
                                                 majorDimension=1,
                                                 style=wx.RA_SPECIFY_ROWS)
 
-        self.file_processor_radio.SetSelection(1)
+        self.file_processor_radio.SetSelection(0)
         sizer_3.Add(self.file_processor_radio, 0, wx.ALL | wx.EXPAND, 4)
 
         sizer_4 = wx.StaticBoxSizer(wx.StaticBox(self.option_pane, wx.ID_ANY,

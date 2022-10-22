@@ -3,8 +3,7 @@ import os
 import pathlib
 import shutil
 
-import fleep
-import magic
+import defity
 import patoolib
 import regex
 from fontbro import Font
@@ -38,7 +37,6 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
         Args:
             file_object ( file type ): Defaults to None.
         """
-        # Todo: use pathlib for later versions
         # file type info
         self.full_path = pathlib.Path(file_object).resolve()
         self.parent_dir = self.full_path.parent
@@ -51,11 +49,7 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
 
         if preferences.get("file_processor") == 0:
             LOGGER.debug('file processor is set to fleep')
-            self.fleep_detect()
-
-        elif preferences.get("file_processor") == 1:
-            LOGGER.debug('file processor is set to magic')
-            self.magic_detect()
+            self.defity_detect()
 
         elif preferences.get("file_processor") == 2:
             LOGGER.debug('file processor is set to file extension')
@@ -71,7 +65,6 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
                 full file name: %s
                 file name: %s
                 extension: %s
-                mime: %s
                 type: %s
                 file header:\n%s""",
             self.full_path,
@@ -79,25 +72,14 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
             self.full_file_name,
             self.file_name,
             self.extension,
-            self.mime,
             self.type,
             self.file_header,
         )
 
-    def magic_detect(self):
-        """Detect file type using magic module."""
-        self.mime = magic.from_buffer(self.file_object.read(1024), mime=True)
-        self.type, self.detected_extension = self.mime.split("/")
-        self.detected_extension = f".{self.detected_extension}"
-        if self.mime in ("", None):
-            self.mime = "etc"
-
-    def fleep_detect(self):
-        """Detect file type using fleep module."""
-        self.file_info = fleep.get(self.file_object.read(128))
-        self.type = self.file_info.type
-        self.detected_extension = f".{self.file_info.extension}"
-        self.mime = "etc" if len(self.file_info.mime) < 1 else self.file_info.mime
+    def defity_detect(self):
+        """Detect file type using Defity library"""
+        self.file_info = defity.from_file(self.file_object)
+        self.type, self.detected_extension = self.file_info.split("/")
 
     def file_date_time(self):
         """
@@ -189,6 +171,7 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
             LOGGER.info("Changing %s extension to %s", self.full_path,
                         self.detected_extension)
             new_name = self.full_path.with_suffix(self.detected_extension)
+            LOGGER.debug('New extension will be: %s', new_name)
             self.rename(new_name)
             self.extension = self.detected_extension
             self.full_path = pathlib.PurePath(new_name)
