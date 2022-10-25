@@ -3,13 +3,13 @@ import os
 import pathlib
 import shutil
 
-import puremagic
+import defity
 import filetype
-import pyfsig
 import fleep
 import magic
-import defity
 import patoolib
+import puremagic
+import pyfsig
 import regex
 from fontbro import Font
 
@@ -51,7 +51,6 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
         self.file_object = open(file_object, "rb")
         self.file_header = self.file_object.read(128)
-
         """if preferences.get("file_processor") == 0:
             LOGGER.debug('file processor is set to Defity')
             self.type_and_mime_detect()
@@ -120,7 +119,8 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
     def file_type_detect(self):
         """Detect Mime and extension based on the file type."""
-        self.mime, self.detected_extension = filetype.guess_mime(self.file_object), filetype.guess_extension(self.file_object)
+        self.mime, self.detected_extension = filetype.guess_mime(
+            self.file_object), filetype.guess_extension(self.file_object)
 
     def pyfsig_detect(self):
         """Detect file extension based on file signature."""
@@ -213,12 +213,14 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         # if the file type is not known then try fo file its type
         if self.extension in (None,
                               "") or self.detected_extension != self.extension:
-            LOGGER.debug("Changing extension of %s from %s to %s",
-                         self.full_path,
-                         self.extension,
-                         self.detected_extension)
+            LOGGER.debug(
+                "Changing extension of %s from %s to %s",
+                self.full_path,
+                self.extension,
+                self.detected_extension,
+            )
             new_name = self.full_path.with_suffix(self.detected_extension)
-            LOGGER.debug('New extension will be: %s', new_name)
+            LOGGER.debug("New extension will be: %s", new_name)
             self.rename(new_name)
             self.extension = self.detected_extension
             self.full_path = pathlib.Path(new_name)
