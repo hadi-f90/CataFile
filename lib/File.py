@@ -3,6 +3,11 @@ import os
 import pathlib
 import shutil
 
+import puremagic
+import filetype
+import pyfsig
+import fleep
+import magic
 import defity
 import patoolib
 import regex
@@ -28,7 +33,7 @@ def create_proper_file_instance():
 # ============================== file object class ============================
 
 
-class File: # with problems of fleep and  magic I'm goign to shift to Defity, a tree based file type detector
+class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a tree based file type detector
     """A class to manipulate  files."""
 
     def __init__(self, file_object):
@@ -47,39 +52,79 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
         self.file_object = open(file_object, "rb")
         self.file_header = self.file_object.read(128)
 
-        if preferences.get("file_processor") == 0:
+        """if preferences.get("file_processor") == 0:
+            LOGGER.debug('file processor is set to Defity')
+            self.type_and_mime_detect()
+
+        if preferences.get("file_processor") == 1:
             LOGGER.debug('file processor is set to fleep')
-            self.defity_detect()
+            self.fleep_extension_detect()
 
         elif preferences.get("file_processor") == 2:
+            self.magic_extension_detect()
+
+        elif preferences.get("file_processor") == 3:
             LOGGER.debug('file processor is set to file extension')
             self.mime = self.extension
 
         else:
-            LOGGER.error("File_processor not set")
-            # self.extension_revert()
+            LOGGER.error("File_processor not set") """
+        # self.extension_revert()
         LOGGER.debug(
             """Class file data:
-                full path:%s
-                parent_dir: %s
-                full file name: %s
-                file name: %s
-                extension: %s
-                type: %s
-                file header:\n%s""",
+                     fullpath:%s
+                     parent_dir: %s
+                     full file name: %s
+                     extension: %s
+                     file name: %s
+                     file object: %s
+                     file header:\n
+                     %s
+                     mime: %s
+                     file info: %s""",
             self.full_path,
             self.parent_dir,
             self.full_file_name,
-            self.file_name,
             self.extension,
-            self.type,
+            self.file_name,
+            self.file_object,
             self.file_header,
+            self.mime,
+            self.file_info,
         )
 
+    def magic_detect(self):
+        """Detect file type using magic module."""
+        self.mime = magic.from_buffer(self.file_header, mime=True)
+        self.type, self.detected_extension = self.mime.split("/")
+        self.detected_extension = "." + self.detected_extension
+        if self.mime == ("", None):
+            self.mime = "etc"
+
+    def fleep_detect(self):
+        """Detect file type using fleep module."""
+        self.file_info = fleep.get(self.file_header)
+        self.type = self.file_info.type[0]
+        self.detected_extension = "." + self.file_info.extension[0]
+
+    def pure_magic_detect(self):
+        """Detect file extension, type and mime based on pure maigc lib."""
+        puremagic.magic_file(self.full_path)
+
     def defity_detect(self):
-        """Detect file type using Defity library"""
+        """Detect file type using Defity library."""
         self.file_info = defity.from_file(self.file_object)
-        self.type, self.detected_extension = self.file_info.split("/")
+        self.mime, self.type = self.file_info.split("/")
+        LOGGER.debug("Defity detected file mime as %s", self.mime)
+        LOGGER.debug("Defity detected file type as %s", self.type)
+
+    def file_type_detect(self):
+        """Detect Mime and extension based on the file type."""
+        self.mime, self.detected_extension = filetype.guess_mime(self.file_object), filetype.guess_extension(self.file_object)
+
+    def pyfsig_detect(self):
+        """Detect file extension based on file signature."""
+        pyfsig.get_from_file(self.file_object)
 
     def file_date_time(self):
         """
@@ -118,7 +163,7 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
                 destination,
                 error,
             )
-            LOGGER.exception("Deatiled exception: %s", error)
+            LOGGER.exception("Detailed exception: %s", error)
 
     def copy(self, destination):
         """Copy file to given destination.
@@ -168,15 +213,17 @@ class File: # with problems of fleep and  magic I'm goign to shift to Defity, a 
         # if the file type is not known then try fo file its type
         if self.extension in (None,
                               "") or self.detected_extension != self.extension:
-            LOGGER.info("Changing %s extension to %s", self.full_path,
-                        self.detected_extension)
+            LOGGER.debug("Changing extension of %s from %s to %s",
+                         self.full_path,
+                         self.extension,
+                         self.detected_extension)
             new_name = self.full_path.with_suffix(self.detected_extension)
             LOGGER.debug('New extension will be: %s', new_name)
             self.rename(new_name)
             self.extension = self.detected_extension
-            self.full_path = pathlib.PurePath(new_name)
+            self.full_path = pathlib.Path(new_name)
 
-    def __str__(self) -> str:
+    def __repr__(self):
         """Return string representation name of the class instance."""
         return self.full_path
 

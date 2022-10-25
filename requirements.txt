@@ -1,8 +1,10 @@
+filetype==1.1.0
 fleep==1.0.1
 jalali==1.2
 patool==1.12
+puremagic==1.14
+pyfsig==0.6
 pypref==3.3.0
-pytest==7.1.2
 python_fontbro==0.11.1
-regex==2022.7.9
-wxPython==4.2.0
+regex==2021.11.10
+wxPython==4.0.7

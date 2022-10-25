@@ -74,18 +74,18 @@ def test_reading_file_header():  # Passed!
 
 # ================Defity module test=====================
 info = defity.from_file(f)
-type, extension = info.split('/')
+mime, file_type = info.split('/')
 testcase_file.defity_detect()
 
 
 def test_defity_type_detection():
     """Verify Defity Detected file type correctly."""
-    assert type ==testcase_file.type
+    assert mime == testcase_file.mime
 
 
 def test_defity_extension_detection():
     """Verity defity detected extension of file correctly."""
-    assert extension == testcase_file.detected_extension
+    assert type == testcase_file.type
 
 
 # ============ other functions ======================
