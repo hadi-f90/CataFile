@@ -114,9 +114,9 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         LOGGER.debug("Defity detected file mime as %s", self.mime)
         LOGGER.debug("Defity detected file type as %s", self.type)
 
-    def file_type_detect(self):
+    def filetype_detect(self):
         """Detect Mime and extension based on the file type."""
-        self.mime, self.detected_extension = filetype.guess_mime(self.file_object), filetype.guess_extension(self.file_object)
+        self.type, self.detected_extension = filetype.guess_mime(self.full_file_name), filetype.guess_extension(self.full_file_name)
 
     def pyfsig_detect(self):
         """Detect file extension based on file signature."""

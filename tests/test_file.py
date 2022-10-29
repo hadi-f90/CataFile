@@ -9,6 +9,8 @@ import defity
 import magic
 import fleep
 import puremagic
+import filetype
+import pyfsig
 
 path.append('..')
 path.append('.')
@@ -75,14 +77,14 @@ def test_get_parent_folder():  # Passed!
 
 
 # ================== Magic File Detect Test ======================
-info = magic.from_buffer(f_data, mime = True)
+info = magic.from_buffer(f_data, mime=True)
 file_type, extension = info.split('/')
 testcase_file.magic_detect()
 
 
 def test_magic_detect_extension():
     """Detect file extension using magic lib."""
-    assert testcase_file.detected_extension == '.' + extension
+    assert testcase_file.detected_extension == extension
 
 
 def test_magic_detect_type():
@@ -98,7 +100,7 @@ testcase_file.fleep_detect()
 
 
 def test_fleep_detect_extension():
-    assert testcase_file.detected_extension == '.' + extension
+    assert testcase_file.detected_extension == extension
 
 
 def test_fleep_detect_type():
@@ -110,27 +112,37 @@ info = puremagic.magic_file(c)
 testcase_file.pure_magic_detect()
 
 
-def test_pure_magic_detect(): # Failed
+def test_pure_magic_detect():  # Failed
     print(info)
     assert testcase_file.pure_magic_detect() == info
 
 
 # ================Defity module test=====================
-""" info = defity.from_file(f)
+info = defity.from_file(c)
 mime, file_type = info.split('/')
 testcase_file.defity_detect()
 
 
 def test_defity_type_detection():
-    ""Verify Defity Detected file type correctly.""
+    """Verify Defity Detected file type correctly."""
     assert mime == testcase_file.mime
 
 
 def test_defity_extension_detection():
-    ""Verity defity detected extension of file correctly.""
-    assert type == testcase_file.type """
+    """Verity defity detected extension of file correctly."""
+    assert file_type == testcase_file.type
 
 
+# ================filetype module test=====================
+testcase_file.filetype_detect()
+
+
+def test_filetype_extension_detect():
+    assert testcase_file.detected_extension == filetype.guess_extension(c)
+
+
+def test_filetype_type_detect():
+    assert testcase_file.type == filetype.guess_mime(c)
 # ================pyfisig module test=====================
 
 # ============ other functions ======================
