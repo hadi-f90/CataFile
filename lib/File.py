@@ -50,7 +50,7 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         self.file_name = self.full_path.stem
 
         self.file_object = open(file_object, "rb")
-        self.file_header = self.file_object.read(128)
+        self.file_header = self.file_object.read(2048)
 
         """if preferences.get("file_processor") == 0:
             LOGGER.debug('file processor is set to Defity')
@@ -79,9 +79,7 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
                      file name: %s
                      file object: %s
                      file header:\n
-                     %s
-                     mime: %s
-                     file info: %s""",
+                     %s""",
             self.full_path,
             self.parent_dir,
             self.full_file_name,
@@ -89,8 +87,6 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
             self.file_name,
             self.file_object,
             self.file_header,
-            self.mime,
-            self.file_info,
         )
 
     def magic_detect(self):
@@ -109,7 +105,7 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
     def pure_magic_detect(self):
         """Detect file extension, type and mime based on pure maigc lib."""
-        puremagic.magic_file(self.full_path)
+        return puremagic.magic_file(self.full_path)
 
     def defity_detect(self):
         """Detect file type using Defity library."""
@@ -276,8 +272,8 @@ class ArchiveFile(File):
         # not tested for documents & apks
         if (regex.search(
                 r".doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
-                .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+",
-                self.extension,
+                .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+",  # type: ignore
+                self.extension,  # type: ignore
                 flags=regex.IGNORECASE,
         ) is not None):
             test_case = shutil.copyfile(self.full_path,
