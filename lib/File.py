@@ -47,6 +47,9 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         self.parent_dir = self.full_path.parent
         self.full_file_name = self.full_path.name
         self.extension = self.full_path.suffix
+        self.type = None
+        self.detected_extension = None
+        self.info = None
         self.file_name = self.full_path.stem
 
         self.file_object = open(file_object, "rb")
@@ -91,17 +94,19 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
     def magic_detect(self):
         """Detect file type using magic module."""
-        self.mime = magic.from_buffer(self.file_header, mime=True)
-        self.type, self.detected_extension = self.mime.split("/")
+        self.info = magic.from_file(self.full_path, mime=True)
+        self.type, self.detected_extension = self.info.split("/")
+        if '/' in self.type:
+            self.type = self.type[:self.type.index('/')]
         self.detected_extension = "." + self.detected_extension
-        if self.mime == ("", None):
-            self.mime = "etc"
+        if self.type in ("", None):
+            self.type = "etc"
 
     def fleep_detect(self):
         """Detect file type using fleep module."""
-        self.file_info = fleep.get(self.file_header)
-        self.type = self.file_info.type[0]
-        self.detected_extension = "." + self.file_info.extension[0]
+        self.info = fleep.get(self.file_header)
+        self.type = self.info.type[0]
+        self.detected_extension = "." + self.info.extension[0]
 
     def pure_magic_detect(self):
         """Detect file extension, type and mime based on pure maigc lib."""
@@ -109,18 +114,21 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
     def defity_detect(self):
         """Detect file type using Defity library."""
-        self.file_info = defity.from_file(self.file_object)
-        self.mime, self.type = self.file_info.split("/")
-        LOGGER.debug("Defity detected file mime as %s", self.mime)
+        self.info = defity.from_file(self.full_path)
+        self.type, self.detected_extension = self.info.split("/")
+        if '/' in self.type:
+            self.type = self.type[:self.type.index('/')]
         LOGGER.debug("Defity detected file type as %s", self.type)
+        LOGGER.debug("Defity detected file extension as %s", self.detected_extension)
 
     def filetype_detect(self):
         """Detect Mime and extension based on the file type."""
-        self.type, self.detected_extension = filetype.guess_mime(self.full_file_name), filetype.guess_extension(self.full_file_name)
+        self.type = filetype.guess_mime(self.full_path)
+        self.detected_extension = filetype.guess_extension(self.full_path)
 
-    def pyfsig_detect(self):
+    def pyfsig_detect(self):  # its input
         """Detect file extension based on file signature."""
-        pyfsig.get_from_file(self.file_object)
+        return pyfsig.get_from_file(pathlib.Path(self.full_file_name))
 
     def file_date_time(self):
         """

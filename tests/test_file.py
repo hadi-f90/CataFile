@@ -94,7 +94,7 @@ def test_magic_detect_type():
 
 # ================fleep module test=====================
 info = fleep.get(f_data)
-file_type = info.type[0]
+file_type = info.type
 extension = info.extension[0]
 testcase_file.fleep_detect()
 
@@ -114,23 +114,23 @@ testcase_file.pure_magic_detect()
 
 def test_pure_magic_detect():  # Failed
     print(info)
-    assert testcase_file.pure_magic_detect() == info
+    assert testcase_file.pure_magic_detect()[0][2] == info.split('/')[1]
 
 
 # ================Defity module test=====================
 info = defity.from_file(c)
-mime, file_type = info.split('/')
+mime, extension = info.split('/')
 testcase_file.defity_detect()
 
 
-def test_defity_type_detection():
+def test_defity_type_detect():
     """Verify Defity Detected file type correctly."""
-    assert mime == testcase_file.mime
+    assert testcase_file.type == info
 
 
-def test_defity_extension_detection():
+def test_defity_extension_detect():
     """Verity defity detected extension of file correctly."""
-    assert file_type == testcase_file.type
+    assert str(testcase_file.detected_extension) in extension
 
 
 # ================filetype module test=====================
@@ -144,6 +144,10 @@ def test_filetype_extension_detect():
 def test_filetype_type_detect():
     assert testcase_file.type == filetype.guess_mime(c)
 # ================pyfisig module test=====================
+
+
+def test_pyfsig_detect():
+    assert testcase_file.pyfsig_detect() == pyfsig.get_from_path(c)
 
 # ============ other functions ======================
 def test_reverting_file_extension_function():  # Failed due 2 type detection problem
