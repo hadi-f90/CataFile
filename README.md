@@ -27,7 +27,15 @@ On my own PC running Linux, it's first release took about 10 min to categorize 1
 
 - [Jalali Calendar Library](https://github.com/shobeiry/jalali). This library produces a calendar ouput which is used mainly in Iran and Afghanistan. You can change it to use default Python datetime library.
 - [Patoolib](https://github.com/wummel/patool): The script uses this library to test archive integerity. It really is the best all-in-one solution I found for this purpose. If you know a better and faster one, let me know.
-- [Python Magic Library](https://github.com/ahupp/python-magic) : As mentioned, this library is used to detect file mimes/types. Amongst *filetype*, *fleep*, and *Python Maigc Library*, I tried the latter two. ~~Fleep was good, magic worked better. so, I changed the code to use *magic* before uploading it here.~~ On the second thought and further tests, fleep provided a better detection and category folder structure.
+- [Python Magic Library](https://github.com/ahupp/python-magic) : As mentioned, this library is used to detect file mimes/types. Amongst *filetype*, *fleep*, and *Python Maigc Library*, I tried the latter two. ~~Fleep was good, magic worked better. so, I changed the code to use *magic* before uploading it here.~~ ~~On the second thought and further tests, fleep provided a better detection and category folder structure.~~ Untill now, I've tested these libraries:
+    - [Fleep](https://github.com/ua-nick/fleep-py)
+    - [Magic](https://github.com/ahupp/python-magic)
+    - [Pure Magic](https://github.com/cdgriffith/puremagic)
+    - [Filetype](https://github.com/h2non/filetype.py)
+    - [Pyfsig](https://github.com/schlerp/pyfsig)
+    - [Defity](https://github.com/hongquan/Defity)
+  
+  Having tried all these magic-number-based file mime and extension detectors, most of the libraries detect files differently in module level and standolone use. I couldn't find out why. For the time being, with my sample of files and  tests, "filetype" is the one that returns the same result both in and out of my modules.
 
 ## Roadmap
 
