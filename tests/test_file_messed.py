@@ -5,13 +5,16 @@ from glob import glob
 from pathlib import Path
 from random import choice
 from sys import path
-
+import defity
+import magic
+import fleep
+import puremagic
 import filetype
-
+import pyfsig
 
 path.append('..')
 path.append('.')
-# from config import pref
+from config import pref
 from lib import File, Logger
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
@@ -58,7 +61,7 @@ def test_get_file_extension():  # Passed!
     assert c.suffix == testcase_file.extension
 
 
-def test_get_full_file_name():  # Passed!
+def test_get_full_file_name(): # Passed!
     """Verifiy full name variable data."""
     assert testcase_file.full_file_name == c.name
 
@@ -68,18 +71,83 @@ def test_get_parent_folder():  # Passed!
     assert testcase_file.parent_dir == Path(SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
 
 
+# def test_reading_file_header():  # Passed!
+    """Verify reading header."""
+#     assert testcase_file.file_header == f_data
+
+
+# ================== Magic File Detect Test ======================
+info = magic.from_buffer(f_data, mime=True)
+file_type, extension = info.split('/')
+testcase_file.magic_detect()
+
+
+def test_magic_detect_extension():
+    """Detect file extension using magic lib."""
+    assert testcase_file.detected_extension == extension
+
+
+def test_magic_detect_type():
+    """Detect file type using magic lib."""
+    assert testcase_file.type == file_type
+
+
+# ================fleep module test=====================
+info = fleep.get(f_data)
+file_type = info.type
+extension = info.extension[0]
+testcase_file.fleep_detect()
+
+
+def test_fleep_detect_extension():
+    assert testcase_file.detected_extension == extension
+
+
+def test_fleep_detect_type():
+    assert testcase_file.type == file_type
+
+
+# ================Pure Magic module test=====================
+info = puremagic.magic_file(c)
+testcase_file.pure_magic_detect()
+
+
+def test_pure_magic_detect():  # Failed
+    print(info)
+    assert testcase_file.pure_magic_detect()[0][2] == info.split('/')[1]
+
+
+# ================Defity module test=====================
+info = defity.from_file(c)
+mime, extension = info.split('/')
+testcase_file.defity_detect()
+
+
+def test_defity_type_detect():
+    """Verify Defity Detected file type correctly."""
+    assert testcase_file.type == info
+
+
+def test_defity_extension_detect():
+    """Verity defity detected extension of file correctly."""
+    assert str(testcase_file.detected_extension) in extension
+
+
 # ================filetype module test=====================
 testcase_file.filetype_detect()
-x = filetype.guess_extension(c)
-y = filetype.guess_mime(c)
-print(x, '\n', y)
+
+
 def test_filetype_extension_detect():
-    
-    assert testcase_file.detected_extension == x
+    assert testcase_file.detected_extension == filetype.guess_extension(c)
 
 
 def test_filetype_type_detect():
-    assert testcase_file.type == y
+    assert testcase_file.type == filetype.guess_mime(c)
+# ================pyfisig module test=====================
+
+
+def test_pyfsig_detect():
+    assert testcase_file.pyfsig_detect() == pyfsig.get_from_path(c)
 
 # ============ other functions ======================
 def test_reverting_file_extension_function():  # Failed due 2 type detection problem
