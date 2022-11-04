@@ -3,13 +3,13 @@ import os
 import pathlib
 import shutil
 
-import puremagic
+import defity
 import filetype
-import pyfsig
 import fleep
 import magic
-import defity
 import patoolib
+import puremagic
+import pyfsig
 import regex
 from fontbro import Font
 
@@ -54,7 +54,6 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
 
         self.file_object = open(file_object, "rb")
         self.file_header = self.file_object.read(2048)
-
         """if preferences.get("file_processor") == 0:
             LOGGER.debug('file processor is set to Defity')
             self.type_and_mime_detect()
@@ -96,8 +95,8 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         """Detect file type using magic module."""
         self.info = magic.from_file(self.full_path, mime=True)
         self.type, self.detected_extension = self.info.split("/")
-        if '/' in self.type:
-            self.type = self.type[:self.type.index('/')]
+        if "/" in self.type:
+            self.type = self.type[: self.type.index("/")]
         self.detected_extension = "." + self.detected_extension
         if self.type in ("", None):
             self.type = "etc"
@@ -116,17 +115,18 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         """Detect file type using Defity library."""
         self.info = defity.from_file(self.full_path)
         self.type, self.detected_extension = self.info.split("/")
-        if '/' in self.type:
-            self.type = self.type[:self.type.index('/')]
+        if "/" in self.type:
+            self.type = self.type[: self.type.index("/")]
         LOGGER.debug("Defity detected file type as %s", self.type)
-        LOGGER.debug("Defity detected file extension as %s", self.detected_extension)
+        LOGGER.debug("Defity detected file extension as %s",
+                     self.detected_extension)
 
     def filetype_detect(self):
         """Detect Mime and extension based on the file type."""
         self.type = filetype.guess_mime(self.full_path)
         _ = filetype.guess_extension(self.full_path)
-        if _ not in (f'.{self.extension}', self.extension, None, ''):
-            self.detected_extension = f'.{_}'
+        if _ not in (f".{self.extension}", self.extension, None, ""):
+            self.detected_extension = f".{_}"
         else:
             self.detected_extension = self.extension
 
@@ -219,14 +219,15 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
     def extension_revert(self):
         """Revert the extension of the file to the original one."""
         # if the file type is not known then try fo file its type
-        if self.extension in (None,
-                              "") or self.detected_extension:
-            LOGGER.debug("Changing extension of %s from %s to %s",
-                         self.full_path,
-                         self.extension,
-                         self.detected_extension)
+        if self.extension in (None, "") or self.detected_extension:
+            LOGGER.debug(
+                "Changing extension of %s from %s to %s",
+                self.full_path,
+                self.extension,
+                self.detected_extension,
+            )
             new_name = self.full_path.with_suffix(self.detected_extension)
-            LOGGER.debug('New extension will be: %s', new_name)
+            LOGGER.debug("New extension will be: %s", new_name)
             self.rename(new_name)
             self.extension = self.detected_extension
             self.full_path = pathlib.Path(new_name)
@@ -273,8 +274,9 @@ class ArchiveFile(File):
             LOGGER.debug("Testing file %s", self.full_path)
             return True
         except patoolib.util.PatoolError as error:
-            LOGGER.error("Error. Testing %s Failed with error %s",
-                         self.full_path, error)
+            LOGGER.error(
+                "Error. Testing %s Failed with error %s", self.full_path, error
+            )
             return False
 
     def check_integerity(self):
@@ -282,14 +284,17 @@ class ArchiveFile(File):
         if self.extension in patoolib.ArchiveFormats:
             return self.test_archive()
         # not tested for documents & apks
-        if (regex.search(
+        if (
+            regex.search(
                 r".doc[x|m]?|.xls[x|m]?|.pp[t|s|x|m]+| \
                 .od[b|c|f|g|m|p|t|s]+|.ap*2[k|x]+",  # type: ignore
                 self.extension,  # type: ignore
                 flags=regex.IGNORECASE,
-        ) is not None):
-            test_case = shutil.copyfile(self.full_path,
-                                        f"{self.file_name}.zip")
+            )
+            is not None
+        ):
+            test_case = shutil.copyfile(
+                self.full_path, f"{self.file_name}.zip")
             print(os.full_path.abspath(test_case))
             result = self.test_archive()
             os.remove(test_case)

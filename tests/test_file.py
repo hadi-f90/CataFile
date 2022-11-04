@@ -8,12 +8,11 @@ from sys import path
 
 import filetype
 
+from lib import File, Logger
 
-path.append('..')
-path.append('.')
+path.append("..")
+path.append(".")
 # from config import pref
-from lib import File
-from lib import Logger
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
 DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest"
@@ -31,14 +30,14 @@ def populate_list_of_files(address, extension=None):
     Returns: a list of files filter by a given extension
     """
     if extension is not None:
-        return glob(f'*.{extension}')
+        return glob(f"*.{extension}")
 
     return [x for x in Path(address).iterdir() if x.is_file()]
 
 
 # ==============MyFile Tests ====================
 c = choice(populate_list_of_files(SOURCE_TEST_ADDRESS))
-f = open(c, 'rb')
+f = open(c, "rb")
 f_data = f.read(2048)
 
 testcase_file = File.File(c)
@@ -66,7 +65,9 @@ def test_get_full_file_name():  # Passed!
 
 def test_get_parent_folder():  # Passed!
     """Check parent folder representation."""
-    assert testcase_file.parent_dir == Path(SOURCE_TEST_ADDRESS)  # full path includes name no need 2 fullname
+    assert testcase_file.parent_dir == Path(
+        SOURCE_TEST_ADDRESS
+    )  # full path includes name no need 2 fullname
 
 
 # ================filetype module test=====================
