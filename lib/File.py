@@ -124,7 +124,11 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
     def filetype_detect(self):
         """Detect Mime and extension based on the file type."""
         self.type = filetype.guess_mime(self.full_path)
-        self.detected_extension = filetype.guess_extension(self.full_path)
+        _ = filetype.guess_extension(self.full_path)
+        if _ not in (f'.{self.extension}', self.extension, None, ''):
+            self.detected_extension = f'.{_}'
+        else:
+            self.detected_extension = self.extension
 
     def pyfsig_detect(self):  # its input
         """Detect file extension based on file signature."""
@@ -216,7 +220,7 @@ class File:  # with problems of fleep and  magic I'm goign to shift to Defity, a
         """Revert the extension of the file to the original one."""
         # if the file type is not known then try fo file its type
         if self.extension in (None,
-                              "") or self.detected_extension != self.extension:
+                              "") or self.detected_extension:
             LOGGER.debug("Changing extension of %s from %s to %s",
                          self.full_path,
                          self.extension,

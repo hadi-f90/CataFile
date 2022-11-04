@@ -12,7 +12,8 @@ import filetype
 path.append('..')
 path.append('.')
 # from config import pref
-from lib import File, Logger
+from lib import File
+from lib import Logger
 
 SOURCE_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases"
 DEST_TEST_ADDRESS = "/home/hadi/Documents/GitHub/CataFile/tests/test_cases/dest"
@@ -72,14 +73,15 @@ def test_get_parent_folder():  # Passed!
 testcase_file.filetype_detect()
 x = filetype.guess_extension(c)
 y = filetype.guess_mime(c)
-print(x, '\n', y)
+
+
 def test_filetype_extension_detect():
-    
     assert testcase_file.detected_extension == x
 
 
 def test_filetype_type_detect():
     assert testcase_file.type == y
+
 
 # ============ other functions ======================
 def test_reverting_file_extension_function():  # Failed due 2 type detection problem
@@ -103,4 +105,3 @@ def test_move_function():  # It seems that it's passed but logs show wrong addre
 
 
 f.close()
-
